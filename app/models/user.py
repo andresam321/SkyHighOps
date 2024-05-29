@@ -5,7 +5,7 @@ import uuid
 
 
 class User(db.Model, UserMixin):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -17,6 +17,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+
+    
+    parking_spots = db.relationship("ParkingSpot", back_populates = "employee")
+
+    aircrafts = db.relationship("Aircraft", back_populates = "employee")
+
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)
@@ -37,6 +43,9 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+            'employee_id':self.employee_id,
+            'firstname': self.firstname,
+            'lastname': self.lastname,
             'username': self.username,
             'email': self.email
         }

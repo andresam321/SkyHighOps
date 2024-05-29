@@ -11,7 +11,7 @@ def seed_aircrafts():
     aircrafts = [
         {
             "user_id": 1,
-            "plane_image": fake.image_url(),
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -26,7 +26,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
-            "plane_image": fake.image_url(),
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -41,7 +41,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 3,
-            "plane_image": fake.image_url(),
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -55,7 +55,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 4,
-            "plane_image": fake.image_url(),
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -68,8 +68,8 @@ def seed_aircrafts():
             "last_time_fueled": datetime.now(timezone.utc),
         },
         {
-            "user_id": 5,
-            "plane_image": fake.image_url(),
+            "user_id": 1,
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -82,8 +82,8 @@ def seed_aircrafts():
             "last_time_fueled": datetime.now(timezone.utc),
         },
         {
-            "user_id": 6,
-            "plane_image": fake.image_url(),
+            "user_id": 2,
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -96,8 +96,8 @@ def seed_aircrafts():
             "last_time_fueled": datetime.now(timezone.utc),
         },
         {
-            "user_id": 7,
-            "plane_image": fake.image_url(),
+            "user_id": 3,
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -110,8 +110,8 @@ def seed_aircrafts():
             "last_time_fueled": datetime.now(timezone.utc),
         },
         {
-            "user_id": 8,
-            "plane_image": fake.image_url(),
+            "user_id": 4,
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -124,8 +124,8 @@ def seed_aircrafts():
             "last_time_fueled": datetime.now(timezone.utc),
         },
         {
-            "user_id": 9,
-            "plane_image": fake.image_url(),
+            "user_id": 1,
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),
@@ -138,8 +138,8 @@ def seed_aircrafts():
             "last_time_fueled": datetime.now(timezone.utc),
         },
         {
-            "user_id": 10,
-            "plane_image": fake.image_url(),
+            "user_id": 2,
+            "plane_image": "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
             "tail_number": fake.bothify(text='??-#####'),
             "manufacturer": fake.company(),
             "model": fake.word(),

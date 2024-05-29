@@ -2,7 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime, timezone
 
 class Aircraft(db.Model):
-    __tablename__ = "aircraft"
+    __tablename__ = "aircrafts"
 
     if environment == "production":
         __table_args__ = {"schema":SCHEMA}

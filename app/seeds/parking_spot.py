@@ -41,35 +41,35 @@ def seed_parkingSpots():
             "is_reserved": True
         },
         {
-            "user_id": 6,
+            "user_id": 1,
             "aircraft_id": 6,
             "spot_number": "C2",
             "spot_size": "Small",
             "is_reserved": False
         },
         {
-            "user_id": 7,
+            "user_id": 2,
             "aircraft_id": 7,
             "spot_number": "D1",
             "spot_size": "Large",
             "is_reserved": True
         },
         {
-            "user_id": 8,
+            "user_id": 3,
             "aircraft_id": 8,
             "spot_number": "D2",
             "spot_size": "Medium",
             "is_reserved": False
         },
         {
-            "user_id": 9,
+            "user_id": 4,
             "aircraft_id": 9,
             "spot_number": "E1",
             "spot_size": "Small",
             "is_reserved": True
         },
         {
-            "user_id": 10,
+            "user_id": 1,
             "aircraft_id": 10,
             "spot_number": "E2",
             "spot_size": "Large",
@@ -82,9 +82,9 @@ def seed_parkingSpots():
 
 def undo_parkingSpots():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.spots RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.parking_spots RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM spots"))
+        db.session.execute(text("DELETE FROM parking_spots"))
 
     db.session.commit()
 
