@@ -110,7 +110,7 @@ def seed_fuelOrders():
     [db.session.add(FuelOrder(**fuelOrder)) for fuelOrder in fuel_orders]
     db.session.commit()
 
-def undo_aircrafts():
+def undo_fuelOrders():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.fuel_order RESTART IDENTITY CASCADE;")
     else:
