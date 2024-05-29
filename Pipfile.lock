@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "3dce3fb1973ef959852f94618960992781dea7a3e995722fbf0e79f5db18c102"
+            "sha256": "81e9fc43c922d70847a888d7faf57029dc26e0a169b51aea1fd5a20f50fc492c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -27,20 +27,20 @@
         },
         "boto3": {
             "hashes": [
-                "sha256:009cd143509f2ff4c37582c3f45d50f28c95eed68e8a5c36641206bdb597a9ea",
-                "sha256:7e59f0a848be477a4c98a90e7a18a0e284adfb643f7879d2b303c5f493661b7a"
+                "sha256:4460958d2b0c53bd2195b23ed5d45db2350e514486fe8caeb38b285b30742280",
+                "sha256:eeb11bca9b19d12baf93436fb8a16b8b824f1f7e8b9bcc722607e862c46b1b08"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==1.34.113"
+            "version": "==1.34.114"
         },
         "botocore": {
             "hashes": [
-                "sha256:449912ba3c4ded64f21d09d428146dd9c05337b2a112e15511bf2c4888faae79",
-                "sha256:8ca87776450ef41dd25c327eb6e504294230a5756940d68bcfdedc4a7cdeca97"
+                "sha256:5705f74fda009656a218ffaf4afd81228359160f2ab806ab8222d07e9da3a73b",
+                "sha256:606d1e55984d45e41a812badee292755f4db0233eed9cca63ea3bb8f5755507f"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==1.34.113"
+            "version": "==1.34.114"
         },
         "click": {
             "hashes": [
@@ -50,6 +50,15 @@
             "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==8.1.3"
+        },
+        "faker": {
+            "hashes": [
+                "sha256:0158d47e955b6ec22134c0a74ebb7ed34fe600896208bafbf1008db831b17f04",
+                "sha256:bcbe31eee5ef4bbf87ce36c4eba53c01e2a1d912fde2a4d3528b430d2beb784f"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==25.3.0"
         },
         "flask": {
             "hashes": [

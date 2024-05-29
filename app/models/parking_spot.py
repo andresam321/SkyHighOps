@@ -1,7 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from datetime import datetime
 
 class ParkingSpot(db.Model):
-    __tablename__ = "parkingspot"
+    __tablename__ = "parking_spot"
 
     if environment == "production":
         __table_args__ = {'schema':SCHEMA}
@@ -12,11 +13,16 @@ aircraft_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('aircraft.
 spot_number = db.column(db.String(50), nullable = False)
 spot_size = db.Column(db.String(50),nullable = False)
 is_reserved = db.Column(db.Boolean, nullable = False)
+created_at = db.Column(db.DateTime, default=datetime.now)
+updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
-#one to one ## need to add connections
+
+#one to many 
 employee = db.relationship('User', back_populates ='parking_spots')
-aircraft = db.relationship('Aircraft', back_populates = 'parking_spot')
+
+#one to one 
+aircraft = db.relationship('Aircraft', back_populates = 'parking_spot', uselist=False)
 
 
 
