@@ -16,8 +16,10 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt
 RUN pip install psycopg2
+RUN pip install boto3
 
 COPY . .
+
 
 RUN flask db upgrade
 RUN flask seed all
