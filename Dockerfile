@@ -20,7 +20,8 @@ RUN pip install boto3
 
 COPY . .
 
-
+RUN flask db init
+RUN flask db migrate
 RUN flask db upgrade
 RUN flask seed all
 CMD gunicorn app:app
