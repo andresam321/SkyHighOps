@@ -34,7 +34,7 @@ def seed_parkingSpots():
             "is_reserved": False
         },
         {
-            "user_id": 5,
+            "user_id": 4,
             "aircraft_id": 5,
             "spot_number": "C1",
             "spot_size": "Medium",
