@@ -6,17 +6,19 @@ from datetime import datetime, timezone
 
 def seed_aircrafts():
     
-    planeOne = "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png"
-    planeTwo = "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-04-25+at+7.07.18%E2%80%AFPM.png"
-    planeThree = "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.42.40%E2%80%AFPM.png"
-    planeFour = "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.47.51%E2%80%AFPM.png"
-    planeFive = "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.51.59%E2%80%AFPM.png"
-    planeSix = "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-06+at+4.55.06%E2%80%AFPM.png"
+    plane_urls = [
+        "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.43.03%E2%80%AFPM.png",
+        "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-04-25+at+7.07.18%E2%80%AFPM.png",
+        "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.42.40%E2%80%AFPM.png",
+        "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.47.51%E2%80%AFPM.png",
+        "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-02+at+12.51.59%E2%80%AFPM.png",
+        "https://skyhighimages.s3.us-west-1.amazonaws.com/skyhighops_images/Screenshot+2024-05-06+at+4.55.06%E2%80%AFPM.png"
+    ]
 
     aircrafts = [
         {
             "user_id": 1,
-            "plane_image": planeOne,
+            "plane_image": plane_urls[0],
             "tail_number": "A1-12345",
             "manufacturer": "Boeing",
             "model": "737",
@@ -30,7 +32,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
-            "plane_image": planeTwo,
+            "plane_image": plane_urls[1],
             "tail_number": "B2-67890",
             "manufacturer": "Airbus",
             "model": "A320",
@@ -44,7 +46,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 3,
-            "plane_image": planeThree,
+            "plane_image": plane_urls[2],
             "tail_number": "C3-54321",
             "manufacturer": "Cessna",
             "model": "172",
@@ -58,7 +60,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 4,
-            "plane_image": planeFour,
+            "plane_image": plane_urls[3],
             "tail_number": "D4-98765",
             "manufacturer": "Gulfstream",
             "model": "G650",
@@ -72,7 +74,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 1,
-            "plane_image": planeFive,
+            "plane_image": plane_urls[4],
             "tail_number": "E5-11223",
             "manufacturer": "Bombardier",
             "model": "CRJ700",
@@ -86,7 +88,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
-            "plane_image": planeSix,
+            "plane_image": plane_urls[5],
             "tail_number": "F6-33445",
             "manufacturer": "Embraer",
             "model": "E190",
@@ -100,7 +102,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 3,
-            "plane_image": planeOne,
+            "plane_image": plane_urls[0],
             "tail_number": "G7-55667",
             "manufacturer": "Dassault",
             "model": "Falcon 7X",
@@ -114,7 +116,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 4,
-            "plane_image": planeTwo,
+            "plane_image": plane_urls[1],
             "tail_number": "H8-77889",
             "manufacturer": "Piper",
             "model": "PA-28",
@@ -128,7 +130,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 1,
-            "plane_image": planeThree,
+            "plane_image": plane_urls[2],
             "tail_number": "I9-99001",
             "manufacturer": "Beechcraft",
             "model": "King Air 350",
@@ -142,7 +144,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
-            "plane_image": planeFour,
+            "plane_image": plane_urls[3],
             "tail_number": "J0-12312",
             "manufacturer": "Mooney",
             "model": "M20",
@@ -157,6 +159,7 @@ def seed_aircrafts():
     ]
 
     [db.session.add(Aircraft(**aircraft)) for aircraft in aircrafts]
+    print("Aircrafts seeded successfully.")
     db.session.commit()
 
 def undo_aircrafts():
@@ -164,5 +167,5 @@ def undo_aircrafts():
         db.session.execute(f"TRUNCATE table {SCHEMA}.aircrafts RESTART IDENTITY CASCADE;")
     else:
         db.session.execute(text("DELETE FROM aircrafts"))
-
+    
     db.session.commit()

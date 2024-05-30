@@ -24,8 +24,8 @@ def seed():
         undo_parkingSpots()
         undo_users()
     seed_users()
-    seed_parkingSpots()
     seed_aircrafts()
+    seed_parkingSpots()
     # Add other seed functions here
 
 
