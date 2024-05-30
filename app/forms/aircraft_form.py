@@ -11,7 +11,7 @@ def check_tailNumber(form, field):
 
 
 
-class Aircraft(FlaskForm):
+class AircraftForm(FlaskForm):
     plane_image = FileField("Plane Image Url", validators=[FileAllowed(list(ALLOWED_EXTENSIONS))])
     tail_number = StringField("Tail Number", validators=[DataRequired(), check_tailNumber])
     manufacturer = StringField("Manufacturer", validators=[DataRequired()])
