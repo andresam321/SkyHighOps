@@ -8,7 +8,7 @@ class Aircraft(db.Model):
         __table_args__ = {"schema":SCHEMA}
     
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('user.id')), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
     plane_image = db.Column(db.String, nullable=False)
     tail_number = db.Column(db.String(10), nullable = False)
     manufacturer = db.Column(db.String(255))
@@ -25,10 +25,10 @@ class Aircraft(db.Model):
 
 
     #one to many 
-    employee = db.relationship('User', back_populates ='parking_spots')
+    employee = db.relationship('User', back_populates ='aircrafts')
 
     #one to one 
-    parking_spot = db.relationship("ParkingSpot",back_populates = "aircraft", uselist=False)
+    parking_spot = db.relationship("ParkingSpot",back_populates = "aircraft",cascade='all, delete-orphan', uselist=False,single_parent=True)
 
 
 

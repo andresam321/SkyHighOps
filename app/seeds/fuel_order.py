@@ -112,8 +112,8 @@ def seed_fuelOrders():
 
 def undo_fuelOrders():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.fuel_order RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.fuel_orders RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM fuel_order"))
+        db.session.execute(text("DELETE FROM fuel_orders"))
 
     db.session.commit()

@@ -86,5 +86,6 @@ def undo_parkingSpots():
     else:
         db.session.execute(text("DELETE FROM parking_spots"))
 
+
     db.session.commit()
 

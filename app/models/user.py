@@ -19,9 +19,9 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
 
     
-    parking_spots = db.relationship("ParkingSpot", back_populates = "employee")
+    parking_spots = db.relationship("ParkingSpot", back_populates = "employee",cascade='all, delete-orphan')
 
-    aircrafts = db.relationship("Aircraft", back_populates = "employee")
+    aircrafts = db.relationship("Aircraft", back_populates = "employee",cascade='all, delete-orphan')
 
     
     def __init__(self,**kwargs):
@@ -42,7 +42,7 @@ class User(db.Model, UserMixin):
 
     def to_dict(self):
         return {
-            'id': self.id,
+            'id': self.id, 
             'employee_id':self.employee_id,
             'firstname': self.firstname,
             'lastname': self.lastname,
