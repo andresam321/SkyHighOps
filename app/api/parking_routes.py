@@ -59,7 +59,7 @@ def update_parking_spot(id):
     if not parkingSpot:
         return {"message": "Parking Spot couldnt be found"}, 404
     
-    form = ParkingSpotForm(obj = parkingSpot)
+    form = ParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
@@ -69,7 +69,9 @@ def update_parking_spot(id):
 
         db.session.commit()
     
-    return parkingSpot.to_dict(), 200
+        return parkingSpot.to_dict(), 200
+    else:
+        return form.errors, 400
 
 
 #delete parking spot
@@ -79,16 +81,16 @@ def delete_parking_spot(id):
     parkingSpot = ParkingSpot.query.get(id)
     if not parkingSpot:
         return {"message": "parkingSpot couldn't be found"}, 404
-    
-    db.session.delete(parkingSpot)
-    db.session.commit()
+    else:
+        db.session.delete(parkingSpot)
+        db.session.commit()
 
-    return {"message": "Successfully deleted parkingSpot"}, 200
+        return {"message": "Successfully deleted parkingSpot"}, 200
 
 
 #render parking spots with airplanes
 @parking_routes.route("/with_aircrafts",)
 @login_required
 def get_parking_spots_with_aircraft():
-    parking_spots = ParkingSpot.query.filter(ParkingSpot.aircraft_id.isnot(None)).all()
+    parking_spots = ParkingSpot.query.join(Aircraft, ParkingSpot.aircraft).all()
     return {"parkingSpots": [spot.to_dict() for spot in parking_spots]}, 200
