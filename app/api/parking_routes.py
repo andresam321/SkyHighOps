@@ -5,7 +5,7 @@ from app.forms import ParkingSpotForm, AircraftForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename
 
 
-parking_routes = Blueprint('parkingSpots', __name__)
+parking_routes = Blueprint('parking_spots', __name__)
 
 
 
@@ -13,7 +13,7 @@ parking_routes = Blueprint('parkingSpots', __name__)
 @parking_routes.route("/")
 def all_spots():
     parkingSpots = ParkingSpot.query.all()
-    return {f"parkingSpots": [parkingSpot.to_dict() for parkingSpot in parkingSpots]}, 200
+    return {"parkingSpots": [parkingSpot.to_dict() for parkingSpot in parkingSpots]}, 200
 
 
 #gets parking spot by id
@@ -38,6 +38,7 @@ def create_parking_spot():
     if form.validate_on_submit():
         new = ParkingSpot(
             user_id = current_user.id,
+            # aicraft_id = form.data['aircraft_id'],
             spot_number = form.data["spot_number"],
             spot_size = form.data["spot_size"],
             is_reserved = form.data["is_reserved"]
@@ -84,4 +85,10 @@ def delete_parking_spot(id):
 
     return {"message": "Successfully deleted parkingSpot"}, 200
 
-#render parking spots with airplanes 
+
+#render parking spots with airplanes
+@parking_routes.route("/with_aircrafts",)
+@login_required
+def get_parking_spots_with_aircraft():
+    parking_spots = ParkingSpot.query.filter(ParkingSpot.aircraft_id.isnot(None)).all()
+    return {"parkingSpots": [spot.to_dict() for spot in parking_spots]}, 200

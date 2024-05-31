@@ -7,70 +7,70 @@ def seed_parkingSpots():
     spots = [
         {
             "user_id": 1,
-            "aircraft_id": 1,
+            # "aircraft_id": 1,
             "spot_number": "A1",
             "spot_size": "Large",
             "is_reserved": True
         },
         {
             "user_id": 2,
-            "aircraft_id": 2,
+            # "aircraft_id": 2,
             "spot_number": "A2",
             "spot_size": "Medium",
             "is_reserved": False
         },
         {
             "user_id": 3,
-            "aircraft_id": 3,
+            # "aircraft_id": 3,
             "spot_number": "B1",
             "spot_size": "Small",
             "is_reserved": True
         },
         {
             "user_id": 4,
-            "aircraft_id": 4,
+            # "aircraft_id": 4,
             "spot_number": "B2",
             "spot_size": "Large",
             "is_reserved": False
         },
         {
             "user_id": 4,
-            "aircraft_id": 5,
+            # "aircraft_id": 5,
             "spot_number": "C1",
             "spot_size": "Medium",
             "is_reserved": True
         },
         {
             "user_id": 1,
-            "aircraft_id": 6,
+            # "aircraft_id": 6,
             "spot_number": "C2",
             "spot_size": "Small",
             "is_reserved": False
         },
         {
             "user_id": 2,
-            "aircraft_id": 7,
+            # "aircraft_id": 7,
             "spot_number": "D1",
             "spot_size": "Large",
             "is_reserved": True
         },
         {
             "user_id": 3,
-            "aircraft_id": 8,
+            # "aircraft_id": 8,
             "spot_number": "D2",
             "spot_size": "Medium",
             "is_reserved": False
         },
         {
             "user_id": 4,
-            "aircraft_id": 9,
+            # "aircraft_id": 9,
             "spot_number": "E1",
             "spot_size": "Small",
             "is_reserved": True
         },
         {
             "user_id": 1,
-            "aircraft_id": 10,
+            # "aircraft_id": 10,
             "spot_number": "E2",
             "spot_size": "Large",
             "is_reserved": False

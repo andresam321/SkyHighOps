@@ -9,10 +9,10 @@ class ParkingSpot(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
-    aircraft_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('aircrafts.id')),nullable = False)
+    # aircraft_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('aircrafts.id')))
     spot_number = db.Column(db.String(50), nullable = False)
     spot_size = db.Column(db.String(50),nullable = False)
-    is_reserved = db.Column(db.Boolean, nullable = False)
+    is_reserved = db.Column(db.String(10), nullable = False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
@@ -25,14 +25,13 @@ class ParkingSpot(db.Model):
     aircraft = db.relationship('Aircraft', back_populates = 'parking_spot',cascade='all, delete-orphan', uselist=False,single_parent=True)
 
 
-def to_dict(self):
-
+    def to_dict(self):
         return {
             "id": self.id,
             "user_id":self.user_id,
-            "aircraft_id":self.aircraft_id,
+            # "aircraft_id":self.aircraft_id,
             "spot_number": self.spot_number,
             "spot_size": self.spot_size,
-            "is_reserved": self.is_reserved 
+            "is_reserved": self.is_reserved
         }
 
