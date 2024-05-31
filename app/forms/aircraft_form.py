@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed#, FileRequired
-from wtforms import StringField, IntegerField,DateField
+from wtforms import StringField, IntegerField,DateField,SelectField,DateTimeField
 from wtforms.validators import DataRequired, Email, ValidationError
 from app.models import Aircraft
 from ..api.aws_helpers import ALLOWED_EXTENSIONS
@@ -18,8 +18,8 @@ class AircraftForm(FlaskForm):
     model = StringField("Model", validators=[DataRequired()])
     max_takeoff_weight = StringField("Max takeoff weight", validators=[DataRequired()])
     seating_capacity = StringField("Seating Capacity", validators=[DataRequired()])
-    operation_status = StringField("Operation Status", choices=[('Operational', 'Operational'), ('Maintenance', 'Maintenance'), ('Decommissioned', 'Decommissioned')])
-    fuel_type = StringField("Fuel Type", choices = [('100ll AvGas', '100ll AvGas'), ('94 unleaded', '94 unleaded'), ('Jet A', 'Jet A'),('100 unleaded', '100 unleaded')])
+    operation_status = SelectField("Operation Status", choices=[('Operational', 'Operational'), ('Maintenance', 'Maintenance'), ('Decommissioned', 'Decommissioned')])
+    fuel_type = SelectField("Fuel Type", choices = [('100ll AvGas', '100ll AvGas'), ('94 unleaded', '94 unleaded'), ('Jet A', 'Jet A'),('100 unleaded', '100 unleaded')])
     active_owners = StringField("Active Owners", validators=[DataRequired()])
     notes = StringField("Notes")
-    last_time_fueled = DateField("Last Time Fueled")
+    last_time_fueled = DateTimeField("Last Time Fueled", format='%m-%d-%Y', validators=[DataRequired()])

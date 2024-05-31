@@ -1,8 +1,9 @@
 from flask import Blueprint, redirect, request
 from flask_login import login_required, current_user
-from app.models import db, ParkingSpot, Aircraft
+from app.models import db, ParkingSpot, Aircraft, AircraftWithParkingSpot
 from app.forms import ParkingSpotForm, AircraftForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename
+
 
 
 parking_routes = Blueprint('parking_spots', __name__)
@@ -38,7 +39,6 @@ def create_parking_spot():
     if form.validate_on_submit():
         new = ParkingSpot(
             user_id = current_user.id,
-            # aicraft_id = form.data['aircraft_id'],
             spot_number = form.data["spot_number"],
             spot_size = form.data["spot_size"],
             is_reserved = form.data["is_reserved"]
@@ -88,9 +88,31 @@ def delete_parking_spot(id):
         return {"message": "Successfully deleted parkingSpot"}, 200
 
 
+#add an aircraft to a parking spot
+@parking_routes.route("/<int:parking_spot_id>/add_plane/<int:aircraft_id>", methods=['POST'])
+@login_required
+def add_aircraft_to_parking(aircraft_id,parking_spot_id):
+        aircraft_with_parking_spot_obj = AircraftWithParkingSpot(
+        aircraft_id=aircraft_id,
+        parking_spot_id=parking_spot_id
+        )
+
+        db.session.add(aircraft_with_parking_spot_obj)
+        db.session.commit()
+
+        return {"message": "Plane added to parking spot successfully"}, 201
+    
+
 #render parking spots with airplanes
-@parking_routes.route("/with_aircrafts",)
+@parking_routes.route("/with_aircrafts")
 @login_required
 def get_parking_spots_with_aircraft():
-    parking_spots = ParkingSpot.query.join(Aircraft, ParkingSpot.aircraft).all()
-    return {"parkingSpots": [spot.to_dict() for spot in parking_spots]}, 200
+    parking_spots_with_planes = AircraftWithParkingSpot.query.all()
+    return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
+
+
+#current spots with airplanes
+@parking_routes.route("/current_spots_with_planes")
+@login_required
+def current_spots_with_planes():
+    pass
