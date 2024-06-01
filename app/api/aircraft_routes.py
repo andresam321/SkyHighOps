@@ -9,14 +9,14 @@ aircraft_routes = Blueprint('aircrafts', __name__)
 
 
 #display all aircraft 
-@aircraft_routes.routes("/")
+@aircraft_routes.route("/")
 @login_required
 def all_aircrafts():
     aircrafts = Aircraft.query.all()
     return {"aircrafts": [aircraft.to_dict() for aircraft in aircrafts]}, 200
 
 #display one aircraft by ID
-@aircraft_routes.routes("/<int:id>")
+@aircraft_routes.route("/<int:id>")
 @login_required
 def aircraft_by_id(id):
     aircraft = Aircraft.query.get(id)
@@ -26,7 +26,7 @@ def aircraft_by_id(id):
 
 
 #creating airplane 
-@aircraft_routes.routes("/", methods=["POST"])
+@aircraft_routes.route("/", methods=["POST"])
 @login_required
 def create_parking_spot():
     print("In create form =>")
@@ -69,7 +69,7 @@ def create_parking_spot():
 
 #update aircraft by id
 #update parking spot
-@aircraft_routes.routes('/<int:id>',methods=['PUT'])
+@aircraft_routes.route('/<int:id>',methods=['PUT'])
 @login_required
 def update_parking_spot(id):
     aircraft = Aircraft.query.get(id)
@@ -110,7 +110,7 @@ def update_parking_spot(id):
 
 
 #delete plane by id
-@aircraft_routes.routes("/<int:id>", methods = ["DELETE"])
+@aircraft_routes.route("/<int:id>", methods = ["DELETE"])
 @login_required
 def delete_parking_spot(id):
     aircraft = Aircraft.query.get(id)

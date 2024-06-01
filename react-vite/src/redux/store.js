@@ -3,12 +3,17 @@ import {
   applyMiddleware,
   compose,
   combineReducers,
+  
 } from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
+import parkingSpotReducer from "./parking_spot";
+import aircraftReducer from "./aircraft";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  parkingSpotReducer: parkingSpotReducer,
+  aircraftReducer: aircraftReducer,
 });
 
 let enhancer;

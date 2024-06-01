@@ -1,3 +1,13 @@
 .profile-dropdown {
   position: absolute;
 }
+ul{
+  display: flex;
+  justify-content: space-between;
+  background-color: gray;
+  height: 50px;
+}
+.profile-dropdown{
+  background-color: lightblue;
+  color: black;
+}

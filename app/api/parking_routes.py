@@ -10,11 +10,18 @@ parking_routes = Blueprint('parking_spots', __name__)
 
 
 
-#read all spots, list of all parking spots 
+# read all spots, list of all parking spots 
 @parking_routes.route("/")
 def all_spots():
     parkingSpots = ParkingSpot.query.all()
     return {"parkingSpots": [parkingSpot.to_dict() for parkingSpot in parkingSpots]}, 200
+
+
+@parking_routes.route("/empty")
+def all_spots_that_are_not_reserved():
+    # Adjusting the filter condition to match the string representation of 'is_reserved'
+    emptyParkingSpots = ParkingSpot.query.filter_by(is_reserved="No").all()
+    return {"parkingSpots": [parkingSpot.to_dict() for parkingSpot in emptyParkingSpots]}, 200
 
 
 #gets parking spot by id
@@ -105,10 +112,34 @@ def add_aircraft_to_parking(aircraft_id,parking_spot_id):
 
 #render parking spots with airplanes
 @parking_routes.route("/with_aircrafts")
-@login_required
+# @login_required
 def get_parking_spots_with_aircraft():
     parking_spots_with_planes = AircraftWithParkingSpot.query.all()
     return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
+
+
+
+# Edit a parking spot to assign an aircraft
+@parking_routes.route("/<int:parking_spot_id>/edit", methods=['POST'])
+@login_required
+def edit_parking_spot(parking_spot_id):
+    
+    parking_spot = ParkingSpot.query.get()
+    if not parking_spot:
+        return {"message": "parkingSpot couldn't be found"}, 404
+    aircraft_id = request.json.get(aircraft_id)
+
+    aircraft = Aircraft.query.get(aircraft_id)
+    if not aircraft:
+        return {"message": "Parking spot couldnt be found"}, 404
+    
+    parking_spot.aircraft_id = aircraft_id
+    parking_spot.is_reserved = "Yes"
+
+    db.session.commit()
+
+    return {"message": "Plane added to parking spot successfully"}, 201
+
 
 
 #current spots with airplanes
