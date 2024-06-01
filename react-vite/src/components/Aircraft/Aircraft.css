@@ -1,0 +1,40 @@
+.aircraft-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.aircraft-details h2 {
+    margin-bottom: 20px;
+}
+
+.aircraft-details img {
+    max-width: 300px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.aircraft-details .details-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 800px;
+    width: 100%;
+}
+
+.details-container div {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.details-container p {
+    margin: 5px 0;
+}
+
+.details-container span {
+    font-weight: bold;
+}

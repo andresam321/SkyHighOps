@@ -1,5 +1,6 @@
 const LOAD_ALL_PARKING_SPOTS_WITH_PLANES = "planesWithParkingSpots/LOAD_ALL_PARKING_SPOTS_WITH_PLANES";
 const LOAD_EMPTY_PARKING_SPOTS = "emptyParkingSpots/LOAD_EMPTY_PARKING_SPOTS";
+const LOAD_SINGLE_PARKING_SPOT = "loadSingleParkingSpot/LOAD_SINGLE_PARKING_SPOT";
 
 
 const getAllParkingSpotsWithPlanes = (planesWithParkingSpots) => ({
@@ -12,13 +13,18 @@ const getAllEmptyParkingSpots = (emptyParkingSpots) => ({
     payload: emptyParkingSpots,
 });
 
+const getSingleParkingSpot = (singleParkingSpot) => ({
+    type:LOAD_SINGLE_PARKING_SPOT,
+    payload:singleParkingSpot
+})
+
 // Thunks
 export const thunkGetAllParkingSpotsWithPlanes = () => async (dispatch) => {
     const res = await fetch("/api/parking_spots/with_aircrafts");
     if (res.ok) {
         const data = await res.json();
         if (!data.errors) {
-            dispatch(getAllParkingSpotsWithPlanes(data.parkingSpots));
+        await  dispatch(getAllParkingSpotsWithPlanes(data.parkingSpots));
         }
     }
 };
@@ -27,13 +33,27 @@ export const thunkGetAllEmptyParkingSpots = () => async (dispatch) => {
     const res = await fetch("/api/parking_spots/empty");
     if (res.ok) {
         const data = await res.json();
-        console.log("Fetched empty spots:", data);
+        // console.log("Fetched empty spots:", data);
         if (data.errors) {
             return;
         }
-        dispatch(getAllEmptyParkingSpots(data.parkingSpots));
+        await  dispatch(getAllEmptyParkingSpots(data.parkingSpots));
     }
 };
+
+export const thunkGetSingleParkingSpot = (parking_spotId) => async (dispatch) => {
+    const res = await fetch(`/api/parking_spots/${parking_spotId}`)
+    if (res.ok) {
+        const data = await res.json();
+        // console.log("Fetched empty spot:", data);
+        if (data.errors) {
+            return;
+        }
+
+        await dispatch(getSingleParkingSpot(data))
+}
+
+}
 
 // const initialState = {
 //     planeWithSpots: [],
@@ -46,7 +66,7 @@ function parkingSpotReducer(state = {}, action) {
             return { ...state, planeWithSpots: action.payload };
         }
         case LOAD_EMPTY_PARKING_SPOTS: {
-            console.log("Reducer - Empty Spots:", action.payload);
+            // console.log("Reducer - Empty Spots:", action.payload);
             return { ...state, emptySpots: action.payload };
         }
         default:

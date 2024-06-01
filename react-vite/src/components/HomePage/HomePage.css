@@ -1,47 +1,79 @@
 .flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  .flex-item {
-    background-color: #ffffff;
-    margin: 10px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    width: calc(25% - 20px); /* Adjusting for margins */
-    box-sizing: border-box;
-    flex: 1 1 calc(25% - 20px); /* Allows flex items to grow and shrink */
-  }
-  
-  .flex-item:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-  }
-  
-  .plane-image-div {
-    text-align: center;
-    margin-bottom: 10px;
-    height: 220px;
-  }
-  
-  .plane-image-div img {
-    max-width: 100%;
-    height: 100%;
-    border-radius: 4px;
-    object-fit: cover;
-  }
-  
-  .info-div p {
-    margin: 5px 0;
-  }
-  .h21-spot{
-    text-align: center;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
 
-  .h2-spot{
-    text-align: center;
-  }
+.flex-item {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.flex-item:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.plane-image-div img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.info-div {
+  margin-top: 15px;
+}
+
+.info-div p {
+  margin: 5px 0;
+  color: #333; 
+}
+
+.occupied-spots .flex-item {
+  border-left: 5px solid #007bff; 
+}
+
+.empty-spots .flex-item {
+  border-left: 5px solid #28a745; 
+}
+
+.h21-spot, .h2-spot {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.occupied-spot, .empty-spot {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.occupied-spot:hover, .empty-spot:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+
+.occupied-spot a, .empty-spot a {
+  text-decoration: none; 
+}
+
+.occupied-spot {
+  border-left: 5px solid #007bff; 
+}
+
+.empty-spot {
+  border-left: 5px solid #28a745; 
+}
