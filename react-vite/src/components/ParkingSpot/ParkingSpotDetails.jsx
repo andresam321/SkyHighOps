@@ -2,6 +2,9 @@ import {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { thunkGetSingleParkingSpot } from '../../redux/parking_spot'
+import OpenModalButton from "../OpenModalButton/OpenModalButton"
+import UpdateParkingSpot from './UpdateParkingSpot'
+import DeleteParkingSpot from './DeleteParkingSpot'
 import "./ParkingSpot.css"
 
 const ParkingSpotDetails = () => {
@@ -24,7 +27,12 @@ return (
         <div className="parking-spot-info">
             <h3>Spot Number: {parkingSpotById?.spot_number}</h3>
             <p>Spot Size:{parkingSpotById?.spot_size}</p>
-            <p>Is Reserved: {parkingSpotById?.is_reserved ? 'Yes' : 'No'}</p>
+            <p>Is Reserved: {parkingSpotById?.is_reserved}</p>
+        </div>
+        <div className="button-container">
+            <OpenModalButton buttonText={"Update"} modalComponent={<UpdateParkingSpot spotId={parking_spotId.id} />} />
+        
+            <OpenModalButton buttonText={"Delete"} modalComponent={<DeleteParkingSpot spotId={parking_spotId.id} />} />
         </div>
     </div>
 </div>

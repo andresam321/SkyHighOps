@@ -1,8 +1,11 @@
+import { act } from "react";
 
 const LOAD_ALL_PARKING_SPOTS_WITH_PLANES = "planesWithParkingSpots/LOAD_ALL_PARKING_SPOTS_WITH_PLANES";
 const LOAD_EMPTY_PARKING_SPOTS = "emptyParkingSpots/LOAD_EMPTY_PARKING_SPOTS";
 const LOAD_SINGLE_PARKING_SPOT = "loadSingleParkingSpot/LOAD_SINGLE_PARKING_SPOT";
 const ADD_PARKING_SPOT = "addParkingSpot/ADD_PARKING_SPOT"
+const UPDATE_PARKING_SPOT = "updateParkingSpot/UPDATE_PARKING_SPOT"
+const DELETE_PARKING_SPOT = "deleteParkingSpot/DELETE_PARKING_SPOT"
 
 
 const getAllParkingSpotsWithPlanes = (planesWithParkingSpots) => ({
@@ -23,6 +26,16 @@ const getSingleParkingSpot = (singleParkingSpot) => ({
 const createParkingSpot = (addParkingSpot) => ({
     type:ADD_PARKING_SPOT,
     payload:addParkingSpot
+})
+
+const updateParkingSpot = (updatingParkingSpot) => ({
+    type: UPDATE_PARKING_SPOT,
+    payload: updatingParkingSpot
+})
+
+const deleteParkingSpot = (parkingSpotDeleted) => ({
+    type:DELETE_PARKING_SPOT,
+    payload: parkingSpotDeleted
 })
 
 
@@ -70,16 +83,41 @@ export const thunkCreateParkingSpot = (parkingSpot) => async (dispatch) => {
         body:parkingSpot
     })
     const data = await res.json()
-    console.log("res is getting deniiieeed",data)
+    // console.log("created",data)
 
     await dispatch(createParkingSpot(data))
     return data
 }
 
-// const initialState = {
-//     planeWithSpots: [],
-//     emptySpots: [],
-// };
+export const thunkUpdateParkingSpot = (parkingSpot, parking_spotId) => async (dispatch) => {
+    const res = await fetch(`/api/parking_spots/${parking_spotId}`, {
+        method: "PUT",
+        body: parkingSpot
+    })
+    const data = await res.json()
+    // console.log("res updating parking spot",data)
+
+    if(!res.ok){
+        return {"errors":data}
+    }
+    await dispatch(updateParkingSpot(data))
+}
+
+export const thunkDeleteParkingSpot = (parking_spotId) => async (dispatch) => {
+    const res = await fetch(`/api/parking_spots/${parking_spotId}`, {
+        method: "DELETE"
+    });
+    const data = await res.json();
+    console.log('res',data)
+
+    if(!res.ok){
+        return {"errors":data}
+    }
+    await dispatch(deleteParkingSpot(parking_spotId))
+    return parking_spotId
+}
+
+
 
 function parkingSpotReducer(state = {}, action) {
     switch (action.type) {
@@ -98,6 +136,17 @@ function parkingSpotReducer(state = {}, action) {
         case ADD_PARKING_SPOT: {
             const newState = {...state};
             newState[action.payload.id] = action.payload
+            return newState
+        }
+        case UPDATE_PARKING_SPOT: {
+            return {
+                ...state,
+                [action.payload.id]: action.payload
+            }
+        }
+        case DELETE_PARKING_SPOT: {
+            const newState = {...state};
+            delete newState[action.payload];
             return newState
         }
         default:

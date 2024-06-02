@@ -1,18 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { thunkCreateParkingSpot } from '../../redux/parking_spot';
+import { useNavigate, useParams } from 'react-router-dom';
+import { thunkUpdateParkingSpot } from '../../redux/parking_spot';
+import { useModal } from '../../context/Modal';
 
-const CreateParkingSpot = () => {
+
+const UpdateParkingSpot = () => {
+    const {parking_spotId} = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { closeModal } = useModal()
 
     const currentUser = useSelector((state) => state.session.user);
+    const parkingSpotById = useSelector((state) => state.parkingSpotReducer[+parking_spotId])
+    console.log(parkingSpotById)
 
-    const [spot_number, setSpotNumber] = useState('');
-    const [spot_size, setSpotSize] = useState('Small');
-    const [is_reserved, setIsReserved] = useState('No');
+    const [spot_number, setSpotNumber] = useState(parkingSpotById || '');
+    const [spot_size, setSpotSize] = useState(parkingSpotById || 'Small');
+    const [is_reserved, setIsReserved] = useState(parkingSpotById || '');
     const [errors, setErrors] = useState({});
+
+
+    useEffect(()=> {
+        if(parkingSpotById) {
+            setSpotNumber(parkingSpotById.spot_number || "")
+            setSpotSize(parkingSpotById.spot_size || "")
+            setIsReserved(parkingSpotById.is_reserved || "")
+        }
+    }, [parkingSpotById])
 
 
 
@@ -37,9 +52,9 @@ const CreateParkingSpot = () => {
         
         try {
             
-            const res = await dispatch(thunkCreateParkingSpot(formData));
+            const res = await dispatch(thunkUpdateParkingSpot(formData,parking_spotId));
             console.log("line33",res)
-            navigate('/');
+            closeModal()
         } catch (error) {
             console.error("Error creating parking spot:", error);
             
@@ -52,7 +67,7 @@ const CreateParkingSpot = () => {
     
     return (
         <div className="create-parking-spot">
-            <h2>Create a New Parking Spot</h2>
+            <h2>Updating Parking Spot</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="spot_number">Spot Number</label>
@@ -89,10 +104,13 @@ const CreateParkingSpot = () => {
                     </select>
                 {errors.is_reserved && <p className=''>{errors.is_reserved}</p>}
                 </div>
-                <button disabled={Object.values(errors).length > 0} type="submit">Create Spot</button>
+                <div className="delete-spot-buttons">
+                    <button type="submit" className="">Yes (Update Parking Spot)</button>
+                    <button onClick={() => closeModal()} className="">No (Do no Update)</button>
+                </div>
             </form>
         </div>
     );
 };
 
-export default CreateParkingSpot;
+export default UpdateParkingSpot
