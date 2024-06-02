@@ -1,0 +1,41 @@
+.parking-spot-details-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.parking-spot-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.parking-spot-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.parking-spot-info h3 {
+    margin: 0;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.parking-spot-info p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 16px;
+}

@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, request
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user # type: ignore
 from app.models import db, ParkingSpot, Aircraft, AircraftWithParkingSpot
 from app.forms import ParkingSpotForm, AircraftForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename
@@ -35,14 +35,13 @@ def parking_spot_by_id(id):
 
 
 #creating a parking spot
-@parking_routes.route("/", methods=["POST"])
+@parking_routes.route("/new", methods=["POST"])
 @login_required
 def create_parking_spot():
     print("In create form =>")
 
     form = ParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    
     if form.validate_on_submit():
         new = ParkingSpot(
             user_id = current_user.id,

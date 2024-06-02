@@ -48,11 +48,11 @@ return (
         </div>
         <div className='info-div'>
           <h3>Parking Spot Info</h3>
-          <NavLink to={`/parking_spot/${eachVal.parking_spot.id}`} className="parking-spot-link">
+          {/* <NavLink to={`/parking_spot/${eachVal.parking_spot.id}`} className="parking-spot-link"> */}
             <p>Spot Number: {eachVal.parking_spot.spot_number}</p>
             <p>Is Reserved: {eachVal.parking_spot.is_reserved}</p>
             <p>Spot Size: {eachVal.parking_spot.spot_size}</p>
-          </NavLink>
+          {/* </NavLink> */}
         </div>
       </div>
     ))}

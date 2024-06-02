@@ -4,6 +4,8 @@ import SignupFormPage from '../components/SignupFormPage';
 import Layout from './Layout';
 import HomePage from '../components/HomePage/HomePage';
 import AircraftDetails from '../components/Aircraft/AircraftDetails';
+import ParkingSpotDetails from '../components/ParkingSpot/ParkingSpotDetails';
+import CreateParkingSpot from '../components/ParkingSpot/CreateParkingSpot';
 
 export const router = createBrowserRouter([
   {
@@ -14,16 +16,24 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/aircraft/:aircraftId",
-        element: <AircraftDetails />,
-      },
-      {
         path: "login",
         element: <LoginFormPage />,
       },
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "/aircraft/:aircraftId",
+        element: <AircraftDetails />,
+      },
+      {
+        path: "/parking_spot/:parking_spotId",
+        element: <ParkingSpotDetails />,
+      },
+      {
+        path: "/parking_spots/new",
+        element: <CreateParkingSpot />,
       },
     ],
   },
