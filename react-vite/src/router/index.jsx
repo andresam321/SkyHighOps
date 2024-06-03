@@ -6,6 +6,7 @@ import HomePage from '../components/HomePage/HomePage';
 import AircraftDetails from '../components/Aircraft/AircraftDetails';
 import ParkingSpotDetails from '../components/ParkingSpot/ParkingSpotDetails';
 import CreateParkingSpot from '../components/ParkingSpot/CreateParkingSpot';
+import CreateAircraft from '../components/Aircraft/CreateAircraft';
 import UpdateParkingSpot from '../components/ParkingSpot/UpdateParkingSpot';
 
 export const router = createBrowserRouter([
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "/parking_spots/new",
         element: <CreateParkingSpot />,
+      },
+      {
+        path: "/aircraft/new",
+        element: <CreateAircraft />,
       },
       // {
       //   path: "/parking_spots/:parking_spotId/update",

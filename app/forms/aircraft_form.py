@@ -22,4 +22,4 @@ class AircraftForm(FlaskForm):
     fuel_type = SelectField("Fuel Type", choices = [('100ll AvGas', '100ll AvGas'), ('94 unleaded', '94 unleaded'), ('Jet A', 'Jet A'),('100 unleaded', '100 unleaded')])
     active_owners = StringField("Active Owners", validators=[DataRequired()])
     notes = StringField("Notes")
-    last_time_fueled = DateTimeField("Last Time Fueled", format='%m-%d-%Y', validators=[DataRequired()])
+    last_time_fueled = DateTimeField("Last Time Fueled", format='%m-%d-%Y',render_kw={"placeholder": "MM-DD-YYYY"})

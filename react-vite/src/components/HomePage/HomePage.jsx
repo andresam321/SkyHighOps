@@ -2,8 +2,8 @@ import {useEffect} from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { thunkGetAllParkingSpotsWithPlanes } from '../../redux/parking_spot';
 import { thunkGetAllEmptyParkingSpots } from '../../redux/parking_spot';
-import { thunkRemoveAircraftFromParkingSpot } from '../../redux/parking_spot';
-import { thunkAssignAircraftToParkingSpot } from '../../redux/parking_spot';
+// import { thunkRemoveAircraftFromParkingSpot } from '../../redux/parking_spot';
+// import { thunkAssignAircraftToParkingSpot } from '../../redux/parking_spot';
 import { NavLink } from 'react-router-dom';
 import OpenModalButton from "../OpenModalButton/OpenModalButton"
 import ParkingSpotAssignment from '../ParkingSpot/ParkingSpotAssignment';
@@ -28,13 +28,13 @@ useEffect(() => {
 }, [dispatch]);
 
 
-const handleRemovePlane = (spotId, planeId) => {
-  dispatch(thunkRemoveAircraftFromParkingSpot(spotId, planeId));
-};
+// const handleRemovePlane = (spotId, planeId) => {
+//   dispatch(thunkRemoveAircraftFromParkingSpot(spotId, planeId));
+// };
 
-const handleAssignPlane = (spotId, planeId) => {
-  dispatch(thunkAssignAircraftToParkingSpot(spotId, planeId));
-};
+// const handleAssignPlane = (spotId, planeId) => {
+//   dispatch(thunkAssignAircraftToParkingSpot(spotId, planeId));
+// };
 
 // console.log("Occupied spots:", loadSpotWithPlanes);
 console.log("Empty spots:", loadEmptySpots);
@@ -64,7 +64,7 @@ return (
             <p>Spot Number: {eachVal.parking_spot.spot_number}</p>
             <p>Is Reserved: {eachVal.parking_spot.is_reserved}</p>
             <p>Spot Size: {eachVal.parking_spot.spot_size}</p>
-            <button onClick={() => handleRemovePlane(eachVal.parking_spot.id, eachVal.aircraft.id)}>Remove Plane</button>
+            {/* <button onClick={() => handleRemovePlane(eachVal.parking_spot.id, eachVal.aircraft.id)}>Remove Plane</button> */}
           {/* </NavLink> */}
         </div>
       </div>
@@ -74,7 +74,7 @@ return (
   <div className="flex-container empty-spots">
   {loadEmptySpots?.map((spot, index) => (
     <div key={index}>
-      <OpenModalButton className="flex-item" buttonText={"Add"} modalComponent={<AircraftAssignment spotId={spot.id} />} />
+      {/* <OpenModalButton className="flex-item" buttonText={"Add"} modalComponent={<AircraftAssignment spotId={spot.id} />} /> */}
       <NavLink to={`/parking_spot/${spot.id}`} className=""  onClick={(e) => e.stopPropagation()}>
         <div className='info-div'>
           <h3>Parking Spot Info</h3>

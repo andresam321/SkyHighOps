@@ -1,5 +1,10 @@
+
+
 const LOAD_SINGLE_AIRCRAFT_BY_ID = "loadSingleAircraftById/LOAD_SINGLE_AIRCRAFT_BY_ID"
 const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
+const ADD_AIRCRAFT = "addAllAirCraft/ADD_ALL_AIRCRAFT"
+const EDIT_AIRCRAFT = "editAircraft/EDIT_AIRCRAFT"
+
 // const ADD_SINGLE_AIRCRAFT = "loadSingleAircraft/LOAD_SINGLE_AIRCRAFT";
 // const ASSIGN_AIRCRAFT = "assignAircraft/ASSIGN_AIRCRAFT"
 
@@ -14,6 +19,15 @@ const getAllAircraft = (aircraft) => ({
     payload: aircraft
 })
 
+const addAircraft = (aircraft) => ({
+    type: ADD_AIRCRAFT,
+    payload: aircraft
+})
+
+const updateAircraft = (aircraft) => ({
+    type: EDIT_AIRCRAFT
+})
+
 // const addSingleAircraft = (addAircraft) => ({
 //     type: ADD_SINGLE_AIRCRAFT,
 //     payload: addAircraft
@@ -23,6 +37,19 @@ const getAllAircraft = (aircraft) => ({
 //     type: ASSIGN_AIRCRAFT,
 //     payload: assignAircraft
 // })
+
+export const thunkUpdateAircraft = (aircraft, aircraftId) => async (dispatch) => {
+    const res = await fetch(`/api/aircrafts/${aircraftId}`, {
+        method: "PUT", 
+        body: aircraft
+    })
+    const data = await res.json();
+    if (res.ok) {
+        await dispatch(updateAircraft(data));
+    } else {
+        return { "errors": data };
+    }
+}
 
 
 export const thunkGetSingleAircraft = (aircraftId) => async (dispatch) => {
@@ -37,6 +64,22 @@ export const thunkGetSingleAircraft = (aircraftId) => async (dispatch) => {
     }
 }
 
+export const thunkAddAircraft = (aircraft) => async (dispatch) => {
+    const res = await fetch(`/api/aircrafts/new`, {
+        method: "POST",
+        body: aircraft
+    })
+    if (res.ok) {
+        const data = await res.json();
+        console.log("Fetched  aircrafts:", data);
+        if (data.errors) {
+            return;
+        }
+
+        await dispatch(addAircraft(data))
+    
+    }
+}
 // export const thunkAddSingleAircraft = () => async (dispatch) => {
 //     const res = await fetch(`/api/aircrafts/available`, {
 //         method: POST
@@ -82,7 +125,7 @@ export const thunkGetAllAircrafts = () => async (dispatch) => {
 function aircraftReducer(state = {}, action) {
     switch(action.type){
         case LOAD_SINGLE_AIRCRAFT_BY_ID: {
-            console.log("this is inside the reducer", action.payload);
+            // console.log("this is inside the reducer", action.payload);
             const newState = {...state,[action.payload.id]: action.payload}
             return newState
         }
@@ -91,6 +134,17 @@ function aircraftReducer(state = {}, action) {
                 ...state,
                 allAircraft: action.payload,
             };
+        }
+        case ADD_AIRCRAFT: {
+            console.log("this is inside the reducer", action.payload);
+            const newState = {... state };
+            newState[action.payload.id] = action.payload
+            return newState
+        }
+        case EDIT_AIRCRAFT: {
+            const newState = { ...state };
+            newState[action.payload.id] = action.payload;
+            return newState
         }
         // case ADD_SINGLE_AIRCRAFT: {
         //     const newState = {...state,[action.payload.id]: action.payload}

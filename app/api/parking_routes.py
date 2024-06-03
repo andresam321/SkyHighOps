@@ -142,25 +142,25 @@ def edit_parking_spot(parking_spot_id):
 
 
 #remove plane from parking spot wont delete from db
-@parking_routes.route("/<int:parking_spot_id>/remove_plane/<int:aircraft_id>", methods=['POST'])
-@login_required
-def remove_aircraft_from_parking(parking_spot_id,aircraft_id):
+# @parking_routes.route("/<int:parking_spot_id>/remove_plane/<int:aircraft_id>", methods=['POST'])
+# @login_required
+# def remove_aircraft_from_parking(parking_spot_id,aircraft_id):
 
-    aircraft_with_parking_spot = AircraftWithParkingSpot.query.filter_by(parking_spot_id = parking_spot_id, aircraft_id = aircraft_id).first()
+#     aircraft_with_parking_spot = AircraftWithParkingSpot.query.filter_by(parking_spot_id = parking_spot_id, aircraft_id = aircraft_id).first()
 
-    if not aircraft_with_parking_spot:
-        return {"message": "Association between aircraft and parking spot couldnt be found"},404
+#     if not aircraft_with_parking_spot:
+#         return {"message": "Association between aircraft and parking spot couldnt be found"},404
     
-    # remove the association
-    db.session.delete(aircraft_with_parking_spot)
+#     # remove the association
+#     db.session.delete(aircraft_with_parking_spot)
 
-    parking_spot = ParkingSpot.query.get(parking_spot_id)
-    if parking_spot:
-        parking_spot.is_reserved = "No"
+#     parking_spot = ParkingSpot.query.get(parking_spot_id)
+#     if parking_spot:
+#         parking_spot.is_reserved = "No"
 
-    db.session.commit()
+#     db.session.commit()
 
-    return {"message": "Aircraft removed from parking spot successfully"}, 200
+#     return {"message": "Aircraft removed from parking spot successfully"}, 200
 
 
 #assign aircraft to parking spot 

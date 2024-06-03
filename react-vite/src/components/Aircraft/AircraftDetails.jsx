@@ -1,7 +1,9 @@
 import {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-// import { thunkAddSingleAircraft } from '../../redux/aircraft'
+import { thunkGetSingleAircraft } from '../../redux/aircraft'
+import OpenModalButton from "../OpenModalButton/OpenModalButton"
+import UpdateAircraft from './UpdateAircraft'
 import "./Aircraft.css"
 
 const AircraftDetails = () => {
@@ -18,7 +20,7 @@ const AircraftDetails = () => {
     // console.log("line 17 in details",selectedAircraft)
 
     useEffect(() => {
-        dispatch(thunkAddSingleAircraft(aircraftId))
+        dispatch(thunkGetSingleAircraft(aircraftId))
     }, [dispatch,aircraftId]);
     
     if (!aircraftbyId) {
@@ -66,6 +68,9 @@ return (
         </div>
         <div>
             <p><span>Notes:</span> {aircraftbyId.notes}</p>
+        </div>
+        <div className="button-container">
+            <OpenModalButton buttonText={"Update"} modalComponent={<UpdateAircraft aircraftId={aircraftId.id} />} />
         </div>
     </div>
 </div>

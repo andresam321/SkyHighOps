@@ -13,6 +13,7 @@ function Navigation() {
       <li>
         <ProfileButton />
         <button><Link to="/parking_spots/new">Create a New Parking Spot</Link></button>
+        <button><Link to="/aircraft/new">Create a Aircraft</Link></button>
       </li>
     </ul>
   );

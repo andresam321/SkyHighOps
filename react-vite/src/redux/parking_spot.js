@@ -39,10 +39,10 @@ const deleteParkingSpot = (parkingSpotDeleted) => ({
     payload: parkingSpotDeleted
 });
 
-const removeAircraftFromParkingSpot = (parking_spotId, aircraftId) => ({
-    type: REMOVE_AIRCRAFT_FROM_PARKING_SPOT,
-    payload: { parking_spotId, aircraftId }
-});
+// const removeAircraftFromParkingSpot = (parking_spotId, aircraftId) => ({
+//     type: REMOVE_AIRCRAFT_FROM_PARKING_SPOT,
+//     payload: { parking_spotId, aircraftId }
+// });
 
 const assignAircraftToParkingSpot = (parking_spotId, aircraftId) => ({
     type: ASSIGN_AIRCRAFT_TO_PARKING_SPOT,
@@ -125,19 +125,19 @@ export const thunkDeleteParkingSpot = (parking_spotId) => async (dispatch) => {
     }
 };
 
-export const thunkRemoveAircraftFromParkingSpot = (parking_spotId, aircraftId) => async (dispatch) => {
-    const res = await fetch(`/api/parking_spots/${parking_spotId}/remove_plane/${aircraftId}`, {
-        method: 'POST',
-    });
-    if (res.ok) {
-        const data = await res.json();
-        dispatch(removeAircraftFromParkingSpot(parking_spotId, aircraftId));
-        dispatch(updateParkingSpotStatus({ id: parking_spotId, is_reserved: "No" }));
-        await dispatch(thunkGetAllParkingSpotsWithPlanes());
-        await dispatch(thunkGetAllEmptyParkingSpots());
-        return data;
-    }
-};
+// export const thunkRemoveAircraftFromParkingSpot = (parking_spotId, aircraftId) => async (dispatch) => {
+//     const res = await fetch(`/api/parking_spots/${parking_spotId}/remove_plane/${aircraftId}`, {
+//         method: 'POST',
+//     });
+//     if (res.ok) {
+//         const data = await res.json();
+//         dispatch(removeAircraftFromParkingSpot(parking_spotId, aircraftId));
+//         dispatch(updateParkingSpotStatus({ id: parking_spotId, is_reserved: "No" }));
+//         await dispatch(thunkGetAllParkingSpotsWithPlanes());
+//         await dispatch(thunkGetAllEmptyParkingSpots());
+//         return data;
+//     }
+// };
 
 // export const thunkAssignAircraftToParkingSpot = (parking_spotId, aircraftId) => async (dispatch) => {
 //     const res = await fetch(`/api/parking_spots/${parking_spotId}/assign_plane/${aircraftId}`, {

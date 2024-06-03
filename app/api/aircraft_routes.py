@@ -3,6 +3,7 @@ from flask_login import login_required,current_user
 from app.models import db, Aircraft, ParkingSpot
 from app.forms import AircraftForm, ParkingSpotForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename
+from datetime import datetime
 
 aircraft_routes = Blueprint('aircrafts', __name__)
 
@@ -26,46 +27,52 @@ def aircraft_by_id(id):
 
 
 #creating airplane 
-@aircraft_routes.route("/", methods=["POST"])
+@aircraft_routes.route("/new", methods=["POST"])
 @login_required
-def create_parking_spot():
+def create_aircraft():
     print("In create form =>")
 
     form = AircraftForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
-    image = form.data["plane_image"]
+    plane_image = form.data["plane_image"]
     url = None
 
-    if image:
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
+    if plane_image:
+        plane_image.filename = get_unique_filename(plane_image.filename)
+        upload = upload_file_to_s3(plane_image)
         if "url" not in upload:
-            return {"product_image": "Image upload failed. Please try again later."}, 500
+            return {"error": "Image upload failed. Please try again."}, 500
         url = upload["url"]
     
     if form.validate_on_submit():
-        new_aircraft = Aircraft(
-            user_id=current_user.id,
-            plane_image=url,
-            tail_number=form.data['tail_number'],
-            manufacturer=form.data['manufacturer'],
-            model=form.data['model'],
-            max_takeoff_weight=form.data['max_takeoff_weight'],
-            seating_capacity=form.data['seating_capacity'],
-            operation_status=form.data['operation_status'],
-            fuel_type=form.data['fuel_type'],
-            active_owners=form.data['active_owners'],
-            notes=form.data['notes'],
-            last_time_fueled=form.data['last_time_fueled']
-        )
+        last_time_fueled_str = form.data['last_time_fueled']
+        last_time_fueled_dt = datetime.strptime(last_time_fueled_str, '%Y-%m-%d')
+
+        params = {
+            "user_id":current_user.id,
+            "plane_image":url,
+            "tail_number":form.data['tail_number'],
+            "manufacturer":form.data['manufacturer'],
+            "model":form.data['model'],
+            "max_takeoff_weight":form.data['max_takeoff_weight'],
+            "seating_capacity":form.data['seating_capacity'],
+            "operation_status":form.data['operation_status'],
+            "fuel_type":form.data['fuel_type'],
+            "active_owners":form.data['active_owners'],
+            "notes":form.data['notes'],
+            "last_time_fueled":form.data['last_time_fueled']
+        }
+
+        new_aircraft = Aircraft(**params)
+
         db.session.add(new_aircraft)
         db.session.commit()
 
         return new_aircraft.to_dict(), 201
     else:
+        print(form.errors)
         return form.errors, 400
-
 
 #update aircraft by id
 #update parking spot
@@ -102,10 +109,17 @@ def update_parking_spot(id):
         aircraft.notes=form.data['notes'],
         aircraft.last_time_fueled=form.data['last_time_fueled']
 
+        try:
+            aircraft.last_time_fueled = datetime.fromisoformat(form.data['last_time_fueled'])
+            print("Updated last_time_fueled:", aircraft.last_time_fueled)
+        except ValueError:
+            return {"last_time_fueled": "Invalid datetime format"}, 400
+
         db.session.commit()
     
         return aircraft.to_dict(), 200
     else:
+        # print(form.errors)
         return form.errors, 400
 
 
