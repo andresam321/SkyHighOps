@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { thunkGetSingleAircraft } from '../../redux/aircraft'
+// import { thunkAddSingleAircraft } from '../../redux/aircraft'
 import "./Aircraft.css"
 
 const AircraftDetails = () => {
@@ -18,7 +18,7 @@ const AircraftDetails = () => {
     // console.log("line 17 in details",selectedAircraft)
 
     useEffect(() => {
-        dispatch(thunkGetSingleAircraft(aircraftId))
+        dispatch(thunkAddSingleAircraft(aircraftId))
     }, [dispatch,aircraftId]);
     
     if (!aircraftbyId) {

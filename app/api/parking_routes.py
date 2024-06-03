@@ -141,6 +141,58 @@ def edit_parking_spot(parking_spot_id):
 
 
 
+#remove plane from parking spot wont delete from db
+@parking_routes.route("/<int:parking_spot_id>/remove_plane/<int:aircraft_id>", methods=['POST'])
+@login_required
+def remove_aircraft_from_parking(parking_spot_id,aircraft_id):
+
+    aircraft_with_parking_spot = AircraftWithParkingSpot.query.filter_by(parking_spot_id = parking_spot_id, aircraft_id = aircraft_id).first()
+
+    if not aircraft_with_parking_spot:
+        return {"message": "Association between aircraft and parking spot couldnt be found"},404
+    
+    # remove the association
+    db.session.delete(aircraft_with_parking_spot)
+
+    parking_spot = ParkingSpot.query.get(parking_spot_id)
+    if parking_spot:
+        parking_spot.is_reserved = "No"
+
+    db.session.commit()
+
+    return {"message": "Aircraft removed from parking spot successfully"}, 200
+
+
+#assign aircraft to parking spot 
+@parking_routes.route("/assign_aircraft_to_parking_spot", methods=['POST'])
+@login_required
+def assign_aircraft_to_parking_spot():
+    data = request.get_json()
+
+    parking_spot_id = data.get('parking_spot_id')
+    aircraft_id = data.get('aircraft_id')
+
+    if not parking_spot_id or not aircraft_id:
+        return {"error": "Parking spot ID or aircraft ID missing"}, 400
+
+    parking_spot = ParkingSpot.query.get(parking_spot_id)
+    if not parking_spot:
+        return {"error": "Parking spot not found"}, 404
+    
+    aircraft = Aircraft.query.get(aircraft_id)
+    if not aircraft:
+        return {"error": "Aircraft not found"}, 404
+    
+    if parking_spot.aircraft_id:
+        return {"error": "Parking spot already occupied"}, 400
+
+    parking_spot.aircraft_id = aircraft_id
+    db.session.commit()
+
+    return {"message": "Aircraft assigned to parking spot successfully"}, 201
+
+
+
 #current spots with airplanes
 @parking_routes.route("/current_spots_with_planes")
 @login_required

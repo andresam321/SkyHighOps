@@ -9,7 +9,7 @@ aircraft_routes = Blueprint('aircrafts', __name__)
 
 
 #display all aircraft 
-@aircraft_routes.route("/")
+@aircraft_routes.route("/all")
 @login_required
 def all_aircrafts():
     aircrafts = Aircraft.query.all()
@@ -121,3 +121,30 @@ def delete_parking_spot(id):
         db.session.commit()
 
         return {"message": "Successfully deleted aircraft"}, 200
+
+
+#creating an airplane if not assigned
+# @aircraft_routes.route('/available', methods=['POST'])
+# @login_required
+# def add_available_aircraft():
+#     available_aircraft = Aircraft.query.filter_by(is_assigned="No").all()
+
+#     if not available_aircraft:
+#         return {"message": "No available aircraft found"}, 200
+    
+#     for aircraft in available_aircraft:
+#         db.session.add(aircraft)
+#     db.session.commit()
+
+#     return {"aircraft": [aircraft.to_dict() for aircraft in available_aircraft]}, 200
+
+# #grabgging an airccraft thats not a assign
+# @aircraft_routes.route('/assigned', methods=['GET'])
+# @login_required
+# def adding_not_assign_aircraft():
+#     available_aircraft = Aircraft.query.filter_by(is_assigned="No").all()
+
+#     if not available_aircraft:
+#         return {"message": "No available aircraft found"}, 200
+    
+#     return {"aircraft": [aircraft.to_dict() for aircraft in available_aircraft]}, 200

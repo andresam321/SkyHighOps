@@ -22,7 +22,7 @@ const DeleteParkingSpot = () => {
 
 
 return (
- <div>
+<div>
     <form onSubmit={handleDelete} className="">
         <div>
                     <h2>Confirm Delete</h2>
