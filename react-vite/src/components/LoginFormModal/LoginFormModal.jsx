@@ -27,6 +27,14 @@ function LoginFormModal() {
       closeModal();
     }
   };
+  useEffect(() => {
+    const errorsObj = {}
+
+    if (!email && email.length < 7) errorsObj.email = "Email is required and be more than 7 characters"
+    if (!password && password.length < 8) errorsObj.password = 'Password must be 8 or more characters'
+
+    setErrors(errorsObj)
+  }, [email, password]) 
 
   return (
     <>
@@ -41,7 +49,7 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.password && <span className="form-errors-login">{errors.password}</span>}
         <label>
           Password
           <input
@@ -51,8 +59,19 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        {errors.password && <span className="form-errors-login">{errors.password}</span>}
+        <button disabled={Object.values(errors).length > 0} className='login-btn-main' type="submit">Log In</button>
+        <div>
+        <button
+          type="submit"
+          className="login-btn-demo"
+          onClick={() => {
+            setEmail("demoo@aa.io"), setPassword("password");
+          }}
+        >
+          Login as Demo User
+        </button>
+        </div>
       </form>
     </>
   );
