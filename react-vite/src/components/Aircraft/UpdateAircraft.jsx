@@ -85,7 +85,6 @@ const UpdateAircraft = () => {
         e.preventDefault();
         setImageLoading(true)
 
-        // try {
         const formData = new FormData();
         formData.append('plane_image', plane_image);
         formData.append('tail_number', tail_number);
@@ -99,23 +98,18 @@ const UpdateAircraft = () => {
         formData.append('notes', notes);
         formData.append('last_time_fueled', last_time_fueled);
         
-
         
+        try {
         const newAircraft = await dispatch(thunkUpdateAircraft(formData, aircraftId));
         console.log("newAircraft line 88", newAircraft)
 
-            // if (newAircraft && newAircraft) {
-            //     const { id } = newAircraft;
         console.log("line33",newAircraft)
         closeModal()
         navigate(`/aircraft/${aircraftId}`)
         setImageLoading(false)
-            // } else {
-            //     throw new Error("Failed to get aircraft ID from the response");
-            // }
-        // } catch (err) {
-            // console.error("Failed to add aircraft:", err);
-        // }
+        } catch (err) {
+            console.error("Failed to add aircraft:", err);
+        }
     };
 
 
@@ -194,7 +188,7 @@ return (
         </div>
         <div className="">
             <button type="submit" className="">Yes (Update Aircraft)</button>
-            <button onClick={() => closeModal()} className="">No (Don't Update Aircraft)</button>
+            <button onClick={() => closeModal()} className="">No (Dont Update Aircraft)</button>
         </div>
     </form>
 </div>

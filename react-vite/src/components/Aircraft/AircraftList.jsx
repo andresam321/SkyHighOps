@@ -1,6 +1,7 @@
 import {useEffect,useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { thunkGetAllAircrafts  } from '../../redux/aircraft'
+import { Link, NavLink } from 'react-router-dom'
 import "./Aircraft.css"
 
 const AircraftList = () => {
@@ -42,6 +43,11 @@ useEffect(() => {
               <img src={aircraft.plane_image} alt="Aircraft" />
           </div>
         </div>
+        <button>
+          <NavLink to={`/aircraft/${aircraft.id}`} activeClassName="active">
+            View Aircraft Details
+          </NavLink>
+        </button>
         {expandedAircraft === aircraft.id && (
           <div className="aircraft-details">
             <div className=''>
@@ -58,7 +64,7 @@ useEffect(() => {
           </div>
         )}
         <button onClick={() => toggleAircraft(aircraft.id)}>
-          {expandedAircraft === aircraft.id ? 'Hide Details' : 'Show Details'}
+          {expandedAircraft === aircraft.id ? 'Hide Details' : 'Show Aircraft Info'}
         </button>
       </div>
     ))}

@@ -101,7 +101,7 @@ export const thunkDeleteAircraft = (aircraftId) => async (dispatch) => {
     const data = await res.json();
     if (res.ok) {
         await dispatch(deleteAircraft(aircraftId));
-        return parking_spotId;
+        return data;
     } else {
         return { "errors": data };
     }

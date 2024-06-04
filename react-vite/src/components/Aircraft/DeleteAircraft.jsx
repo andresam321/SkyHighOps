@@ -15,16 +15,16 @@ const DeleteAircraft = () => {
         e.preventDefault()
 
         await dispatch(thunkDeleteAircraft(aircraftId))
-        closeModal()
         navigate("/")
+        closeModal()
     }
 
 
-  return (
+return (
 <div>
     <form onSubmit={handleDelete} className="">
         <div>
-                    <h2>Confirm Delete</h2>
+            <h2>Confirm Delete</h2>
         </div>
         <div className="">
                 <p>Are you sure you want to remove Aircraft?</p>

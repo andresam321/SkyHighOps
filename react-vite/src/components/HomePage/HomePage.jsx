@@ -69,12 +69,14 @@ return (
     ))}
     {loadEmptySpots?.map((spot, index) => (
       <div key={index} className="flex-item empty">
+      <NavLink to={`/parking_spot/${spot.id}`}>
         <div className='info-div'>
           <h3>Parking Spot Info</h3>
           <p>Spot Number: {spot.spot_number}</p>
           <p>Spot Size: {spot.spot_size}</p>
           <p>Is Reserved: {spot.is_reserved}</p>
         </div>
+        </NavLink>
       </div>
     ))}
   </div>
