@@ -24,10 +24,10 @@ class User(db.Model, UserMixin):
     aircrafts = db.relationship("Aircraft", back_populates = "employee",cascade='all, delete-orphan')
 
     
-    # def __init__(self,**kwargs):
-    #     super().__init__(**kwargs)
-    #     if not self.employee_id:
-    #         self.employee_id = str(uuid.uuid4())
+    def __init__(self,**kwargs):
+        super().__init__(**kwargs)
+        if not self.employee_id:
+            self.employee_id = str(uuid.uuid4())
 
     @property
     def password(self):

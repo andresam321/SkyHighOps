@@ -52,6 +52,7 @@ export const thunkUpdateAircraft = (aircraft, aircraftId) => async (dispatch) =>
         body: aircraft
     })
     const data = await res.json();
+    console.log("UPDATE  aircrafts:", data);
     if (res.ok) {
         await dispatch(updateAircraft(data));
     } else {
@@ -157,15 +158,16 @@ function aircraftReducer(state = {}, action) {
             };
         }
         case ADD_AIRCRAFT: {
-            console.log("this is inside the reducer", action.payload);
+            // console.log("this is inside the reducer", action.payload);
             const newState = {... state };
             newState[action.payload.id] = action.payload
             return newState
         }
         case EDIT_AIRCRAFT: {
-            const newState = { ...state };
-            newState[action.payload.id] = action.payload;
-            return newState
+            return {
+                ...state,
+                [action.payload.id]: action.payload,
+            };
         }
         case DELETE_AIRCRAFT: {
             const newState = { ...state };

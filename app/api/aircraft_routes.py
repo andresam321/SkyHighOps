@@ -76,50 +76,42 @@ def create_aircraft():
 
 #update aircraft by id
 #update parking spot
-@aircraft_routes.route('/<int:id>',methods=['PUT'])
+@aircraft_routes.route('/<int:id>', methods=['PUT'])
 @login_required
 def update_parking_spot(id):
     aircraft = Aircraft.query.get(id)
     if not aircraft:
-        return {"message": "Parking Spot couldnt be found"}, 404
+        return {"message": "Parking Spot couldn't be found"}, 404
     
     form = AircraftForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
-    image = form.data["plane_image"]
-    url = None
+    if form.validate():
+        plane_image = form.data["plane_image"]
+        url = None
 
-    if image:
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
-        if "url" not in upload:
-            return {"product_image": "Image upload failed. Please try again later."}, 500
-        url = upload["url"]
+        if plane_image:
+            plane_image.filename = get_unique_filename(plane_image.filename)
+            upload = upload_file_to_s3(plane_image)
+            if "url" not in upload:
+                return {"error": "Image upload failed. Please try again."}, 500
+            url = upload["url"]
 
-    if form.validate_on_submit():
-        aircraft.plane_image=url,
-        aircraft.tail_number=form.data['tail_number'],
-        aircraft.manufacturer=form.data['manufacturer'],
-        aircraft.model=form.data['model'],
-        aircraft.max_takeoff_weight=form.data['max_takeoff_weight'],
-        aircraft.seating_capacity=form.data['seating_capacity'],
-        aircraft.operation_status=form.data['operation_status'],
-        aircraft.fuel_type=form.data['fuel_type'],
-        aircraft.active_owners=form.data['active_owners'],
-        aircraft.notes=form.data['notes'],
-        aircraft.last_time_fueled=form.data['last_time_fueled']
-
-        try:
-            aircraft.last_time_fueled = datetime.fromisoformat(form.data['last_time_fueled'])
-            print("Updated last_time_fueled:", aircraft.last_time_fueled)
-        except ValueError:
-            return {"last_time_fueled": "Invalid datetime format"}, 400
+        aircraft.plane_image = url if url else aircraft.plane_image
+        aircraft.tail_number = form.data['tail_number']
+        aircraft.manufacturer = form.data['manufacturer']
+        aircraft.model = form.data['model']
+        aircraft.max_takeoff_weight = form.data['max_takeoff_weight']
+        aircraft.seating_capacity = form.data['seating_capacity']
+        aircraft.operation_status = form.data['operation_status']
+        aircraft.fuel_type = form.data['fuel_type']
+        aircraft.active_owners = form.data['active_owners']
+        aircraft.notes = form.data['notes']
+        aircraft.last_time_fueled = form.data['last_time_fueled']
 
         db.session.commit()
-    
         return aircraft.to_dict(), 200
     else:
-        # print(form.errors)
         return form.errors, 400
 
 

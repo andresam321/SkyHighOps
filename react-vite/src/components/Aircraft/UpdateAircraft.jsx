@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { thunkAddAircraft } from '../../redux/aircraft';
+import { thunkUpdateAircraft } from '../../redux/aircraft';
 import { useModal } from '../../context/Modal';
 
 
@@ -14,22 +14,23 @@ const UpdateAircraft = () => {
 
 
     const currentUser = useSelector((state) => state.session.user);
-    const aircraftById = useSelector((state) => state.aircraftReducer[+aircraftId])
+    const aircraftById = useSelector((state) => state.aircraftReducer[aircraftId])
     console.log(aircraftById)
     
-    const [plane_image, setPlane_image] = useState();
-    const [tail_number, setTail_number] = useState("");
-    const [manufacturer, setManufacturer] = useState("");
-    const [model, setModel] = useState('');
-    const [max_takeoff_weight, setMax_takeoff_weight] = useState("");
-    const [seating_capacity, setSeating_capacity] = useState('');
-    const [operation_status, setOperation_status] = useState("");
-    const [fuel_type, setFuel_type] = useState("");
-    const [active_owners, setActive_owners] = useState("");
-    const [notes, setNotes] = useState("");
-    const [last_time_fueled, setLast_time_fueled] = useState("");
+    const [plane_image, setPlane_image] = useState(aircraftById.plane_image || "");
+    const [tail_number, setTail_number] = useState(aircraftById.tail_number || "");
+    const [manufacturer, setManufacturer] = useState(aircraftById.manufacturer || "");
+    const [model, setModel] = useState(aircraftById.model || "");
+    const [max_takeoff_weight, setMax_takeoff_weight] = useState(aircraftById.max_takeoff_weight || "");
+    const [seating_capacity, setSeating_capacity] = useState(aircraftById.seating_capacity || "");
+    const [operation_status, setOperation_status] = useState(aircraftById.operation_status || "");
+    const [fuel_type, setFuel_type] = useState(aircraftById.fuel_type || "");
+    const [active_owners, setActive_owners] = useState(aircraftById.active_owners || "");
+    const [notes, setNotes] = useState(aircraftById.notes || "");
+    const [last_time_fueled, setLast_time_fueled] = useState(aircraftById.last_time_fueled || "");
     const [errors, setErrors] = useState({});
     const [showImage, setShowImage] = useState();
+    const [imageLoading, setImageLoading] = useState(false);
 
 
     useEffect(() => {
@@ -53,6 +54,20 @@ const UpdateAircraft = () => {
         }
     }, [aircraftById])
 
+    useEffect(() => {
+        const errorObj = {};
+        if (!plane_image && !showImage) errorObj.plane_image = "Preview image required"
+        if (tail_number.length < 3 || tail_number.length > 6) errorObj.tail_number = "Please provide a tail number between 3 and 6 characters";
+        if (manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
+        if (model.length < 2 || model.length > 10) errorObj.model = "Please provide a model between 2 and 10 characters";
+        if (max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
+        if (seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Please provide a valid seating amount";
+        if (!operation_status) errorObj.operation_status = "Operation status required";
+        if (!fuel_type) errorObj.fuel_type = "Fuel type required";
+        if (active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
+        setErrors(errorObj);
+    }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners,showImage]);
+
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -68,7 +83,9 @@ const UpdateAircraft = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setImageLoading(true)
 
+        // try {
         const formData = new FormData();
         formData.append('plane_image', plane_image);
         formData.append('tail_number', tail_number);
@@ -80,47 +97,35 @@ const UpdateAircraft = () => {
         formData.append('fuel_type', fuel_type);
         formData.append('active_owners', active_owners);
         formData.append('notes', notes);
+        formData.append('last_time_fueled', last_time_fueled);
+        
 
-        const formattedDate = new Date(last_time_fueled).toISOString();
-        formData.append('last_time_fueled', formattedDate);
-
-        try {
-            const newAircraft = await dispatch(thunkAddAircraft(formData, aircraftId));
+        
+        const newAircraft = await dispatch(thunkUpdateAircraft(formData, aircraftId));
+        console.log("newAircraft line 88", newAircraft)
 
             // if (newAircraft && newAircraft) {
             //     const { id } = newAircraft;
-            console.log("line33",newAircraft)
-            closeModal()
+        console.log("line33",newAircraft)
+        closeModal()
+        navigate(`/aircraft/${aircraftId}`)
+        setImageLoading(false)
             // } else {
             //     throw new Error("Failed to get aircraft ID from the response");
             // }
-        } catch (err) {
-            console.error("Failed to add aircraft:", err);
-            setErrors({ general: "An unexpected error occurred. Please try again later." });
-        }
+        // } catch (err) {
+            // console.error("Failed to add aircraft:", err);
+        // }
     };
 
-    useEffect(() => {
-        const errorObj = {};
-        // if (!plane_image) errorObj.plane_image = "Image required";
-        if (tail_number.length < 3 || tail_number.length > 6) errorObj.tail_number = "Please provide a tail number between 3 and 6 characters";
-        if (manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
-        if (model.length < 2 || model.length > 10) errorObj.model = "Please provide a model between 2 and 10 characters";
-        if (max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
-        if (seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Please provide a valid seating amount";
-        if (!operation_status) errorObj.operation_status = "Operation status required";
-        if (!fuel_type) errorObj.fuel_type = "Fuel type required";
-        if (active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
-        setErrors(errorObj);
-    }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners]);
 
 
 
 
 return (
     <div>
-    <h2>Create Aircraft</h2>
-    <form onSubmit={handleSubmit}>
+    <h2>Update Aircraft</h2>
+    <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className=''>
             <label>Plane Image</label>
             <input type="file" id="plane_image" onChange={handleFileChange} />
@@ -185,7 +190,7 @@ return (
         <div className=''>
             <label>Last Time Fueled</label>
             <input type="date" id="last_time_fueled" value={last_time_fueled} onChange={(e) => setLast_time_fueled(e.target.value)} />
-            {errors.last_time_fueled && <p>{errors.last_time_fueled}</p>}
+            {/* {errors.last_time_fueled && <p>{errors.last_time_fueled}</p>} */}
         </div>
         <div className="">
             <button type="submit" className="">Yes (Update Aircraft)</button>

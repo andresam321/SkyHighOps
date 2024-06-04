@@ -19,7 +19,7 @@ class Aircraft(db.Model):
     fuel_type = db.Column(db.String(50), nullable = False)
     active_owners = db.Column(db.String(10),nullable = False)
     notes = db.Column(db.String(255))
-    last_time_fueled = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    last_time_fueled = db.Column(db.String,)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 

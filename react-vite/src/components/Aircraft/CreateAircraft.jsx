@@ -78,13 +78,14 @@ const CreateAircraft = () => {
         if (!operation_status) errorObj.operation_status = "Operation status required";
         if (!fuel_type) errorObj.fuel_type = "Fuel type required";
         if (active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
+        if (!last_time_fueled) errorObj.last_time_fueled = "Required"
         setErrors(errorObj);
     }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners]);
 
     return (
         <div>
             <h2>Create Aircraft</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} encType="multipart/form-data">
                 <div>
                     <label>Plane Image</label>
                     <input type="file" id="plane_image" onChange={handleFileChange} />
