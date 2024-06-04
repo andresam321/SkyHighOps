@@ -21,7 +21,7 @@ const CreateParkingSpot = () => {
         
         if(spot_number.length < 2 || spot_number > 5) errObj.spot_number = "Parking spot must be between two and five characters"
         if(!spot_size) errObj.spot_size = "Please provide a valid parking spot size "
-        if(!is_reserved) errObj.is_reserved = "Defaults to no"
+        if(!is_reserved) errObj.is_reserved = "Defaults to no "
 
         setErrors(errObj)
     },[spot_number,spot_size,is_reserved])
@@ -54,7 +54,7 @@ const CreateParkingSpot = () => {
         <div className="create-parking-spot">
             <h2>Create a New Parking Spot</h2>
             <form onSubmit={handleSubmit}>
-                <div>
+                <div className=''>
                     <label htmlFor="spot_number">Spot Number</label>
                     <input
                         type="text"
@@ -64,7 +64,7 @@ const CreateParkingSpot = () => {
                     />
                 {errors.spot_number && <p className=''>{errors.spot_number}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label htmlFor="spot_size">Spot Size</label>
                     <select
                         id="spot_size"
@@ -77,7 +77,7 @@ const CreateParkingSpot = () => {
                     </select>
                 {errors.spot_size && <p className=''>{errors.spot_size}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label htmlFor="is_reserved">Is Reserved</label>
                     <select
                         id="is_reserved"
@@ -89,7 +89,7 @@ const CreateParkingSpot = () => {
                     </select>
                 {errors.is_reserved && <p className=''>{errors.is_reserved}</p>}
                 </div>
-                <button disabled={Object.values(errors).length > 0} type="submit">Create Spot</button>
+                <button disabled={Object.values(errors).length > 0} className='login-btn-main' type="submit">Create Spot</button>
             </form>
         </div>
     );

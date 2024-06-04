@@ -1,23 +1,50 @@
 import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux'; 
 import "./Navigation.css";
 
 function Navigation() {
-  return (
-    <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
 
-      <li>
-        <ProfileButton />
-        <button><Link to="/parking_spots/new">Create a New Parking Spot</Link></button>
-        <button><Link to="/aircraft/new">Create a Aircraft</Link></button>
-        <button><Link to="/aircraft/list">Look at aircraft list</Link></button>
-      </li>
-    </ul>
+const user = useSelector((state) => state.session.user); 
+
+  return (
+    <nav className="navbar">
+      <ul className="nav-menu">
+        <li className="nav-item">
+          <div className="nav-text-container">
+            <NavLink to="/" className="nav-link">Home</NavLink>
+          </div>
+        </li>
+
+        {user && (
+          <>
+            <li className="nav-item">
+              <div className="nav-text-container">
+                <NavLink to="/parking_spots/new" className="nav-link">Create a New Parking Spot</NavLink>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <div className="nav-text-container">
+                <NavLink to="/aircraft/new" className="nav-link">Create an Aircraft</NavLink>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <div className="nav-text-container">
+                <NavLink to="/aircraft/list" className="nav-link">Look at Aircraft List</NavLink>
+              </div>
+            </li>
+          </>
+        )}
+
+        <li className="nav-item nav-item-right">
+          <ProfileButton />
+        </li>
+      </ul>
+    </nav>
   );
 }
+
 
 export default Navigation;

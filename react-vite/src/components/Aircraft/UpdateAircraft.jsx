@@ -56,18 +56,19 @@ const UpdateAircraft = () => {
 
     useEffect(() => {
         const errorObj = {};
-        if (!plane_image && !showImage) errorObj.plane_image = "Preview image required"
-        if (tail_number.length < 3 || tail_number.length > 6) errorObj.tail_number = "Please provide a tail number between 3 and 6 characters";
-        if (manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
-        if (model.length < 2 || model.length > 10) errorObj.model = "Please provide a model between 2 and 10 characters";
-        if (max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
-        if (seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Please provide a valid seating amount";
+        if (!plane_image) errorObj.plane_image = "Image required";
+        if (!tail_number || tail_number.length < 3 || tail_number.length > 6) errorObj.tail_number = "Please provide a tail number between 3 and 6 characters";
+        if (!manufacturer || manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
+        if (!model || model.length < 2 || model.length > 20) errorObj.model = "Please provide a model between 2 and 10 characters";
+        if (!max_takeoff_weight || max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
+        if (!seating_capacity || seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Please provide a valid seating amount";
         if (!operation_status) errorObj.operation_status = "Operation status required";
         if (!fuel_type) errorObj.fuel_type = "Fuel type required";
-        if (active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
+        if (!active_owners || active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
+        if (!last_time_fueled) errorObj.last_time_fueled = "Required";
+        if (!notes || notes.length < 2 || notes.length > 255) errorObj.notes = "Keep the note between 2 and 255 characters";
         setErrors(errorObj);
-    }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners,showImage]);
-
+    }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners, last_time_fueled, notes]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -180,6 +181,7 @@ return (
         <div className=''>
             <label>Notes</label>
             <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
+            {errors.notes && <p>{errors.notes}</p>}
         </div>
         <div className=''>
             <label>Last Time Fueled</label>
@@ -189,6 +191,7 @@ return (
         <div className="">
             <button type="submit" className="">Yes (Update Aircraft)</button>
             <button onClick={() => closeModal()} className="">No (Dont Update Aircraft)</button>
+            
         </div>
     </form>
 </div>

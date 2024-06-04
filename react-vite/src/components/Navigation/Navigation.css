@@ -11,3 +11,51 @@ ul{
   background-color: lightblue;
   color: black;
 }
+
+.navbar {
+  background-color: #333;
+  padding: 10px;
+}
+
+.nav-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.nav-item {
+  margin-right: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.nav-link:hover {
+  background-color: #555;
+}
+
+.active {
+  background-color: #555;
+}
+
+.nav-text-container {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #555;
+}
+
+.nav-text {
+  color: white;
+}
+
+.nav-item-right {
+  margin-left: auto;
+}
+.profile-button {
+  
+}

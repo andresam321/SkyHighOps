@@ -75,54 +75,55 @@ const CreateAircraft = () => {
     useEffect(() => {
         const errorObj = {};
         if (!plane_image) errorObj.plane_image = "Image required";
-        if (tail_number.length < 3 || tail_number.length > 6) errorObj.tail_number = "Please provide a tail number between 3 and 6 characters";
-        if (manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
-        if (model.length < 2 || model.length > 10) errorObj.model = "Please provide a model between 2 and 10 characters";
-        if (max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
-        if (seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Please provide a valid seating amount";
+        if (!tail_number || tail_number.length < 3 || tail_number.length > 6) errorObj.tail_number = "Please provide a tail number between 3 and 6 characters";
+        if (!manufacturer || manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
+        if (!model || model.length < 2 || model.length > 20) errorObj.model = "Please provide a model between 2 and 10 characters";
+        if (!max_takeoff_weight || max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
+        if (!seating_capacity || seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Please provide a valid seating amount";
         if (!operation_status) errorObj.operation_status = "Operation status required";
         if (!fuel_type) errorObj.fuel_type = "Fuel type required";
-        if (active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
-        if (!last_time_fueled) errorObj.last_time_fueled = "Required"
+        if (!active_owners || active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required";
+        if (!last_time_fueled) errorObj.last_time_fueled = "Required";
+        if (!notes || notes.length < 2 || notes.length > 255) errorObj.notes = "Keep the note between 2 and 255 characters";
         setErrors(errorObj);
-    }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners]);
+    }, [plane_image, tail_number, manufacturer, model, max_takeoff_weight, seating_capacity, operation_status, fuel_type, active_owners, last_time_fueled, notes]);
 
     return (
         <div>
             <h2>Create Aircraft</h2>
             <form onSubmit={handleSubmit} encType="multipart/form-data">
-                <div>
+                <div className=''>
                     <label>Plane Image</label>
                     <input type="file" id="plane_image" onChange={handleFileChange} />
                     {showImage && <img src={showImage} alt="Preview" width="100" />}
                     {errors.plane_image && <p>{errors.plane_image}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Tail Number</label>
                     <input type="text" id="tail_number" value={tail_number} onChange={(e) => setTail_number(e.target.value)} />
                     {errors.tail_number && <p>{errors.tail_number}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Manufacturer</label>
                     <input type="text" id="manufacturer" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
                     {errors.manufacturer && <p>{errors.manufacturer}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Model</label>
                     <input type="text" id="model" value={model} onChange={(e) => setModel(e.target.value)} />
                     {errors.model && <p>{errors.model}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Max Takeoff Weight</label>
                     <input type="number" id="max_takeoff_weight" value={max_takeoff_weight} onChange={(e) => setMax_takeoff_weight(e.target.value)} />
                     {errors.max_takeoff_weight && <p>{errors.max_takeoff_weight}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Seating Capacity</label>
                     <input type="number" id="seating_capacity" value={seating_capacity} onChange={(e) => setSeating_capacity(e.target.value)} />
                     {errors.seating_capacity && <p>{errors.seating_capacity}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Operation Status</label>
                     <select id="operation_status" value={operation_status} onChange={(e) => setOperation_status(e.target.value)}>
                         <option value="">Select an option</option>
@@ -132,7 +133,7 @@ const CreateAircraft = () => {
                     </select>
                     {errors.operation_status && <p>{errors.operation_status}</p>}
                 </div>
-                <div>
+                <div className=''> 
                     <label>Fuel Type</label>
                     <select id="fuel_type" value={fuel_type} onChange={(e) => setFuel_type(e.target.value)}>
                         <option value="">Select an option</option>
@@ -143,21 +144,22 @@ const CreateAircraft = () => {
                     </select>
                     {errors.fuel_type && <p>{errors.fuel_type}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Active Owners</label>
                     <input type="number" id="active_owners" value={active_owners} onChange={(e) => setActive_owners(e.target.value)} />
                     {errors.active_owners && <p>{errors.active_owners}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Notes</label>
                     <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
+                    {errors.notes && <p>{errors.notes}</p>}
                 </div>
-                <div>
+                <div className=''>
                     <label>Last Time Fueled</label>
                     <input type="date" id="last_time_fueled" value={last_time_fueled} onChange={(e) => setLast_time_fueled(e.target.value)} />
                     {errors.last_time_fueled && <p>{errors.last_time_fueled}</p>}
                 </div>
-                <button type="submit">Add Aircraft</button>
+                <button disabled={Object.values(errors).length > 0} className='login-btn-main' type="submit">Add Aircraft</button>
             </form>
         </div>
     );
