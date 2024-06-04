@@ -86,6 +86,10 @@ export const thunkAddAircraft = (aircraft) => async (dispatch) => {
         }
 
         await dispatch(addAircraft(data))
+        return data
+    } else {
+        const errorData = await res.json();
+        return { errors: errorData.errors };
     
     }
 }
@@ -159,7 +163,7 @@ function aircraftReducer(state = {}, action) {
         }
         case ADD_AIRCRAFT: {
             // console.log("this is inside the reducer", action.payload);
-            const newState = {... state };
+            const newState = { ...state };
             newState[action.payload.id] = action.payload
             return newState
         }

@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { thunkAddAircraft } from '../../redux/aircraft';
 import { FaCamera } from "react-icons/fa";
 
+
 const CreateAircraft = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const {aircraftId} = useParams()
 
     const [plane_image, setPlane_image] = useState();
     const [tail_number, setTail_number] = useState("");
@@ -53,14 +56,16 @@ const CreateAircraft = () => {
         formData.append('last_time_fueled', last_time_fueled);
 
         try {
-            const newAircraft = await dispatch(thunkAddAircraft(formData));
-
-            // if (newAircraft && newAircraft) {
-            //     const { id } = newAircraft;
-                navigate(`/`);
-            // } else {
-            //     throw new Error("Failed to get aircraft ID from the response");
-            // }
+            const response = await dispatch(thunkAddAircraft(formData));
+        
+            if (response && response.id) {
+                navigate(`/aircraft/${response.id}`);
+            } else if (response.errors) {
+                setErrors(response.errors);
+            } else {
+                throw new Error("Failed to get aircraft ID from the response");
+            }
+    
         } catch (err) {
             console.error("Failed to add aircraft:", err);
             setErrors({ general: "An unexpected error occurred. Please try again later." });

@@ -86,7 +86,7 @@ def update_parking_spot(id):
     form = AircraftForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
-    if form.validate():
+    if form.validate_on_submit():
         plane_image = form.data["plane_image"]
         url = None
 
