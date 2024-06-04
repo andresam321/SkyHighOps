@@ -14,6 +14,7 @@ function Navigation() {
         <ProfileButton />
         <button><Link to="/parking_spots/new">Create a New Parking Spot</Link></button>
         <button><Link to="/aircraft/new">Create a Aircraft</Link></button>
+        <button><Link to="/aircraft/list">Look at aircraft list</Link></button>
       </li>
     </ul>
   );

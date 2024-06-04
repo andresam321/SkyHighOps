@@ -39,12 +39,13 @@ useEffect(() => {
 // console.log("Occupied spots:", loadSpotWithPlanes);
 console.log("Empty spots:", loadEmptySpots);
 
+
 return (
-<>
-  <h2 className='h21-spot'>Occupied Spots</h2>
-  <div className="flex-container occupied-spots">
+  <>
+  <h2 className='h2-spot'>Parking Spots</h2>
+  <div className="parking-spot-container">
     {loadSpotWithPlanes?.map((eachVal, index) => (
-      <div key={index} className="flex-item">
+      <div key={index} className="flex-item occupied">
         <div className='plane-image-div'>
           <img src={eachVal.aircraft.plane_image} alt="Plane" />
         </div>
@@ -60,35 +61,27 @@ return (
         </div>
         <div className='info-div'>
           <h3>Parking Spot Info</h3>
-          {/* <NavLink to={`/parking_spot/${eachVal.parking_spot.id}`} className="parking-spot-link"> */}
-            <p>Spot Number: {eachVal.parking_spot.spot_number}</p>
-            <p>Is Reserved: {eachVal.parking_spot.is_reserved}</p>
-            <p>Spot Size: {eachVal.parking_spot.spot_size}</p>
-            {/* <button onClick={() => handleRemovePlane(eachVal.parking_spot.id, eachVal.aircraft.id)}>Remove Plane</button> */}
-          {/* </NavLink> */}
+          <p>Spot Number: {eachVal.parking_spot.spot_number}</p>
+          <p>Is Reserved: {eachVal.parking_spot.is_reserved}</p>
+          <p>Spot Size: {eachVal.parking_spot.spot_size}</p>
         </div>
       </div>
     ))}
-  </div>
-  <h2 className='h2-spot'>Empty Spots</h2>
-  <div className="flex-container empty-spots">
-  {loadEmptySpots?.map((spot, index) => (
-    <div key={index}>
-      {/* <OpenModalButton className="flex-item" buttonText={"Add"} modalComponent={<AircraftAssignment spotId={spot.id} />} /> */}
-      <NavLink to={`/parking_spot/${spot.id}`} className=""  onClick={(e) => e.stopPropagation()}>
+    {loadEmptySpots?.map((spot, index) => (
+      <div key={index} className="flex-item empty">
         <div className='info-div'>
           <h3>Parking Spot Info</h3>
           <p>Spot Number: {spot.spot_number}</p>
           <p>Spot Size: {spot.spot_size}</p>
           <p>Is Reserved: {spot.is_reserved}</p>
         </div>
-      </NavLink>
-    </div>
-  ))}
-</div>
+      </div>
+    ))}
+  </div>
 </>
-)
-}
+);
+};
+
 
 
 export default HomePage

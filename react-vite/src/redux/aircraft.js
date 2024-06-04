@@ -4,6 +4,8 @@ const LOAD_SINGLE_AIRCRAFT_BY_ID = "loadSingleAircraftById/LOAD_SINGLE_AIRCRAFT_
 const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
 const ADD_AIRCRAFT = "addAllAirCraft/ADD_ALL_AIRCRAFT"
 const EDIT_AIRCRAFT = "editAircraft/EDIT_AIRCRAFT"
+const DELETE_AIRCRAFT = "deleteAircraft/DELETE_AIRCRAFT"
+
 
 // const ADD_SINGLE_AIRCRAFT = "loadSingleAircraft/LOAD_SINGLE_AIRCRAFT";
 // const ASSIGN_AIRCRAFT = "assignAircraft/ASSIGN_AIRCRAFT"
@@ -25,7 +27,13 @@ const addAircraft = (aircraft) => ({
 })
 
 const updateAircraft = (aircraft) => ({
-    type: EDIT_AIRCRAFT
+    type: EDIT_AIRCRAFT,
+    payload: aircraft
+})
+
+const deleteAircraft = (aircraft) => ({
+    type:DELETE_AIRCRAFT,
+    payload:aircraft
 })
 
 // const addSingleAircraft = (addAircraft) => ({
@@ -80,6 +88,19 @@ export const thunkAddAircraft = (aircraft) => async (dispatch) => {
     
     }
 }
+
+export const thunkDeleteAircraft = (aircraftId) => async (dispatch) => {
+    const res = await fetch(`/api/aircrafts/${aircraftId}`, {
+        method: "DELETE"
+    });
+    const data = await res.json();
+    if (res.ok) {
+        await dispatch(deleteAircraft(aircraftId));
+        return parking_spotId;
+    } else {
+        return { "errors": data };
+    }
+}
 // export const thunkAddSingleAircraft = () => async (dispatch) => {
 //     const res = await fetch(`/api/aircrafts/available`, {
 //         method: POST
@@ -115,7 +136,7 @@ export const thunkGetAllAircrafts = () => async (dispatch) => {
         if (data.errors) {
             return;
         }
-        await dispatch(getAllAircraft(data))
+        await dispatch(getAllAircraft(data.aircrafts))
     }
 }
 
@@ -145,6 +166,11 @@ function aircraftReducer(state = {}, action) {
             const newState = { ...state };
             newState[action.payload.id] = action.payload;
             return newState
+        }
+        case DELETE_AIRCRAFT: {
+            const newState = { ...state };
+            delete newState[action.payload];
+            return newState;
         }
         // case ADD_SINGLE_AIRCRAFT: {
         //     const newState = {...state,[action.payload.id]: action.payload}

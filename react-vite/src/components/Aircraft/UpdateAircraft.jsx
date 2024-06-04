@@ -44,7 +44,11 @@ const UpdateAircraft = () => {
             setFuel_type(aircraftById.fuel_type || "")
             setActive_owners(aircraftById.active_owners || "")
             setNotes(aircraftById.notes || "")
-            setLast_time_fueled(aircraftById.last_time_fueled || "")
+            const lastFueledDate = new Date(aircraftById.last_time_fueled);
+
+            const formattedDate = lastFueledDate.toISOString().split('T')[0];
+        
+            setLast_time_fueled(formattedDate);
             
         }
     }, [aircraftById])
@@ -77,10 +81,8 @@ const UpdateAircraft = () => {
         formData.append('active_owners', active_owners);
         formData.append('notes', notes);
 
-        const formattedLastTimeFueled = new Date(last_time_fueled).toISOString().split('T')[0]; // Ensures date is in YYYY-MM-DD format
-        console.log("Formatted last_time_fueled:", formattedLastTimeFueled);
-
-        formData.append('last_time_fueled', formattedLastTimeFueled);
+        const formattedDate = new Date(last_time_fueled).toISOString();
+        formData.append('last_time_fueled', formattedDate);
 
         try {
             const newAircraft = await dispatch(thunkAddAircraft(formData, aircraftId));
@@ -119,38 +121,38 @@ return (
     <div>
     <h2>Create Aircraft</h2>
     <form onSubmit={handleSubmit}>
-        <div>
+        <div className=''>
             <label>Plane Image</label>
             <input type="file" id="plane_image" onChange={handleFileChange} />
             {showImage && <img src={showImage} alt="Preview" width="100" />}
             {/* {errors.plane_image && <p>{errors.plane_image}</p>} */}
         </div>
-        <div>
+        <div className=''>
             <label>Tail Number</label>
             <input type="text" id="tail_number" value={tail_number} onChange={(e) => setTail_number(e.target.value)} />
             {errors.tail_number && <p>{errors.tail_number}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Manufacturer</label>
             <input type="text" id="manufacturer" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
             {errors.manufacturer && <p>{errors.manufacturer}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Model</label>
             <input type="text" id="model" value={model} onChange={(e) => setModel(e.target.value)} />
             {errors.model && <p>{errors.model}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Max Takeoff Weight</label>
             <input type="number" id="max_takeoff_weight" value={max_takeoff_weight} onChange={(e) => setMax_takeoff_weight(e.target.value)} />
             {errors.max_takeoff_weight && <p>{errors.max_takeoff_weight}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Seating Capacity</label>
             <input type="number" id="seating_capacity" value={seating_capacity} onChange={(e) => setSeating_capacity(e.target.value)} />
             {errors.seating_capacity && <p>{errors.seating_capacity}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Operation Status</label>
             <select id="operation_status" value={operation_status} onChange={(e) => setOperation_status(e.target.value)}>
                 <option value="">Select an option</option>
@@ -160,7 +162,7 @@ return (
             </select>
             {errors.operation_status && <p>{errors.operation_status}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Fuel Type</label>
             <select id="fuel_type" value={fuel_type} onChange={(e) => setFuel_type(e.target.value)}>
                 <option value="">Select an option</option>
@@ -171,23 +173,23 @@ return (
             </select>
             {errors.fuel_type && <p>{errors.fuel_type}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Active Owners</label>
             <input type="number" id="active_owners" value={active_owners} onChange={(e) => setActive_owners(e.target.value)} />
             {errors.active_owners && <p>{errors.active_owners}</p>}
         </div>
-        <div>
+        <div className=''>
             <label>Notes</label>
             <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
         </div>
-        <div>
+        <div className=''>
             <label>Last Time Fueled</label>
             <input type="date" id="last_time_fueled" value={last_time_fueled} onChange={(e) => setLast_time_fueled(e.target.value)} />
             {errors.last_time_fueled && <p>{errors.last_time_fueled}</p>}
         </div>
-        <div className="delete-spot-buttons">
+        <div className="">
             <button type="submit" className="">Yes (Update Aircraft)</button>
-            <button onClick={() => closeModal()} className="">No (Aircraft)</button>
+            <button onClick={() => closeModal()} className="">No (Don't Update Aircraft)</button>
         </div>
     </form>
 </div>

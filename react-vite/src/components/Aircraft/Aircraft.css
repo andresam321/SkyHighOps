@@ -38,3 +38,38 @@
 .details-container span {
     font-weight: bold;
 }
+
+.aircraft-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .aircraft-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  .aircraft-summary {
+    margin-bottom: 10px;
+  }
+  
+  .aircraft-details {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .aircraft-details > div {
+    margin-bottom: 5px;
+  }
+  
+  button {
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .aircraft-image img {
+    max-width: 100%;
+  }

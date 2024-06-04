@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { thunkGetSingleAircraft } from '../../redux/aircraft'
 import OpenModalButton from "../OpenModalButton/OpenModalButton"
 import UpdateAircraft from './UpdateAircraft'
+import DeleteAircraft from './DeleteAircraft'
 import "./Aircraft.css"
 
 const AircraftDetails = () => {
@@ -71,6 +72,7 @@ return (
         </div>
         <div className="button-container">
             <OpenModalButton buttonText={"Update"} modalComponent={<UpdateAircraft aircraftId={aircraftId.id} />} />
+            <OpenModalButton buttonText={"Delete"} modalComponent={<DeleteAircraft aircraftId={aircraftId.id} />} />
         </div>
     </div>
 </div>
