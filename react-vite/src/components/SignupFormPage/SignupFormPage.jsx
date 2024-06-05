@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
@@ -10,8 +10,26 @@ function SignupFormPage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+
+
+  useEffect(() => {
+    const errorsObj = {}
+
+    if (!email.includes('@') || email.length < 10) errorsObj.email = 'Email must have an @ symbol and must be greater than 10 characters'
+    if (username.length < 5 || username.length > 40) errorsObj.username = 'Please create a username that is between 5 and 40 characters'
+    if (firstname.length < 3 || firstname.length > 25) errorsObj.firstname = 'Please input your firstname that is between 3 and 25 characters'
+    if (lastname.length < 3 || lastname.length > 25) errorsObj.lastname = 'Please input your lastname that is between 3 and 25 characters'
+    if (password.length < 8) errorsObj.password = 'Please provide a secure password that is greater than 8 characters'
+    if (confirmPassword != password) errorsObj.confirmPassword = "Confirm Password field must be the same as the Password field"
+
+      setErrors(errorsObj)
+  }, [username, firstname, lastname, password, confirmPassword, email])
+
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
 
@@ -29,6 +47,8 @@ function SignupFormPage() {
       thunkSignup({
         email,
         username,
+        firstname,
+        lastname,
         password,
       })
     );
@@ -54,7 +74,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className='form-errors-login'>{errors.email}</p>}
         <label>
           Username
           <input
@@ -64,7 +84,31 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className='form-errors-login'>{errors.username}</p>}
+        <div className='label-container-sign-up'>
+        <label>
+          First Name{" "}
+          <input
+            type="text"
+            value={firstname}
+            onChange={(e) => setFirstname(e.target.value)}
+            className='login-input'
+          />{" "}
+        </label>
+        {errors.firstname && <p className='form-errors-login'>{errors.firstname}</p>}
+      </div>
+      <div className='label-container-sign-up'>
+        <label>
+          Last Name
+          <input
+            type="text"
+            value={lastname}
+            onChange={(e) => setLastname(e.target.value)}
+            className='login-input'
+          />
+        </label>
+        {errors.lastname && <p className='form-errors-login'>{errors.lastname}</p>}
+      </div>
         <label>
           Password
           <input
@@ -74,7 +118,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className='form-errors-login'>{errors.password}</p>}
         <label>
           Confirm Password
           <input
@@ -84,7 +128,7 @@ function SignupFormPage() {
             required
           />
         </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <p className='form-errors-login'>{errors.confirmPassword}</p>}
         <button type="submit">Sign Up</button>
       </form>
     </>
