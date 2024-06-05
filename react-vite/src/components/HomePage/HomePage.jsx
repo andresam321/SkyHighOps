@@ -1,89 +1,57 @@
-import {useEffect} from 'react'
-import { useSelector,useDispatch } from 'react-redux'
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { thunkGetAllParkingSpotsWithPlanes } from '../../redux/parking_spot';
-import { thunkGetAllEmptyParkingSpots } from '../../redux/parking_spot';
-// import { thunkRemoveAircraftFromParkingSpot } from '../../redux/parking_spot';
-// import { thunkAssignAircraftToParkingSpot } from '../../redux/parking_spot';
 import { NavLink } from 'react-router-dom';
-import OpenModalButton from "../OpenModalButton/OpenModalButton"
-import ParkingSpotAssignment from '../ParkingSpot/ParkingSpotAssignment';
-import AircraftAssignment from '../Aircraft/AircraftAssignment'
-import "./HomePage.css"
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import AircraftAssignment from '../Aircraft/AircraftAssignment';
+import "./HomePage.css";
 
 const HomePage = () => {
-
-const dispatch = useDispatch();
-
-const loadSpotWithPlanes = useSelector((state) => state.parkingSpotReducer.planeWithSpots)
-
-const loadEmptySpots = useSelector((state) => state.parkingSpotReducer?.emptySpots)
-// console.log(loadSpotWithPlanes)
-console.log("Empty spots: line 14", loadEmptySpots);
-
-// loadSpotWithPlanes = Object.values(loadSpotWithPlanes)
-
-useEffect(() => {
-    dispatch(thunkGetAllParkingSpotsWithPlanes());
-    dispatch(thunkGetAllEmptyParkingSpots())
-}, [dispatch]);
+    const dispatch = useDispatch();
+    const loadSpotWithPlanes = useSelector((state) => state.parkingSpotReducer.planeWithSpots);
 
 
-// const handleRemovePlane = (spotId, planeId) => {
-//   dispatch(thunkRemoveAircraftFromParkingSpot(spotId, planeId));
-// };
+    useEffect(() => {
+        dispatch(thunkGetAllParkingSpotsWithPlanes());
+    }, [dispatch]);
 
-// const handleAssignPlane = (spotId, planeId) => {
-//   dispatch(thunkAssignAircraftToParkingSpot(spotId, planeId));
-// };
-
-// console.log("Occupied spots:", loadSpotWithPlanes);
-console.log("Empty spots:", loadEmptySpots);
-
-
-return (
-  <>
-  <h2 className='h2-spot'>Parking Spots</h2>
-  <div className="parking-spot-container">
-    {loadSpotWithPlanes?.map((eachVal, index) => (
-      <div key={index} className="flex-item occupied">
-        <div className='plane-image-div'>
-          <img src={eachVal.aircraft.plane_image} alt="Plane" />
+    return (
+      <>
+        <h2 className='h2-spot'>Parking Spots</h2>
+        <div className="parking-spot-container">
+          {loadSpotWithPlanes?.map((eachVal, index) => (
+            <div key={index} className="flex-item occupied">
+              <div className='plane-image-div'>
+                <img src={eachVal?.aircraft?.plane_image} alt="Plane" />
+              </div>
+              <div className='info-div'>
+                <h3>Aircraft Info</h3>
+                <div className="aircraft-link">
+                  <NavLink to={`/aircraft/${eachVal?.aircraft?.id}`}>
+                    <p>Model: {eachVal?.aircraft?.model}</p>
+                    <p>Tail Number: {eachVal?.aircraft?.tail_number}</p>
+                    <p>Fuel Type: {eachVal?.aircraft?.fuel_type}</p>
+                  </NavLink>
+                </div>
+              </div>
+              <div className='info-div'>
+                <h3>Parking Spot Info</h3>
+                <NavLink to={`/parking_spot/${eachVal.spot_id}`}> {/* NavLink for parking spot details */}
+                  <p>Spot Number: {eachVal.spot_number}</p>
+                  <p>Is Reserved: {eachVal.is_reserved}</p>
+                  <p>Spot Size: {eachVal.spot_size}</p>
+                </NavLink>
+              </div>
+              <OpenModalButton
+                buttonText="Assign Aircraft"
+                modalComponent={<AircraftAssignment spotId={eachVal.spot_id} />}
+              />
+            </div>
+          ))}
         </div>
-        <div className='info-div'>
-          <h3>Aircraft Info</h3>
-          <div className="aircraft-link">
-            <NavLink to={`/aircraft/${eachVal.aircraft.id}`}>
-              <p>Model: {eachVal.aircraft.model}</p>
-              <p>Tail Number: {eachVal.aircraft.tail_number}</p>
-              <p>Fuel Type: {eachVal.aircraft.fuel_type}</p>
-            </NavLink>
-          </div>
-        </div>
-        <div className='info-div'>
-          <h3>Parking Spot Info</h3>
-          <p>Spot Number: {eachVal.parking_spot.spot_number}</p>
-          <p>Is Reserved: {eachVal.parking_spot.is_reserved}</p>
-          <p>Spot Size: {eachVal.parking_spot.spot_size}</p>
-        </div>
-      </div>
-    ))}
-    {loadEmptySpots?.map((spot, index) => (
-      <div key={index} className="flex-item empty">
-      <NavLink to={`/parking_spot/${spot.id}`}>
-        <div className='info-div'>
-          <h3>Parking Spot Info</h3>
-          <p>Spot Number: {spot.spot_number}</p>
-          <p>Spot Size: {spot.spot_size}</p>
-          <p>Is Reserved: {spot.is_reserved}</p>
-        </div>
-        </NavLink>
-      </div>
-    ))}
-  </div>
-</>
+      </>
 );
 };
 
 
-
-export default HomePage
+export default HomePage;

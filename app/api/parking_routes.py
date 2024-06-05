@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, request
 from flask_login import login_required, current_user # type: ignore
-from app.models import db, ParkingSpot, Aircraft, AircraftWithParkingSpot
+from app.models import db, ParkingSpot, Aircraft
 from app.forms import ParkingSpotForm, AircraftForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename
 
@@ -95,26 +95,35 @@ def delete_parking_spot(id):
 
 
 #add an aircraft to a parking spot
-@parking_routes.route("/<int:parking_spot_id>/add_plane/<int:aircraft_id>", methods=['POST'])
-@login_required
-def add_aircraft_to_parking(aircraft_id,parking_spot_id):
-        aircraft_with_parking_spot_obj = AircraftWithParkingSpot(
-        aircraft_id=aircraft_id,
-        parking_spot_id=parking_spot_id
-        )
+# @parking_routes.route("/<int:parking_spot_id>/add_plane/<int:aircraft_id>", methods=['POST'])
+# @login_required
+# def add_aircraft_to_parking(aircraft_id,parking_spot_id):
+#         aircraft_with_parking_spot_obj = AircraftWithParkingSpot(
+#         aircraft_id=aircraft_id,
+#         parking_spot_id=parking_spot_id
+#         )
 
-        db.session.add(aircraft_with_parking_spot_obj)
-        db.session.commit()
+#         db.session.add(aircraft_with_parking_spot_obj)
+#         db.session.commit()
 
-        return {"message": "Plane added to parking spot successfully"}, 201
+#         return {"message": "Plane added to parking spot successfully"}, 201
     
 
 #render parking spots with airplanes
+# @parking_routes.route("/with_aircrafts")
+# def get_parking_spots_with_aircraft():
+#     parking_spots_with_planes = AircraftWithParkingSpot.query.all()
+#     return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
+
 @parking_routes.route("/with_aircrafts")
-# @login_required
 def get_parking_spots_with_aircraft():
-    parking_spots_with_planes = AircraftWithParkingSpot.query.all()
-    return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
+    parking_spots = ParkingSpot.query.outerjoin(Aircraft).all()
+    return {
+        "parkingSpots": [
+            {**parking_spot.to_dict(), "aircraft": parking_spot.aircraft.to_dict() if parking_spot.aircraft else None} 
+            for parking_spot in parking_spots
+        ]
+    }, 200
 
 
 
@@ -187,6 +196,7 @@ def assign_aircraft_to_parking_spot():
         return {"error": "Parking spot already occupied"}, 400
 
     parking_spot.aircraft_id = aircraft_id
+    db.session.add()
     db.session.commit()
 
     return {"message": "Aircraft assigned to parking spot successfully"}, 201

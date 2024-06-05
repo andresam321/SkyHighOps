@@ -9,6 +9,7 @@ class Aircraft(db.Model):
     
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
+    parking_spot_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('parking_spots.id')))
     plane_image = db.Column(db.String,nullable = False)
     tail_number = db.Column(db.String(10), nullable = False)
     manufacturer = db.Column(db.String(255))
@@ -28,14 +29,14 @@ class Aircraft(db.Model):
     employee = db.relationship('User', back_populates ='aircrafts')
 
     #one to one 
-    parking_spot_link = db.relationship("AircraftWithParkingSpot", back_populates="aircraft", cascade='all, delete-orphan', single_parent=True, uselist=False)
-
+    parking_spot = db.relationship("ParkingSpot",back_populates = "aircraft",cascade='all, delete-orphan',single_parent=True,uselist=False)
 
     def to_dict(self):
 
         return {
             "id":self.id,
             "user_id":self.user_id,
+            "parking_spot_id":self.parking_spot_id,
             "plane_image":self.plane_image,
             "tail_number":self.tail_number,
             "manufacturer":self.manufacturer,
@@ -49,3 +50,10 @@ class Aircraft(db.Model):
             "last_time_fueled":self.last_time_fueled
         }
     
+# def to_dict(self):
+#         return {
+#             'aircraft_id': self.aircraft_id,
+#             'parking_spot_id': self.parking_spot_id,
+#             'aircraft': self.aircraft.to_dict(),
+#             'parking_spot': self.parking_spot.to_dict()
+#         }

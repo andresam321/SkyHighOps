@@ -21,8 +21,7 @@ class ParkingSpot(db.Model):
     employee = db.relationship('User', back_populates ='parking_spots')
 
     #one to one 
-    aircraft_link = db.relationship('AircraftWithParkingSpot', back_populates='parking_spot', cascade='all, delete-orphan', uselist=False, single_parent=True)
-
+    aircraft = db.relationship('Aircraft', back_populates = 'parking_spot',cascade='all, delete-orphan', uselist=False,single_parent=True)
 
     def to_dict(self):
         return {

@@ -9,7 +9,6 @@ import { FaCamera } from "react-icons/fa";
 const CreateAircraft = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {aircraftId} = useParams()
 
     const [plane_image, setPlane_image] = useState();
     const [tail_number, setTail_number] = useState("");

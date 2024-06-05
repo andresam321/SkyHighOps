@@ -18,6 +18,7 @@ def seed_aircrafts():
     aircrafts = [
         {
             "user_id": 1,
+            "parking_spot_id":1,
             "plane_image": plane_urls[0],
             "tail_number": "A1-12345",
             "manufacturer": "Boeing",
@@ -32,6 +33,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
+            "parking_spot_id":2,
             "plane_image": plane_urls[1],
             "tail_number": "B2-67890",
             "manufacturer": "Airbus",
@@ -46,6 +48,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 3,
+            "parking_spot_id":3,
             "plane_image": plane_urls[2],
             "tail_number": "C3-54321",
             "manufacturer": "Cessna",
@@ -60,6 +63,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 4,
+            "parking_spot_id":4,
             "plane_image": plane_urls[3],
             "tail_number": "D4-98765",
             "manufacturer": "Gulfstream",
@@ -74,6 +78,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 1,
+            "parking_spot_id":5,
             "plane_image": plane_urls[4],
             "tail_number": "E5-11223",
             "manufacturer": "Bombardier",
@@ -88,6 +93,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
+            "parking_spot_id":6,
             "plane_image": plane_urls[5],
             "tail_number": "F6-33445",
             "manufacturer": "Embraer",
@@ -102,6 +108,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 3,
+            "parking_spot_id":7,
             "plane_image": plane_urls[0],
             "tail_number": "G7-55667",
             "manufacturer": "Dassault",
@@ -116,6 +123,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 4,
+            "parking_spot_id":8,
             "plane_image": plane_urls[1],
             "tail_number": "H8-77889",
             "manufacturer": "Piper",
@@ -130,6 +138,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 1,
+            "parking_spot_id":9,
             "plane_image": plane_urls[2],
             "tail_number": "I9-99001",
             "manufacturer": "Beechcraft",
@@ -144,6 +153,7 @@ def seed_aircrafts():
         },
         {
             "user_id": 2,
+            "parking_spot_id":10,
             "plane_image": plane_urls[3],
             "tail_number": "J0-12312",
             "manufacturer": "Mooney",

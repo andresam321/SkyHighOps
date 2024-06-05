@@ -12,6 +12,7 @@ const CreateParkingSpot = () => {
     const [spot_number, setSpotNumber] = useState('');
     const [spot_size, setSpotSize] = useState('Small');
     const [is_reserved, setIsReserved] = useState('No');
+    const [spotNumberExists, setSpotNumberExists] = useState(false);
     const [errors, setErrors] = useState({});
 
 
@@ -22,6 +23,8 @@ const CreateParkingSpot = () => {
         if(spot_number.length < 2 || spot_number > 5) errObj.spot_number = "Parking spot must be between two and five characters"
         if(!spot_size) errObj.spot_size = "Please provide a valid parking spot size "
         if(!is_reserved) errObj.is_reserved = "Defaults to no "
+        if(spotNumberExists) errObj.spot_number = "Spot number already exists";
+
 
         setErrors(errObj)
     },[spot_number,spot_size,is_reserved])
@@ -29,7 +32,11 @@ const CreateParkingSpot = () => {
     
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
+        const spotExists = await checkSpotNumberExists(spot_number);
+        if (spotExists) {
+            setErrors({ ...errors, spot_number: "Parking spot number already exists" });
+        }
         const formData = new FormData();
         formData.append('spot_number', spot_number);
         formData.append('spot_size', spot_size);

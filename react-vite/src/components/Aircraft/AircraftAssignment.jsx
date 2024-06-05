@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetAllAircrafts } from '../../redux/aircraft';
-import { thunkAssignAircraftToParkingSpot } from '../../redux/parking_spot';
+import { useState, useEffect } from 'react';
+import { thunkGetAllAircrafts, thunkAssignAircraftToParkingSpot } from '../../redux/aircraft';
 import { useModal } from "../../context/Modal";
+import "./Aircraft.css"
 
 const AircraftAssignment = ({ spotId }) => {
     const dispatch = useDispatch();
@@ -10,35 +10,42 @@ const AircraftAssignment = ({ spotId }) => {
     const [error, setError] = useState(null);
     const { closeModal } = useModal();
 
-    let allAircraft = useSelector(state => state.aircraftReducer.allAircraft);
-    const [selectedAircraft, setSelectedAircraft] = useState('');
+    const allAircraft = useSelector((state) => state.aircraftReducer?.allAircraft);
 
-    allAircraft = Object.values(allAircraft)
-    console.log('allaircraft', allAircraft)
+
+    console.log("allaircraft",allAircraft)
+    
+    const [selectedAircraft, setSelectedAircraft] = useState('');
 
     useEffect(() => {
         dispatch(thunkGetAllAircrafts());
     }, [dispatch]);
 
-    const handleAssign = async (event) => {
-        event.preventDefault();
-        setLoading(true);
-        setError(null);
-
-        try {
-            await dispatch(thunkAssignAircraftToParkingSpot(spotId, selectedAircraft));
-            setLoading(false);
-            closeModal();
-        } catch (err) {
-            setLoading(false);
-            setError('Failed to assign aircraft to parking spot.');
+    const handleAssignAircraft = async (e) => {
+        e.preventDefault();
+        if (selectedAircraft) {
+            try {
+                const payload = {
+                    aircraft_id: selectedAircraft,
+                    parking_spot_id: spotId
+                };
+                const res = await dispatch(thunkAssignAircraftToParkingSpot(payload));
+                if (!res) {
+                    closeModal(); 
+                } else {
+                    console.log(res) 
+                }
+            } catch (error) {
+                console.error(error); 
+            }
         }
     };
+    
 
     return (
         <div>
             <h3>Assign Aircraft to Parking Spot</h3>
-            <form onSubmit={handleAssign}>
+            <form onSubmit={handleAssignAircraft}>
                 <label htmlFor="aircraft">Aircraft:</label>
                 <select
                     id="aircraft"
@@ -48,15 +55,14 @@ const AircraftAssignment = ({ spotId }) => {
                     required
                 >
                     <option value="" disabled>Select an aircraft</option>
-                    {allAircraft.map(aircraft => (
+                    {allAircraft?.map(aircraft => (
                         <option key={aircraft.id} value={aircraft.id}>
                             {aircraft.model} - {aircraft.tail_number}
                         </option>
                     ))}
                 </select>
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Assigning...' : 'Assign'}
-                </button>
+                <button type="submit">Assign</button>
+                <button onClick={() => closeModal()}>Cancel</button>
             </form>
             {error && <p>{error}</p>}
         </div>

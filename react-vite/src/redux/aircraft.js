@@ -5,6 +5,7 @@ const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
 const ADD_AIRCRAFT = "addAllAirCraft/ADD_ALL_AIRCRAFT"
 const EDIT_AIRCRAFT = "editAircraft/EDIT_AIRCRAFT"
 const DELETE_AIRCRAFT = "deleteAircraft/DELETE_AIRCRAFT"
+const ASSIGN_AIRCRAFT_TO_PARKING_SPOT = "assignAircraftToParkingSpot/ASSIGN_AIRCRAFT_TO_PARKING_SPOT"
 
 
 // const ADD_SINGLE_AIRCRAFT = "loadSingleAircraft/LOAD_SINGLE_AIRCRAFT";
@@ -36,6 +37,11 @@ const deleteAircraft = (aircraft) => ({
     payload:aircraft
 })
 
+const assignAircraftToParking = (aircraft) => ({
+    type: ASSIGN_AIRCRAFT_TO_PARKING_SPOT,
+    payload: aircraft
+})
+
 // const addSingleAircraft = (addAircraft) => ({
 //     type: ADD_SINGLE_AIRCRAFT,
 //     payload: addAircraft
@@ -45,6 +51,24 @@ const deleteAircraft = (aircraft) => ({
 //     type: ASSIGN_AIRCRAFT,
 //     payload: assignAircraft
 // })
+export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) => {
+    const res = await fetch(`/api/aircrafts/assign_aircraft_to_parking_spot`, {
+        method: "POST", 
+        body: JSON.stringify(aircraft), // Make sure to stringify the body
+        headers: {
+            "Content-Type": "application/json" // Specify content type as JSON
+        }
+    });
+    const data = await res.json();
+    console.log("post aircraft to parking:", data);
+    if (res.ok) {
+        await dispatch(assignAircraftToParking(data)); // Corrected action name
+    } else {
+        return {
+            "errors": data
+        };
+    }
+};
 
 export const thunkUpdateAircraft = (aircraft, aircraftId) => async (dispatch) => {
     const res = await fetch(`/api/aircrafts/${aircraftId}`, {
@@ -52,7 +76,7 @@ export const thunkUpdateAircraft = (aircraft, aircraftId) => async (dispatch) =>
         body: aircraft
     })
     const data = await res.json();
-    console.log("UPDATE  aircrafts:", data);
+    // console.log("UPDATE  aircrafts:", data);
     if (res.ok) {
         await dispatch(updateAircraft(data));
     } else {
@@ -178,6 +202,12 @@ function aircraftReducer(state = {}, action) {
             delete newState[action.payload];
             return newState;
         }
+        case ASSIGN_AIRCRAFT_TO_PARKING_SPOT :{
+            const newState = { ...state };
+            newState[action.payload.id] = action.payload
+            return newState
+        }
+        
         // case ADD_SINGLE_AIRCRAFT: {
         //     const newState = {...state,[action.payload.id]: action.payload}
         //     return newState

@@ -154,3 +154,23 @@ def delete_parking_spot(id):
 #         return {"message": "No available aircraft found"}, 200
     
 #     return {"aircraft": [aircraft.to_dict() for aircraft in available_aircraft]}, 200
+
+
+#assigning aircraft to parking spot
+@aircraft_routes.route("/assign_aircraft_to_parking_spot", methods=["POST"])
+@login_required
+def assign_aircraft_to_parking():
+    aircraft_id = request.json.get('aircraft_id')
+    spot_id = request.json.get('parking_spot_id')
+
+    aircraft = Aircraft.query.get(aircraft_id)
+    parking_spot = ParkingSpot.query.get(spot_id)
+
+    if not aircraft or not parking_spot:
+        return {"errors": "Aircraft or Parking Spot not found"}, 404
+
+    aircraft.parking_spot_id = spot_id  # Set the parking_spot_id here
+    db.session.commit()
+
+    print(f"{aircraft.parking_spot_id}")
+    return {"message": "Aircraft assigned to parking spot successfully", "aircraft": aircraft.to_dict()}, 200
