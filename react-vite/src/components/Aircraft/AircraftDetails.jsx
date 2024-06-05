@@ -25,7 +25,7 @@ const AircraftDetails = () => {
     }, [dispatch,aircraftId]);
     
     if (!aircraftbyId) {
-        return <div>Loading...</div>;
+        return <div>Aircraft Has not been assign to parking spot yet</div>;
     }
 
     const getFuelTypeStyle = (fuelType) => {

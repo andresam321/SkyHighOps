@@ -1,4 +1,4 @@
-
+import { thunkGetAllParkingSpotsWithPlanes, } from "./parking_spot"
 
 const LOAD_SINGLE_AIRCRAFT_BY_ID = "loadSingleAircraftById/LOAD_SINGLE_AIRCRAFT_BY_ID"
 const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
@@ -6,6 +6,7 @@ const ADD_AIRCRAFT = "addAllAirCraft/ADD_ALL_AIRCRAFT"
 const EDIT_AIRCRAFT = "editAircraft/EDIT_AIRCRAFT"
 const DELETE_AIRCRAFT = "deleteAircraft/DELETE_AIRCRAFT"
 const ASSIGN_AIRCRAFT_TO_PARKING_SPOT = "assignAircraftToParkingSpot/ASSIGN_AIRCRAFT_TO_PARKING_SPOT"
+const UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT = "unassignAircraftFromParkingSpot/UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT"
 
 
 // const ADD_SINGLE_AIRCRAFT = "loadSingleAircraft/LOAD_SINGLE_AIRCRAFT";
@@ -42,6 +43,12 @@ const assignAircraftToParking = (aircraft) => ({
     payload: aircraft
 })
 
+const unAssignAircraftFrmParkingSpot = (aircraft) => ({
+    type: UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT,
+    payload: aircraft
+});
+
+
 // const addSingleAircraft = (addAircraft) => ({
 //     type: ADD_SINGLE_AIRCRAFT,
 //     payload: addAircraft
@@ -51,21 +58,48 @@ const assignAircraftToParking = (aircraft) => ({
 //     type: ASSIGN_AIRCRAFT,
 //     payload: assignAircraft
 // })
-export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) => {
-    const res = await fetch(`/api/aircrafts/assign_aircraft_to_parking_spot`, {
-        method: "POST", 
-        body: JSON.stringify(aircraft), // Make sure to stringify the body
-        headers: {
-            "Content-Type": "application/json" // Specify content type as JSON
+
+export const thunkUnAssignAircraftFromParkingSpot = (aircraftId) => async (dispatch) => {
+    try {
+        const res = await fetch(`/api/aircrafts/unassign_aircraft_from_parking_spot`, {
+            method: "POST", 
+            body: JSON.stringify({ aircraft_id: aircraftId }),
+            headers: {
+                "Content-Type": "application/json" 
+            }
+        });
+        if (!res.ok) {
+            throw new Error("Failed to unassign aircraft from parking spot");
         }
-    });
-    const data = await res.json();
-    console.log("post aircraft to parking:", data);
-    if (res.ok) {
-        await dispatch(assignAircraftToParking(data)); // Corrected action name
-    } else {
+        const data = await res.json();
+        await dispatch(unAssignAircraftFrmParkingSpot(data));
+        console.log("line75 data", data)
+        await dispatch(thunkGetAllParkingSpotsWithPlanes());
+    } catch (error) {
         return {
-            "errors": data
+            "errors": error.message
+        };
+    }
+};
+
+export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) => {
+    try {
+        const res = await fetch(`/api/aircrafts/assign_aircraft_to_parking_spot`, {
+            method: "POST", 
+            body: JSON.stringify(aircraft), 
+            headers: {
+                "Content-Type": "application/json" 
+            }
+        });
+        if (!res.ok) {
+            throw new Error("Failed to assign aircraft to parking spot");
+        }
+        const data = await res.json();
+        await dispatch(assignAircraftToParking(data));
+        await dispatch(thunkGetAllParkingSpotsWithPlanes());
+    } catch (error) {
+        return {
+            "errors": error.message
         };
     }
 };
@@ -207,17 +241,16 @@ function aircraftReducer(state = {}, action) {
             newState[action.payload.id] = action.payload
             return newState
         }
-        
-        // case ADD_SINGLE_AIRCRAFT: {
-        //     const newState = {...state,[action.payload.id]: action.payload}
-        //     return newState
-        // }
-        // case ASSIGN_AIRCRAFT: {
-        //     return {
-        //         ...state,
-        //         assignedAircraft: action.payload,
-        //     };
-        // }
+        case UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT: {
+            const { aircraft_id, parking_spot_id } = action.payload;
+            return {
+                ...state,
+                [aircraft_id]: {
+                    ...state[aircraft_id],
+                    parking_spot_id: parking_spot_id
+                }
+            }
+        }
         default:
             return state;
     }

@@ -13,7 +13,7 @@ const AircraftAssignment = ({ spotId }) => {
     const allAircraft = useSelector((state) => state.aircraftReducer?.allAircraft);
 
 
-    console.log("allaircraft",allAircraft)
+    // console.log("allaircraft",allAircraft)
     
     const [selectedAircraft, setSelectedAircraft] = useState('');
 
@@ -30,6 +30,7 @@ const AircraftAssignment = ({ spotId }) => {
                     parking_spot_id: spotId
                 };
                 const res = await dispatch(thunkAssignAircraftToParkingSpot(payload));
+                await dispatch(thunkGetAllAircrafts())
                 if (!res) {
                     closeModal(); 
                 } else {
@@ -64,7 +65,6 @@ const AircraftAssignment = ({ spotId }) => {
                 <button type="submit">Assign</button>
                 <button onClick={() => closeModal()}>Cancel</button>
             </form>
-            {error && <p>{error}</p>}
         </div>
     );
 };

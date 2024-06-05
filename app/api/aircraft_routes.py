@@ -163,14 +163,41 @@ def assign_aircraft_to_parking():
     aircraft_id = request.json.get('aircraft_id')
     spot_id = request.json.get('parking_spot_id')
 
+    print(f"Received aircraft_id: {aircraft_id}, spot_id: {spot_id}")
+
     aircraft = Aircraft.query.get(aircraft_id)
     parking_spot = ParkingSpot.query.get(spot_id)
+
+    if not aircraft:
+        print(f"Aircraft with id {aircraft_id} not found")
+    if not parking_spot:
+        print(f"Parking Spot with id {spot_id} not found")
 
     if not aircraft or not parking_spot:
         return {"errors": "Aircraft or Parking Spot not found"}, 404
 
+    # Check if the parking spot is already occupied
+    if parking_spot.aircraft is not None:
+        return {"errors": "Parking Spot already occupied"}, 400
+
     aircraft.parking_spot_id = spot_id  # Set the parking_spot_id here
     db.session.commit()
 
-    print(f"{aircraft.parking_spot_id}")
+    print(f"Aircraft {aircraft.id} assigned to Parking Spot {aircraft.parking_spot_id}")
     return {"message": "Aircraft assigned to parking spot successfully", "aircraft": aircraft.to_dict()}, 200
+
+
+#unassign aircraft from parking spots
+@aircraft_routes.route("/unassign_aircraft_from_parking_spot", methods=["POST"])
+@login_required
+def unassign_aircraft_from_parking():
+    aircraft_id = request.json.get('aircraft_id')
+
+    aircraft = Aircraft.query.get(aircraft_id)
+    if not aircraft:
+        return {"errors": "Aircraft not found"}, 404
+
+    aircraft.parking_spot_id = None  
+    db.session.commit()
+
+    return {"message": "Aircraft unassigned from parking spot successfully", "aircraft": aircraft.to_dict()}, 200
