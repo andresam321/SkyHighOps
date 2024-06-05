@@ -50,10 +50,3 @@ class Aircraft(db.Model):
             "last_time_fueled":self.last_time_fueled
         }
     
-# def to_dict(self):
-#         return {
-#             'aircraft_id': self.aircraft_id,
-#             'parking_spot_id': self.parking_spot_id,
-#             'aircraft': self.aircraft.to_dict(),
-#             'parking_spot': self.parking_spot.to_dict()
-#         }
