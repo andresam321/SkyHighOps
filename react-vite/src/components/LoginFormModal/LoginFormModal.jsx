@@ -66,7 +66,7 @@ function LoginFormModal() {
           type="submit"
           className="login-btn-demo"
           onClick={() => {
-            setEmail("demoo@aa.io"), setPassword("password");
+            setEmail("demo@aa.io"), setPassword("password");
           }}
         >
           Login as Demo User
