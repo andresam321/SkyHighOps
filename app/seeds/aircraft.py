@@ -18,7 +18,7 @@ def seed_aircrafts():
     aircrafts = [
         {
             "user_id": 1,
-            "parking_spot_id":1,
+            "parking_spot_id":11,
             "plane_image": plane_urls[0],
             "tail_number": "A1-12345",
             "manufacturer": "Boeing",

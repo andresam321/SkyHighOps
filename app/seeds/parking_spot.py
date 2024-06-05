@@ -65,6 +65,12 @@ def seed_parkingSpots():
             "spot_size": "Large",
             "is_reserved": "Yes"
         },
+        {
+            "user_id": 1,
+            "spot_number": "E4",
+            "spot_size": "Large",
+            "is_reserved": "Yes"
+        },
     ]
 
     [db.session.add(ParkingSpot(**spot)) for spot in spots]
