@@ -10,6 +10,7 @@ import CreateAircraft from '../components/Aircraft/CreateAircraft';
 import ManageAircrafts from '../components/Aircraft/AircraftList';
 import UpdateParkingSpot from '../components/ParkingSpot/UpdateParkingSpot';
 import AircraftList from '../components/Aircraft/AircraftList';
+import SplashPage from '../components/HomePage/SlashPage';
 
 export const router = createBrowserRouter([
   {
@@ -17,8 +18,13 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <SplashPage />,  
+      },
+      {
+        path: "/home",
         element: <HomePage />,
       },
+
       {
         path: "login",
         element: <LoginFormPage />,

@@ -56,7 +56,7 @@ const AircraftAssignment = ({ spotId }) => {
                     required
                 >
                     <option value="" disabled>Select an aircraft</option>
-                    {allAircraft?.map(aircraft => (
+                    1{allAircraft?.map(aircraft => (
                         <option key={aircraft.id} value={aircraft.id}>
                             {aircraft.model} - {aircraft.tail_number}
                         </option>

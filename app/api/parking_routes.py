@@ -12,12 +12,14 @@ parking_routes = Blueprint('parking_spots', __name__)
 
 # read all spots, list of all parking spots 
 @parking_routes.route("/")
+@login_required
 def all_spots():
     parkingSpots = ParkingSpot.query.all()
     return {"parkingSpots": [parkingSpot.to_dict() for parkingSpot in parkingSpots]}, 200
 
 
 @parking_routes.route("/empty")
+@login_required
 def all_spots_that_are_not_reserved():
     # Adjusting the filter condition to match the string representation of 'is_reserved'
     emptyParkingSpots = ParkingSpot.query.filter_by(is_reserved="No").all()
@@ -116,6 +118,7 @@ def delete_parking_spot(id):
 #     return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
 
 @parking_routes.route("/with_aircrafts")
+@login_required
 def get_parking_spots_with_aircraft():
     parking_spots = ParkingSpot.query.outerjoin(Aircraft).all()
     return {
