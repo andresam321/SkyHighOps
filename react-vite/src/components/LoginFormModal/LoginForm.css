@@ -25,7 +25,6 @@ body, html {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png'); /* Optional texture pattern */
     opacity: 0.2;
 }
 
@@ -34,7 +33,7 @@ body, html {
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 500px; 
     width: 100%;
     text-align: center;
     z-index: 1;
@@ -111,4 +110,20 @@ h1 {
 
 .credentials a:hover {
     color: #0056b3;
+}
+
+.login-forms {
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-form {
+    width: calc(50% - 10px); 
+}
+
+.signup-form {
+    width: calc(50% - 10px); 
+}
+.form-control input {
+    width: 100%; 
 }

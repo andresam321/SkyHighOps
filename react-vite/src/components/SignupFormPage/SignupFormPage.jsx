@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
+import "./SignUpForm.css"
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -56,83 +57,86 @@ function SignupFormPage() {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      navigate("/");
+      navigate("/hello");
     }
   };
 
   return (
-    <>
+    <div className="signup-form-container">
       <h1>Sign Up</h1>
       {errors.server && <p>{errors.server}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
+      <form onSubmit={handleSubmit} className="signup-form">
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
           <input
             type="text"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        {errors.email && <p className='form-errors-login'>{errors.email}</p>}
-        <label>
-          Username
+          {errors.email && <p className="form-error">{errors.email}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
           <input
             type="text"
+            id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
-        {errors.username && <p className='form-errors-login'>{errors.username}</p>}
-        <div className='label-container-sign-up'>
-        <label>
-          First Name{" "}
+          {errors.username && <p className="form-error">{errors.username}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="firstname">First Name</label>
           <input
             type="text"
+            id="firstname"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
-            className='login-input'
-          />{" "}
-        </label>
-        {errors.firstname && <p className='form-errors-login'>{errors.firstname}</p>}
-      </div>
-      <div className='label-container-sign-up'>
-        <label>
-          Last Name
+            required
+          />
+          {errors.firstname && <p className="form-error">{errors.firstname}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastname">Last Name</label>
           <input
             type="text"
+            id="lastname"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
-            className='login-input'
+            required
           />
-        </label>
-        {errors.lastname && <p className='form-errors-login'>{errors.lastname}</p>}
-      </div>
-        <label>
-          Password
+          {errors.lastname && <p className="form-error">{errors.lastname}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
           <input
             type="password"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.password && <p className='form-errors-login'>{errors.password}</p>}
-        <label>
-          Confirm Password
+          {errors.password && <p className="form-error">{errors.password}</p>}
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
+            id="confirmPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.confirmPassword && <p className='form-errors-login'>{errors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className="form-error">{errors.confirmPassword}</p>}
+        </div>
         <button type="submit">Sign Up</button>
       </form>
-    </>
+    </div>
   );
 }
+
 
 export default SignupFormPage;

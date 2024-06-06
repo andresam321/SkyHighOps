@@ -4,9 +4,9 @@
   justify-content: space-between;
   gap: 10px;
   padding: 20px;
-  border: 1px solid #ddd; /* Optional: for visual separation */
-  border-radius: 5px; /* Optional: for rounded corners */
-  background-color: #f9f9f9; /* Optional: for background color */
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+  background-color: #f9f9f9; 
 }
 
 .flex-item {
@@ -14,10 +14,10 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
-  width: calc(25% - 10px); /* Adjust width to fit four items side by side */
+  width: calc(25% - 10px); 
   text-align: center;
   transition: box-shadow 0.3s ease;
-  box-sizing: border-box; /* Ensure padding and border are included in the width */
+  box-sizing: border-box; 
 }
 
 .flex-item:hover {
