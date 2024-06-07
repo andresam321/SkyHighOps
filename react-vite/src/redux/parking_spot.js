@@ -95,8 +95,9 @@ export const thunkCreateParkingSpot = (parkingSpot) => async (dispatch) => {
     if (res.ok) {
         await dispatch(createParkingSpot(data));
         return data;
+    } else {
+        return { errors: data.errors };
     }
-    return data.errors;
 };
 
 export const thunkUpdateParkingSpot = (parkingSpot, parking_spotId) => async (dispatch) => {

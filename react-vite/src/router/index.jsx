@@ -10,7 +10,7 @@ import CreateAircraft from '../components/Aircraft/CreateAircraft';
 import ManageAircrafts from '../components/Aircraft/AircraftList';
 import UpdateParkingSpot from '../components/ParkingSpot/UpdateParkingSpot';
 import AircraftList from '../components/Aircraft/AircraftList';
-import SplashPage from '../components/HomePage/SlashPage';
+import SplashPage from '../components/HomePage/SplashPage';
 
 export const router = createBrowserRouter([
   {

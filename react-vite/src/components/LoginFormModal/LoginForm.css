@@ -16,8 +16,12 @@ body, html {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url("https://res.cloudinary.com/djuzk5um3/image/upload/v1717726009/SkyHighOps/motino01_plane_gif_ntnlqz.gif");
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    background-size: cover;
     position: relative;
+    background-position: center;
+    animation: backgroundMove 60s ease infinite;
 }
 
 .login-page::before {
@@ -33,10 +37,12 @@ body, html {
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px; 
+    max-width: 550px; 
     width: 100%;
     text-align: center;
     z-index: 1;
+    height: 550px; /* Set a fixed height */
+    overflow-y: auto; /* Allow vertical scrolling */
 }
 
 h1 {
@@ -101,13 +107,13 @@ h1 {
     margin-top: 20px;
 }
 
-.credentials a {
-    color: #007bff;
-    text-decoration: none;
-    margin: 0 10px;
-    transition: color 0.3s ease;
+.credentials {
+    margin-top: 20px;
+    position: relative; 
+    bottom: 0; 
+    width: 100%;
+    text-align:start; 
 }
-
 .credentials a:hover {
     color: #0056b3;
 }
@@ -118,12 +124,20 @@ h1 {
 }
 
 .login-form {
-    width: calc(50% - 10px); 
+    width: 50%; 
 }
 
 .signup-form {
-    width: calc(50% - 10px); 
+    width: 50%; 
 }
 .form-control input {
     width: 100%; 
+}
+@keyframes backgroundMove {
+    from {
+        background-position: 0 0; /* Initial position */
+    }
+    to {
+        background-position: 100% 0; /* End position */
+    }
 }

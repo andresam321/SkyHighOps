@@ -30,9 +30,9 @@ return (
             <p>Is Reserved: {parkingSpotById?.is_reserved}</p>
         </div>
         <div className="button-container">
-            <OpenModalButton buttonText={"Update"} modalComponent={<UpdateParkingSpot spotId={parking_spotId.id} />} />
+            <OpenModalButton buttonText={"Update"} className="update-color" modalComponent={<UpdateParkingSpot spotId={parking_spotId.id} />} />
         
-            <OpenModalButton buttonText={"Delete"} modalComponent={<DeleteParkingSpot spotId={parking_spotId.id} />} />
+            <OpenModalButton buttonText={"Delete"} className="delete-color" modalComponent={<DeleteParkingSpot spotId={parking_spotId.id} />} />
         </div>
     </div>
 </div>

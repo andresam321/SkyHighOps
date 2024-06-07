@@ -3,6 +3,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { thunkUpdateParkingSpot } from '../../redux/parking_spot';
 import { useModal } from '../../context/Modal';
+import './ParkingSpot.css'
 
 
 const UpdateParkingSpot = () => {

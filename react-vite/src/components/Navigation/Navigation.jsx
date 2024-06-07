@@ -12,7 +12,7 @@ const user = useSelector((state) => state.session.user);
       <ul className="nav-menu">
         <li className="nav-item">
           <div className="nav-text-container">
-            <NavLink to="/" className="nav-link">Home</NavLink>
+            <NavLink to="/home" className="nav-link">Home</NavLink>
           </div>
         </li>
 

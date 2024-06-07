@@ -39,3 +39,16 @@ h2 {
     color: #555;
     font-size: 16px;
 }
+
+
+.update-button {
+    background-color: green;
+    color: white;
+    /* Add any additional styles as needed */
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+    /* Add any additional styles as needed */
+}

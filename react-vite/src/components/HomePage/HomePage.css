@@ -1,12 +1,11 @@
 .parking-spot-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 10px;
   padding: 20px;
   border: 1px solid #ddd; 
   border-radius: 5px; 
-  background-color: #f9f9f9; 
+  background-color: #f9f9f9;
 }
 
 .flex-item {
@@ -14,14 +13,17 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
-  width: calc(25% - 10px); 
+  width: 250px; 
+  min-width: 150px; /* Set a minimum width */
+  height: 420px; /* Adjust the height as needed */
   text-align: center;
   transition: box-shadow 0.3s ease;
-  box-sizing: border-box; 
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Add margin between containers */
 }
 
 .flex-item:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box-shadow effect on hover */
 }
 
 .plane-image-div img {

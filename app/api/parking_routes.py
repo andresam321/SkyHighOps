@@ -41,6 +41,7 @@ def parking_spot_by_id(id):
 @login_required
 def create_parking_spot():
     print("In create form =>")
+    
 
     form = ParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]

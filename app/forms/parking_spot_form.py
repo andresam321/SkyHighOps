@@ -4,9 +4,12 @@ from wtforms.validators import DataRequired, ValidationError
 from ..models import ParkingSpot
 
 
+
 def check_spot(form, field):
-    if len(field.data) < 2:
-        raise ValidationError("Name must be at least 2 characters")
+    spot_number = field.data
+    parkingSpot = ParkingSpot.query.filter(ParkingSpot.spot_number == spot_number).first()
+    if parkingSpot:
+        raise ValidationError("Spot number already in use")
     
 
 class ParkingSpotForm(FlaskForm):
