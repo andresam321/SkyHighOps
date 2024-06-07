@@ -1,8 +1,8 @@
 import {useEffect,useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { thunkGetAllAircrafts  } from '../../redux/aircraft'
-import { Link, NavLink } from 'react-router-dom'
-import "./Aircraft.css"
+import { NavLink } from 'react-router-dom'
+import "./AircraftList.css"
 
 const AircraftList = () => {
 
@@ -26,46 +26,40 @@ useEffect(() => {
 
   return (
     <div className="aircraft-list">
-      <h1>Aircraft List</h1>
+    <h1>Aircraft List</h1>
     {allAircraft?.allAircraft?.map((aircraft) => (
       <div className="aircraft-item" key={aircraft.id}>
         <div className="aircraft-summary">
-          <div className=''>
-            <p>Tail Number: {aircraft.tail_number}</p>
-          </div>
-          <div className=''>
-            <p>Fuel Type: {aircraft.fuel_type}</p>
-          </div>
-          <div className=''>
-            <p>Last Time Fueled By Technician: {aircraft.last_time_fueled}</p>
+          <div>
+            <p><span className="label">Tail Number:</span> {aircraft.tail_number}</p>
+            <p><span className="label">Fuel Type:</span> {aircraft.fuel_type}</p>
+            <p><span className="label">Last Fueled:</span> {aircraft.last_time_fueled}</p>
           </div>
           <div className="aircraft-image">
-              <img src={aircraft.plane_image} alt="Aircraft" />
+            <img src={aircraft.plane_image} alt="Aircraft" />
           </div>
         </div>
-        <button>
+        <button className="view-details-button">
           <NavLink to={`/aircraft/${aircraft.id}`} activeClassName="active">
             View Aircraft Details
           </NavLink>
         </button>
+        <button onClick={() => toggleAircraft(aircraft.id)} className="toggle-info-button">
+          {expandedAircraft === aircraft.id ? 'Hide Details' : 'Show Aircraft Info'}
+        </button>
         {expandedAircraft === aircraft.id && (
           <div className="aircraft-details">
-            <div className=''>
-              <p>Manufacturer: {aircraft.manufacturer}</p>
-              <p>Model: {aircraft.model}</p>
-              <p>Operation Status: {aircraft.operation_status}</p>
-            </div>
-            <div className=''>
-              <p>Seating Capacity: {aircraft.seating_capacity}</p>
-              <p>Max Takeoff Weight: {aircraft.max_takeoff_weight}</p>
-              <p>Active Owners: {aircraft.active_owners}</p>
-              <p>Notes: {aircraft.notes}</p>
+            <div>
+              <p><span className="label">Manufacturer:</span> {aircraft.manufacturer}</p>
+              <p><span className="label">Model:</span> {aircraft.model}</p>
+              <p><span className="label">Operation Status:</span> {aircraft.operation_status}</p>
+              <p><span className="label">Seating Capacity:</span> {aircraft.seating_capacity}</p>
+              <p><span className="label">Max Takeoff Weight:</span> {aircraft.max_takeoff_weight}</p>
+              <p><span className="label">Active Owners:</span> {aircraft.active_owners}</p>
+              <p><span className="label">Notes:</span> {aircraft.notes}</p>
             </div>
           </div>
         )}
-        <button onClick={() => toggleAircraft(aircraft.id)}>
-          {expandedAircraft === aircraft.id ? 'Hide Details' : 'Show Aircraft Info'}
-        </button>
       </div>
     ))}
   </div>
