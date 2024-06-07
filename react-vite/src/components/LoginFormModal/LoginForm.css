@@ -124,20 +124,12 @@ h1 {
 }
 
 .login-form {
-    width: 50%; 
+    width: 50%;
 }
 
 .signup-form {
-    width: 50%; 
+    width: 50%;
 }
 .form-control input {
     width: 100%; 
-}
-@keyframes backgroundMove {
-    from {
-        background-position: 0 0; /* Initial position */
-    }
-    to {
-        background-position: 100% 0; /* End position */
-    }
 }

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { thunkDeleteAircraft } from "../../redux/aircraft";
 import { useNavigate } from "react-router-dom";
+import "../ParkingSpot/Delete.css"
 
 
 const DeleteAircraft = () => {
@@ -21,20 +22,21 @@ const DeleteAircraft = () => {
 
 
 return (
-<div>
-    <form onSubmit={handleDelete} className="">
-        <div>
+<div className="delete-container">
+    <form onSubmit={handleDelete} className="delete-form">
+        <div className="delete-header">
             <h2>Confirm Delete</h2>
         </div>
-        <div className="">
-                <p>Are you sure you want to remove Aircraft?</p>
+        <div className="delete-message">
+            <p>Are you sure you want to delete this aircraft?</p>
         </div>
-        <div className="">
-            <button type="submit" className="">Yes (Delete Aircraft)</button>
-            <button onClick={() => closeModal()} className="">No (Keep Aircraft)</button>
+        <div className="delete-buttons">
+            <button type="submit" className="delete-button">Delete</button>
+            <button onClick={() => closeModal()} className="cancel-button">Cancel</button>
         </div>
-        </form>
-    </div>
+    </form>
+</div>
+
     )
 }
 

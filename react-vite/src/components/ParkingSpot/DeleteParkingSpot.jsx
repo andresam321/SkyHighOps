@@ -1,42 +1,57 @@
 import { useModal } from "../../context/Modal";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { thunkDeleteParkingSpot } from "../../redux/parking_spot";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import "./DeleteParking.css"
 
 const DeleteParkingSpot = () => {
-    const {parking_spotId} = useParams()
+    const { parking_spotId } = useParams();
     const dispatch = useDispatch();
-    const {closeModal} = useModal()
-    const navigate = useNavigate()
+    const { closeModal } = useModal();
+    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
+    // const allParkingSpots = useSelector((state) => state.parkingSpotReducer);
 
 
     const handleDelete = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        setIsLoading(true);
 
-        await dispatch(thunkDeleteParkingSpot(parking_spotId))
-        closeModal()
-        navigate("/")
-    }
+        try {
+            const res = await dispatch(thunkDeleteParkingSpot(parking_spotId));
+            setIsLoading(false);
 
+            if (res?.status === 400) {
+                alert("Parking spot is assigned to an aircraft and cannot be deleted");
+            } else {
+                closeModal();
+                navigate("/");
+            }
+        } catch (error) {
+            setIsLoading(false);
+            alert("An error occurred. Please try again.");
+        }
+    };
 
-return (
-<div>
-    <form onSubmit={handleDelete} className="">
-        <div>
-                    <h2>Confirm Delete</h2>
+    return (
+
+<div className="delete-container">
+    <form onSubmit={handleDelete} className="delete-form">
+        <div className="delete-header">
+            <h2>Confirm Delete</h2>
         </div>
-        <div className="">
-                <p>Are you sure you want to remove this parking spot?</p>
+        <div className="delete-message">
+            <p>Are you sure you want to delete this aircraft?</p>
         </div>
-        <div className="">
-            <button type="submit" className="">Yes (Delete Parking Spot)</button>
-            <button onClick={() => closeModal()} className="keep-spot-button">No (Keep Parking Spot)</button>
+        <div className="delete-buttons">
+            <button type="submit" className="delete-button">Delete</button>
+            <button onClick={() => closeModal()} className="cancel-button">Cancel</button>
         </div>
-        </form>
-    </div>
-    )
-}
+    </form>
+</div>
+    );
+};
 
-export default DeleteParkingSpot
+export default DeleteParkingSpot;

@@ -120,13 +120,18 @@ def update_parking_spot(id):
 @login_required
 def delete_parking_spot(id):
     aircraft = Aircraft.query.get(id)
+
     if not aircraft:
         return {"message": "aircraft couldn't be found"}, 404
-    else:
-        db.session.delete(aircraft)
-        db.session.commit()
+    
+    if aircraft.parking_spot:
+        return {"message": "Aircraft is parked at a parking spot and cannot be deleted"}, 400
 
-        return {"message": "Successfully deleted aircraft"}, 200
+
+    db.session.delete(aircraft)
+    db.session.commit()
+
+    return {"message": "Successfully deleted aircraft"}, 200
 
 
 #creating an airplane if not assigned
@@ -176,11 +181,10 @@ def assign_aircraft_to_parking():
     if not aircraft or not parking_spot:
         return {"errors": "Aircraft or Parking Spot not found"}, 404
 
-    # Check if the parking spot is already occupied
     if parking_spot.aircraft is not None:
         return {"errors": "Parking Spot already occupied"}, 400
 
-    aircraft.parking_spot_id = spot_id  # Set the parking_spot_id here
+    aircraft.parking_spot_id = spot_id  
     db.session.commit()
 
     print(f"Aircraft {aircraft.id} assigned to Parking Spot {aircraft.parking_spot_id}")

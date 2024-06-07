@@ -9,19 +9,20 @@ import "./HomePage.css";
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const loadSpotWithPlanes = useSelector((state) => state.parkingSpotReducer.planeWithSpots);
+    const loadSpotWithPlanesAndWithout = useSelector((state) => state.parkingSpotReducer.planeWithSpots);
 
 
     useEffect(() => {
         dispatch(thunkGetAllParkingSpotsWithPlanes());
     }, [dispatch]);
 
-  //   const handleRemoveAircraft =  (spotId) => {
-  //     dispatch(thunkUnAssignAircraftFromParkingSpot(spotId));
-  // };
-const handleRemoveAircraft =  () => {
-    alert("Feature in progress, working on debuggin!")
-};
+    const handleRemoveAircraft =  (spotId) => {
+      dispatch(thunkUnAssignAircraftFromParkingSpot(spotId));
+  };
+
+// const handleRemoveAircraft =  () => {
+//     alert("Feature in progress, working on debuggin!")
+// };
 
   // console.log(handleRemoveAircraft())
 
@@ -29,7 +30,7 @@ return (
 <>
   <h2 className='h2-spot'>Parking Spots</h2>
   <div className="parking-spot-container">
-    {loadSpotWithPlanes?.map((eachVal, index) => (
+    {loadSpotWithPlanesAndWithout?.map((eachVal, index) => (
       <div key={index} className={`flex-item ${eachVal.aircraft ? 'occupied' : 'empty'}`}>
         {eachVal.aircraft && (
           <>
@@ -46,7 +47,7 @@ return (
                 </NavLink>
               </div>
             </div>
-            <button onClick={() => handleRemoveAircraft(eachVal.id)}>Remove from Parking</button>
+            <button onClick={() => handleRemoveAircraft(eachVal.aircraft.id)}>Remove from Parking</button>
           </>
         )}
         <div className='info-div'>

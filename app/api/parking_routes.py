@@ -11,7 +11,7 @@ parking_routes = Blueprint('parking_spots', __name__)
 
 
 # read all spots, list of all parking spots 
-@parking_routes.route("/")
+@parking_routes.route("/all_spots")
 @login_required
 def all_spots():
     parkingSpots = ParkingSpot.query.all()
@@ -88,8 +88,13 @@ def update_parking_spot(id):
 @login_required
 def delete_parking_spot(id):
     parkingSpot = ParkingSpot.query.get(id)
+    aircraft = Aircraft.query.filter_by(parking_spot_id=id).first()
+
     if not parkingSpot:
-        return {"message": "parkingSpot couldn't be found"}, 404
+        return {"message": "Parking spot couldn't be found"}, 404
+
+    if aircraft:
+        return {"message": "Parking spot is assigned to an aircraft and cannot be deleted"}, 400
     else:
         db.session.delete(parkingSpot)
         db.session.commit()

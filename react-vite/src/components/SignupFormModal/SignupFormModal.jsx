@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { thunkSignup } from "../../redux/session";
 import "../SignupFormPage/SignUpFormPage.css"
 
 function SignupFormModal() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -54,10 +53,6 @@ function SignupFormModal() {
           "Confirm Password field must be the same as the Password field",
       });
     }
-    const handleBlur = (field) => {
-      setTouchedFields((prev) => ({ ...prev, [field]: true }));
-    };
-  
 
     const serverResponse = await dispatch(
       thunkSignup({
@@ -87,7 +82,7 @@ function SignupFormModal() {
 
   return (
     <div className="signup-form-container">
-    <h1>Sign Up</h1>
+    <h1 className="headerSign">Sign Up</h1>
     <form onSubmit={handleSubmit} className="signup-form">
       <div className="form-group">
         <label htmlFor="email">Email</label>

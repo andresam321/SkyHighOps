@@ -1,61 +1,35 @@
-.profile-dropdown {
-  position: absolute;
-}
-ul{
-  display: flex;
-  justify-content: space-between;
-  background-color: gray;
-  height: 50px;
-}
-.profile-dropdown{
-  background-color: lightblue;
-  color: black;
-}
-
 .navbar {
   background-color: #333;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .nav-menu {
-  list-style-type: none;
+  list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
+  align-items: center;
 }
 
 .nav-item {
   margin-right: 20px;
 }
 
+.nav-item-right {
+  margin-left: auto;
+}
+
 .nav-link {
-  color: white;
+  color: #fff;
   text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 5px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .nav-link:hover {
   background-color: #555;
 }
 
-.active {
-  background-color: #555;
-}
-
-.nav-text-container {
-  padding: 5px;
-  border-radius: 5px;
-  background-color: #555;
-}
-
-.nav-text {
-  color: white;
-}
-
-.nav-item-right {
-  margin-left: auto;
-}
 .profile-button {
-  
+  background-color: blue;
 }

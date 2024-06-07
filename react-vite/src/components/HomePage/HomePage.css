@@ -14,16 +14,16 @@
   border-radius: 5px;
   padding: 10px;
   width: 250px; 
-  min-width: 150px; /* Set a minimum width */
-  height: 420px; /* Adjust the height as needed */
+  min-width: 150px; 
+  height: 420px; 
   text-align: center;
   transition: box-shadow 0.3s ease;
   box-sizing: border-box;
-  margin-bottom: 20px; /* Add margin between containers */
+  margin-bottom: 20px;
 }
 
 .flex-item:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add box-shadow effect on hover */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .plane-image-div img {

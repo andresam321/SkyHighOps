@@ -4,6 +4,7 @@
     margin-left: 20px; /* Add margin to create space between login and signup */
     padding-right: 40px;
     text-align: left; /* Align text to the left */
+    
   }
   
   .signup-form {
@@ -41,4 +42,7 @@
   
   .button-signup:hover {
     background-color: #0056b3;
+  }
+  .headerSign{
+    text-align: start;
   }

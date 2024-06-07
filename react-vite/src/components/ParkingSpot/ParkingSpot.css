@@ -52,3 +52,7 @@ h2 {
     color: white;
     /* Add any additional styles as needed */
 }
+textarea {
+    resize: none;
+    height: 100px;
+}

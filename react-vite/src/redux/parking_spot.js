@@ -7,6 +7,7 @@ const DELETE_PARKING_SPOT = "deleteParkingSpot/DELETE_PARKING_SPOT"
 const REMOVE_AIRCRAFT_FROM_PARKING_SPOT = "removeAircraftFromParkingSpot/REMOVE_AIRCRAFT_FROM_PARKING_SPOT"
 const ASSIGN_AIRCRAFT_TO_PARKING_SPOT = "assignAircraftToParkingSpot/ASSIGN_AIRCRAFT_TO_PARKING_SPOT"
 const UPDATE_PARKING_SPOT_STATUS = "updateParkingSpotStatus/UPDATE_PARKING_SPOT_STATUS";
+const LOAD_ALL_PARKING_SPOTS = "loadAllParkingSpots/LOAD_ALL_PARKING_SPOTS"
 
 
 const getAllParkingSpotsWithPlanes = (planesWithParkingSpots) => ({
@@ -39,6 +40,11 @@ const deleteParkingSpot = (parkingSpotDeleted) => ({
     payload: parkingSpotDeleted
 });
 
+const loadParkingSpots = (parkingSpots) => ({
+    type: LOAD_ALL_PARKING_SPOTS,
+    payload: parkingSpots
+})
+
 // const removeAircraftFromParkingSpot = (parking_spotId, aircraftId) => ({
 //     type: REMOVE_AIRCRAFT_FROM_PARKING_SPOT,
 //     payload: { parking_spotId, aircraftId }
@@ -56,6 +62,19 @@ const updateParkingSpotStatus = (parkingSpot) => ({
 });
 
 // Thunks
+export const thunkGetAllParkingSpots = () => async (dispatch) => {
+    const res = await fetch("/api/parking_spots/all_spots");
+    if (res.ok) {
+        const data = await res.json();
+        if (!data.errors) {
+            await dispatch(loadParkingSpots(data));
+        }
+    }
+};
+
+
+
+
 export const thunkGetAllParkingSpotsWithPlanes = () => async (dispatch) => {
     const res = await fetch("/api/parking_spots/with_aircrafts");
     if (res.ok) {
@@ -210,6 +229,10 @@ function parkingSpotReducer(state = {}, action) {
             };
             return newState;
         }
+        case LOAD_ALL_PARKING_SPOTS: {
+            return { ...state, planeWithSpots: action.payload };
+        }
+        
         default:
             return state;
     }
