@@ -31,7 +31,7 @@ return (
             <p>Are you sure you want to delete this aircraft?</p>
         </div>
         <div className="disclaimer">
-            <p>Disclaimer: If an aircraft is assigned, it won't be deleted but will still navigate to the home page. The airplane must be unassigned from parking before being completely deleted.</p>
+            <p>Disclaimer: If an aircraft is assigned, it won&apos;t be deleted but will still navigate to the home page. Aircraft must be unassigned from parking before being completely deleted.</p>
         </div>
         <div className="delete-buttons">
             <button type="submit" className="delete-button">Delete</button>

@@ -5,7 +5,7 @@
   padding: 30px;
   background-color: #f0f0f0;
   border-radius: 5px;
-  justify-content: center; /* Center the items in the container */
+  justify-content: center; 
   align-items: flex-start;
 }
 
@@ -15,7 +15,7 @@
   border-radius: 5px;
   padding: 10px;
   width: 250px;
-  min-width: 250px; /* Ensure a consistent minimum width */
+  min-width: 250px; 
   height: 480px;
   text-align: center;
   transition: box-shadow 0.3s ease;
@@ -42,6 +42,7 @@
 .info-div p {
   margin: 3px 0;
   color: #333;
+  padding: 3px;
 }
 
 .occupied {
@@ -49,7 +50,7 @@
 }
 
 .empty {
-  border-left: 5px solid #28a745; /* Green border for empty spots */
+  border-left: 5px solid #28a745; 
 }
 
 .h2-spot {
@@ -58,7 +59,7 @@
 }
 
 button.remove-button {
-  background-color: #dc3545; /* Red background for remove button */
+  background-color: #dc3545; 
   color: white;
   margin-top: 10px;
   padding: 10px 20px;
@@ -97,5 +98,5 @@ a.nav-link:hover {
 a.nav-link, .spot-info, .aircraft-info {
   text-decoration: none;
   color: #007bff;
-  cursor: pointer; /* Change cursor to pointer for links */
+  cursor: pointer; 
 }

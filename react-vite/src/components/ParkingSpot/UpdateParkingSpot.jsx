@@ -33,14 +33,17 @@ const UpdateParkingSpot = () => {
 
 
     useEffect(() => {
-        const errObj = {}
-        
-        if(spot_number.length < 2 || spot_number > 5) errObj.spot_number = "Parking spot must be between two and five characters"
-        if(!spot_size) errObj.spot_size = "Please provide a valid parking spot size "
-        if(!is_reserved) errObj.is_reserved = "Defaults to no"
+        const errObj = {};
+        if (!/^[a-zA-Z]\d*$/.test(spot_number)) {
+            errObj.spot_number = "Parking spot must start with a letter followed by digits (parking spot number unique, no duplicates)";
+        } else if (spot_number.length < 2 || spot_number > 5) {
+            errObj.spot_number = "Parking spot must be between two and five characters";
+        }
+        if (!spot_size) errObj.spot_size = "Please provide a valid parking spot size";
+        if (!is_reserved) errObj.is_reserved = "Defaults to no";
 
-        setErrors(errObj)
-    },[spot_number,spot_size,is_reserved])
+        setErrors(errObj);
+    }, [spot_number, spot_size, is_reserved]);
 
     
     const handleSubmit = async (e) => {
@@ -76,7 +79,7 @@ const UpdateParkingSpot = () => {
                         type="text"
                         id="spot_number"
                         value={spot_number}
-                        onChange={(e) => setSpotNumber(e.target.value)}
+                        onChange={(e) => setSpotNumber(e.target.value.toUpperCase())}
                     />
                 {errors.spot_number && <p className=''>{errors.spot_number}</p>}
                 </div>
@@ -106,7 +109,7 @@ const UpdateParkingSpot = () => {
                 {errors.is_reserved && <p className=''>{errors.is_reserved}</p>}
                 </div>
                 <div className="delete-spot-buttons">
-                    <button type="submit" className="update-button">Yes (Update Parking Spot)</button>
+                    <button disabled={Object.values(errors).length > 0} type="submit" className="update-button">Yes (Update Parking Spot)</button>
                     <button onClick={() => closeModal()} className="delete-button">No (Do not Update)</button>
                 </div>
 
