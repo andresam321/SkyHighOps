@@ -16,7 +16,7 @@ const toggleAircraft = (id) => {
   setExpandedAircraft((prev) => (prev === id ? null : id));
 };
 
-console.log("LINE10",allAircraft)
+// console.log("LINE10",allAircraft)
 
 useEffect(() => {
   dispatch(thunkGetAllAircrafts())
@@ -40,7 +40,7 @@ useEffect(() => {
           </div>
         </div>
         <button className="view-details-button">
-          <NavLink to={`/aircraft/${aircraft.id}`} activeClassName="active">
+          <NavLink to={`/aircraft/${aircraft.id}`} className="active">
             View Aircraft Details
           </NavLink>
         </button>

@@ -12,12 +12,12 @@ const AircraftDetails = () => {
     let dispatch = useDispatch()
     const {aircraftId} = useParams()
 
-    const currentUser = useSelector((state) => state.session.user);
+    // const currentUser = useSelector((state) => state.session.user);
 
     const aircraftbyId = useSelector((state)=> state.aircraftReducer[aircraftId])
     // const selectedAircraft = aircraftbyId[aircraftId]
 
-    console.log("line 15 in details",aircraftbyId)
+    // console.log("line 15 in details",aircraftbyId)
     // console.log("line 17 in details",selectedAircraft)
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const AircraftDetails = () => {
             case '100ll AvGas':
                 return { color: 'blue' };
             case '94 unleaded':
-                return { color: 'lightyellow' };
+                return { color: 'yellow' };
             case 'Jet A':
                 return { color: 'black', fontWeight: 'bold', backgroundColor: '#f0f0f0', padding: '2px 5px' };
             case '100 unleaded':
@@ -71,9 +71,18 @@ return (
             <p><span>Notes:</span> {aircraftbyId.notes}</p>
         </div>
         <div className="button-container">
-            <OpenModalButton buttonText={"Update"} modalComponent={<UpdateAircraft aircraftId={aircraftId.id} />} />
-            <OpenModalButton buttonText={"Delete"} modalComponent={<DeleteAircraft aircraftId={aircraftId.id} />} />
+            <OpenModalButton
+                buttonText={"Update"}
+                className="update-button"
+                modalComponent={<UpdateAircraft aircraftId={aircraftId.id} />}
+            />
+            <OpenModalButton
+                buttonText={"Delete"}
+                className="delete-button"
+                modalComponent={<DeleteAircraft aircraftId={aircraftId.id} />}
+            />
         </div>
+
     </div>
 </div>
 );

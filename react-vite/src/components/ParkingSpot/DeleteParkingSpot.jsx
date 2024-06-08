@@ -36,7 +36,6 @@ const DeleteParkingSpot = () => {
     };
 
     return (
-
 <div className="delete-container">
     <form onSubmit={handleDelete} className="delete-form">
         <div className="delete-header">
@@ -45,13 +44,17 @@ const DeleteParkingSpot = () => {
         <div className="delete-message">
             <p>Are you sure you want to delete this aircraft?</p>
         </div>
+        <div className="delete-disclaimer">
+            <h5>Disclaimer:</h5>
+            <p>If a parking spot is assigned to an aircraft, it wont be deleted but will still navigate to the home page. The parking spot must be completely empty before being deleted.</p>
+        </div>
         <div className="delete-buttons">
             <button type="submit" className="delete-button">Delete</button>
             <button onClick={() => closeModal()} className="cancel-button">Cancel</button>
         </div>
     </form>
 </div>
-    );
-};
+)
+}
 
 export default DeleteParkingSpot;

@@ -13,8 +13,16 @@
 }
 
 .delete-message {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     color: #333;
+}
+
+.delete-disclaimer {
+    margin-bottom: 25px;
+}
+
+.delete-disclaimer h5 {
+    margin-bottom: 10px;
 }
 
 .delete-buttons {

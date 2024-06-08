@@ -14,9 +14,9 @@ const UpdateAircraft = () => {
     const { closeModal } = useModal()
 
 
-    const currentUser = useSelector((state) => state.session.user);
+    // const currentUser = useSelector((state) => state.session.user);
     const aircraftById = useSelector((state) => state.aircraftReducer[aircraftId])
-    console.log(aircraftById)
+    // console.log(aircraftById)
     
     const [plane_image, setPlane_image] = useState(aircraftById.plane_image || "");
     const [tail_number, setTail_number] = useState(aircraftById.tail_number || "");
@@ -34,6 +34,9 @@ const UpdateAircraft = () => {
     const [showImage, setShowImage] = useState();
     
     const [imageLoading, setImageLoading] = useState(false);
+
+    const today = new Date();
+    today.setDate(today.getDate() - 1)
 
 
     useEffect(() => {
@@ -64,7 +67,7 @@ const UpdateAircraft = () => {
         if (!manufacturer || manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
         if (!model || model.length < 2 || model.length > 20) errorObj.model = "Please provide a model between 2 and 10 characters";
         if (!max_takeoff_weight || max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
-        if (!seating_capacity || seating_capacity.length < 1 || seating_capacity.length > 2) errorObj.seating_capacity = "Seating amount must be under 100";
+        if (!seating_capacity || seating_capacity.length < 1 || seating_capacity.length > 3) errorObj.seating_capacity = "Seating amount must be under 300";
         if (!operation_status) errorObj.operation_status = "Operation status required";
         if (!fuel_type) errorObj.fuel_type = "Fuel type required";
         if (!active_owners || active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required (under 20)";
@@ -105,7 +108,7 @@ const UpdateAircraft = () => {
         
         try {
         const newAircraft = await dispatch(thunkUpdateAircraft(formData, aircraftId));
-        console.log("newAircraft line 88", newAircraft)
+        // console.log("newAircraft line 88", newAircraft)
 
         console.log("line33",newAircraft)
         closeModal()
@@ -132,7 +135,7 @@ return (
         </div>
         <div className='form-group'>
             <label>Tail Number</label>
-            <input type="text" id="tail_number" value={tail_number} onChange={(e) => setTail_number(e.target.value)} />
+            <input type="text" id="tail_number" value={tail_number} onChange={(e) => setTail_number(e.target.value.toUpperCase())} />
             {errors.tail_number && <p>{errors.tail_number}</p>}
         </div>
         <div className='form-group'>
@@ -159,7 +162,7 @@ return (
             <input type="number" id="seating_capacity" value={seating_capacity} 
             onChange={(e) => setSeating_capacity(e.target.value)} 
             min="0"
-            max="100"
+            max="300"
             />
             {errors.seating_capacity && <p>{errors.seating_capacity}</p>}
         </div>
@@ -200,12 +203,15 @@ return (
         </div>
         <div className='form-group'>
             <label>Last Time Fueled</label>
-            <input type="date" id="last_time_fueled" value={last_time_fueled} onChange={(e) => setLast_time_fueled(e.target.value)} />
-                    {/* {errors.last_time_fueled && <p>{errors.last_time_fueled}</p>} */}
+            <input type="date" id="last_time_fueled" value={last_time_fueled} 
+            onChange={(e) => setLast_time_fueled(e.target.value)}
+            max={today.toISOString().split('T')[0]}
+            />
+            {errors.last_time_fueled && <p className="error-message">{errors.last_time_fueled}</p>}
         </div>
         <div className="button-container">
-            <button type="submit" className="submit-button">Yes (Update Aircraft)</button>
-            <button onClick={() => closeModal()} className="cancel-button">No (Don't Update Aircraft)</button>
+            <button disabled={Object.values(errors).length > 0} type="submit" className="submit-button">Yes (Update Aircraft)</button>
+            <button onClick={() => closeModal()} className="cancel-button">No (Dont Update Aircraft)</button>
         </div>
             </form>
         </div>

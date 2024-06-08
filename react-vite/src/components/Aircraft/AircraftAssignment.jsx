@@ -2,19 +2,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { thunkGetAllAircrafts, thunkAssignAircraftToParkingSpot } from '../../redux/aircraft';
 import { useModal } from "../../context/Modal";
-import "./Aircraft.css"
+import "./Assignment.css"
 
 const AircraftAssignment = ({ spotId }) => {
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const { closeModal } = useModal();
 
     const allAircraft = useSelector((state) => state.aircraftReducer?.allAircraft);
 
 
-    // console.log("allaircraft",allAircraft)
-    
+    const [searchTerm, setSearchTerm] = useState('');
+
     const [selectedAircraft, setSelectedAircraft] = useState('');
 
     useEffect(() => {
@@ -41,11 +39,24 @@ const AircraftAssignment = ({ spotId }) => {
             }
         }
     };
+
+    // const handleSearch = (e) => {
+    //     setSearchTerm(e.target.value);
+    // };
     
 
     return (
-        <div>
+        <div className="assignment-container">
             <h3>Assign Aircraft to Parking Spot</h3>
+            {/* <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Search Aircraft..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                />
+                <p>Feature Coming Soon</p>
+            </div> */}
             <form onSubmit={handleAssignAircraft}>
                 <label htmlFor="aircraft">Aircraft:</label>
                 <select
@@ -63,10 +74,9 @@ const AircraftAssignment = ({ spotId }) => {
                     ))}
                 </select>
                 <button type="submit">Assign</button>
-                <button onClick={() => closeModal()}>Cancel</button>
+                <button type="button" onClick={() => closeModal()}>Cancel</button>
             </form>
         </div>
     );
 };
-
 export default AircraftAssignment;

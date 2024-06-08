@@ -7,8 +7,6 @@ import AircraftDetails from '../components/Aircraft/AircraftDetails';
 import ParkingSpotDetails from '../components/ParkingSpot/ParkingSpotDetails';
 import CreateParkingSpot from '../components/ParkingSpot/CreateParkingSpot';
 import CreateAircraft from '../components/Aircraft/CreateAircraft';
-import ManageAircrafts from '../components/Aircraft/AircraftList';
-import UpdateParkingSpot from '../components/ParkingSpot/UpdateParkingSpot';
 import AircraftList from '../components/Aircraft/AircraftList';
 import SplashPage from '../components/HomePage/SplashPage';
 

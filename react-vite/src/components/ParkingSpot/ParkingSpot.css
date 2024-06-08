@@ -42,17 +42,28 @@ h2 {
 
 
 .update-button {
-    background-color: green;
+    background-color: green !important;
     color: white;
     /* Add any additional styles as needed */
 }
 
 .delete-button {
-    background-color: red;
+    background-color: red !important;
     color: white;
     /* Add any additional styles as needed */
 }
 textarea {
     resize: none;
     height: 100px;
+}
+.update-color {
+    background-color: green !important;
+    color: white;
+    /* Add any additional styles as needed */
+}
+
+.delete-color {
+    background-color: red !important;
+    color: white;
+    /* Add any additional styles as needed */
 }

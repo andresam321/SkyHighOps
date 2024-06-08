@@ -73,7 +73,7 @@ export const thunkUnAssignAircraftFromParkingSpot = (aircraftId) => async (dispa
         }
         const data = await res.json();
         await dispatch(unAssignAircraftFrmParkingSpot(data));
-        console.log("line75 data", data)
+        // console.log("line75 data", data)
         await dispatch(thunkGetAllParkingSpotsWithPlanes());
     } catch (error) {
         return {
@@ -138,7 +138,7 @@ export const thunkAddAircraft = (aircraft) => async (dispatch) => {
     })
     if (res.ok) {
         const data = await res.json();
-        console.log("Fetched  aircrafts:", data);
+        // console.log("Fetched  aircrafts:", data);
         if (data.errors) {
             return;
         }

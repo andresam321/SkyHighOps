@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { thunkAddAircraft } from '../../redux/aircraft';
 import "./AircraftForm.css"
-
 
 
 const CreateAircraft = () => {
@@ -25,7 +23,11 @@ const CreateAircraft = () => {
     const [errors, setErrors] = useState({});
     const [showImage, setShowImage] = useState();
 
-    const currentUser = useSelector((state) => state.session.user);
+    // const currentUser = useSelector((state) => state.session.user);
+
+
+    const today = new Date();
+    today.setDate(today.getDate() - 1)
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -79,7 +81,7 @@ const CreateAircraft = () => {
         if (!manufacturer || manufacturer.length < 2 || manufacturer.length > 12) errorObj.manufacturer = "Please provide a valid manufacturer";
         if (!model || model.length < 2 || model.length > 20) errorObj.model = "Please provide a model between 2 and 10 characters";
         if (!max_takeoff_weight || max_takeoff_weight.length < 3 || max_takeoff_weight.length > 10) errorObj.max_takeoff_weight = "Please provide a valid takeoff weight";
-        if (!seating_capacity || seating_capacity.length < 1 || seating_capacity.length > 3) errorObj.seating_capacity = "Seating amount must be under 100";
+        if (!seating_capacity || seating_capacity.length < 1 || seating_capacity.length > 3) errorObj.seating_capacity = "Seating amount must be under 300";
         if (!operation_status) errorObj.operation_status = "Operation status required";
         if (!fuel_type) errorObj.fuel_type = "Fuel type required";
         if (!active_owners || active_owners.length < 1 || active_owners.length > 2) errorObj.active_owners = "Active owners required Active owners required (under 20)";
@@ -129,7 +131,7 @@ const CreateAircraft = () => {
             value={seating_capacity} 
             onChange={(e) => setSeating_capacity(e.target.value)} 
             min="0"
-            max="100"
+            max="300"
             />
             {errors.seating_capacity && <p className="error-message">{errors.seating_capacity}</p>}
         </div>
@@ -170,7 +172,12 @@ const CreateAircraft = () => {
         </div>
         <div className='form-field'>
             <label>Last Time Fueled</label>
-            <input type="date" id="last_time_fueled" value={last_time_fueled} onChange={(e) => setLast_time_fueled(e.target.value)} />
+            <input type="date" id="last_time_fueled" 
+            value={last_time_fueled} 
+            onChange={(e) => setLast_time_fueled(e.target.value)} 
+            max={today.toISOString().split('T')[0]}
+
+            />
             {errors.last_time_fueled && <p className="error-message">{errors.last_time_fueled}</p>}
         </div>
         <button disabled={Object.values(errors).length > 0} className='submit-button' type="submit">Add Aircraft</button>

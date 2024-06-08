@@ -106,9 +106,10 @@ const UpdateParkingSpot = () => {
                 {errors.is_reserved && <p className=''>{errors.is_reserved}</p>}
                 </div>
                 <div className="delete-spot-buttons">
-                    <button type="submit" className="">Yes (Update Parking Spot)</button>
-                    <button onClick={() => closeModal()} className="">No (Do no Update)</button>
+                    <button type="submit" className="update-button">Yes (Update Parking Spot)</button>
+                    <button onClick={() => closeModal()} className="delete-button">No (Do not Update)</button>
                 </div>
+
             </form>
         </div>
     );

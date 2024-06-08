@@ -2,20 +2,21 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 20px;
-  border: 1px solid #ddd; 
+  padding: 30px;
+  background-color: #f0f0f0; 
   border-radius: 5px; 
-  background-color: #f9f9f9;
+  justify-content: center; 
+  align-items: flex-start; 
 }
 
 .flex-item {
-  background-color: #f4f4f4;
+  background-color: #fff; 
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
-  width: 250px; 
+  width: 250px;
   min-width: 150px; 
-  height: 420px; 
+  height: 480px; 
   text-align: center;
   transition: box-shadow 0.3s ease;
   box-sizing: border-box;
@@ -23,15 +24,17 @@
 }
 
 .flex-item:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important; 
 }
 
 .plane-image-div img {
   width: 100%;
-  height: auto;
+  height: 150px; 
+  object-fit: cover; 
   border-radius: 5px;
   margin-bottom: 10px;
 }
+
 
 .info-div {
   margin-top: 10px;
@@ -40,6 +43,7 @@
 .info-div p {
   margin: 3px 0;
   color: #333; 
+  margin-top: 10px;
 }
 
 .occupied {
@@ -47,10 +51,56 @@
 }
 
 .empty {
-  border-left: 5px solid #28a745; 
+  border-left: 5px solid #28a745; /* Green border for empty spots */
 }
 
 .h2-spot {
   text-align: center;
   margin: 20px 0;
+}
+
+button.remove-button {
+  background-color: #dc3545; /* Red background for remove button */
+  color: white;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button {
+  background-color: #28a745;
+  color: white;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.spot-info{
+  text-decoration: none;
+  color: #007bff; 
+}
+
+a.nav-link {
+  text-decoration: none;
+  color: #007bff; 
+}
+
+a.nav-link:hover {
+  text-decoration: none;
+}
+.spot-info {
+  text-decoration: none;
+  color: #007bff;
+}
+.aircraft-info{
+  text-decoration: none;
+  
 }

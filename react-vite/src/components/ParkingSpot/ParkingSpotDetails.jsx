@@ -11,10 +11,10 @@ const ParkingSpotDetails = () => {
 
     let dispatch = useDispatch()
     const {parking_spotId} = useParams()
-    const currentUser = useSelector((state) => state.session.user);
+    // const currentUser = useSelector((state) => state.session.user);
     const parkingSpotById = useSelector((state) => state.parkingSpotReducer[parking_spotId])
 
-    console.log("line13 in parking spot id",parkingSpotById)
+    // console.log("line13 in parking spot id",parkingSpotById)
 
     useEffect(() => {
         dispatch(thunkGetSingleParkingSpot(parking_spotId))

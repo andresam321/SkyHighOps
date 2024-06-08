@@ -73,3 +73,53 @@
   .aircraft-image img {
     max-width: 100%;
   }
+
+  .delete-on-details {
+    background-color: #28a745;
+    color: white;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.update-button {
+    background-color: #007bff !important;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button {
+    background-color: #dc3545 !important;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-button:hover,
+.delete-button:hover {
+    background-color: #0056b3 !important;
+}
+.update-button {
+  background-color: green !important;
+  color: white;
+}
+
+.delete-button {
+  background-color: red !important;
+  color: white;
+}
