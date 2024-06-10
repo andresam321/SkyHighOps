@@ -13,8 +13,13 @@ aircraft_routes = Blueprint('aircrafts', __name__)
 @aircraft_routes.route("/all")
 @login_required
 def all_aircrafts():
-    aircrafts = Aircraft.query.all()
-    return {"aircrafts": [aircraft.to_dict() for aircraft in aircrafts]}, 200
+    query = request.args.get('query')
+    if query:
+        results = Aircraft.query.filter(Aircraft.tail_number.like(f'%{query}%')).all()
+    else:
+        results = Aircraft.query.all()
+    return {"aircrafts": [aircraft.to_dict() for aircraft in results]}, 200
+
 
 #display one aircraft by ID
 @aircraft_routes.route("/<int:id>")

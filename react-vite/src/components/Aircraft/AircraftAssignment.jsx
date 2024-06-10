@@ -12,12 +12,19 @@ const AircraftAssignment = ({ spotId }) => {
 
 
     const [searchTerm, setSearchTerm] = useState('');
+    const [filteredAircraft, setFilteredAircraft] = useState([]);
 
     const [selectedAircraft, setSelectedAircraft] = useState('');
 
     useEffect(() => {
         dispatch(thunkGetAllAircrafts());
     }, [dispatch]);
+
+
+    useEffect(() => {
+        console.log('All Aircraft:', allAircraft);
+        setFilteredAircraft(allAircraft);  // Initialize with all aircraft when data is loaded
+    }, [allAircraft]);
 
     const handleAssignAircraft = async (e) => {
         e.preventDefault();
@@ -40,15 +47,28 @@ const AircraftAssignment = ({ spotId }) => {
         }
     };
 
-    // const handleSearch = (e) => {
-    //     setSearchTerm(e.target.value);
-    // };
-    
+    const handleSearch = (e) => {
+        const term = e.target.value;
+        setSearchTerm(term);
+        console.log('Search Term:', term);
+        
+        if (term === '') {
+            setFilteredAircraft(allAircraft);
+        } else {
+            const filtered = allAircraft.filter(aircraft =>
+                aircraft.model.toLowerCase().includes(term.toLowerCase()) ||
+                aircraft.tail_number.toLowerCase().includes(term.toLowerCase())
+            );
+            setFilteredAircraft(filtered);
+            console.log('Filtered Aircraft:', filtered);
+        }
+    };
+
 
     return (
         <div className="assignment-container">
             <h3>Assign Aircraft to Parking Spot</h3>
-            {/* <div className="search-container">
+            <div className="search-container">
                 <input
                     type="text"
                     placeholder="Search Aircraft..."
@@ -56,7 +76,7 @@ const AircraftAssignment = ({ spotId }) => {
                     onChange={handleSearch}
                 />
                 <p>Feature Coming Soon</p>
-            </div> */}
+            </div>
             <form onSubmit={handleAssignAircraft}>
                 <label htmlFor="aircraft">Aircraft:</label>
                 <select
