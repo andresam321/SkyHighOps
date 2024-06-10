@@ -76,9 +76,9 @@ const UpdateParkingSpot = () => {
                         type="text"
                         id="spot_number"
                         value={spot_number}
-                        onChange={(e) => setSpotNumber(e.target.value)}
+                        onChange={(e) => setSpotNumber(e.target.value.toUpperCase())}
                     />
-                {errors.spot_number && <p className=''>{errors.spot_number}</p>}
+                {errors.spot_number && <p className='error-message'>{errors.spot_number}</p>}
                 </div>
                 <div>
                     <label htmlFor="spot_size">Spot Size</label>
@@ -91,7 +91,7 @@ const UpdateParkingSpot = () => {
                         <option value="Medium">Medium</option>
                         <option value="Large">Large</option>
                     </select>
-                {errors.spot_size && <p className=''>{errors.spot_size}</p>}
+                {errors.spot_size && <p className='error-message'>{errors.spot_size}</p>}
                 </div>
                 <div>
                     <label htmlFor="is_reserved">Is Reserved</label>
@@ -103,10 +103,10 @@ const UpdateParkingSpot = () => {
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
                     </select>
-                {errors.is_reserved && <p className=''>{errors.is_reserved}</p>}
+                {errors.is_reserved && <p className='error-message'>{errors.is_reserved}</p>}
                 </div>
                 <div className="delete-spot-buttons">
-                    <button type="submit" className="update-button">Yes (Update Parking Spot)</button>
+                    <button disabled={Object.values(errors).length > 0} type="submit" className="update-button">Yes (Update Parking Spot)</button>
                     <button onClick={() => closeModal()} className="delete-button">No (Do not Update)</button>
                 </div>
 

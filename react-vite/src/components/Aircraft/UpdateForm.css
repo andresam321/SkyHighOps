@@ -20,6 +20,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    
 }
 
 .textarea-field {
@@ -36,6 +37,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     appearance: none;
+    
 }
 
 .error-message {
@@ -46,7 +48,7 @@
 .button-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .submit-button,
@@ -63,6 +65,8 @@
 }
 
 .cancel-button {
-    background-color: #dc3545;
+    background-color: #dc3545 !important;
     color: #fff;
+    margin-left: 10px;
+
 }
