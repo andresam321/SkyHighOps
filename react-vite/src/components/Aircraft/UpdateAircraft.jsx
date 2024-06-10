@@ -131,22 +131,22 @@ return (
             <label>Plane Image</label>
             <input type="file" id="plane_image" onChange={handleFileChange} />
             {showImage && <img src={showImage} alt="Preview" width="100" />}
-            {errors.plane_image && <p>{errors.plane_image}</p>}
+            {errors.plane_image && <p className='error-message'>{errors.plane_image}</p>}
         </div>
         <div className='form-group'>
             <label>Tail Number</label>
             <input type="text" id="tail_number" value={tail_number} onChange={(e) => setTail_number(e.target.value.toUpperCase())} />
-            {errors.tail_number && <p>{errors.tail_number}</p>}
+            {errors.tail_number && <p className='error-message'>{errors.tail_number}</p>}
         </div>
         <div className='form-group'>
             <label>Manufacturer</label>
             <input type="text" id="manufacturer" value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
-            {errors.manufacturer && <p>{errors.manufacturer}</p>}
+            {errors.manufacturer && <p className='error-message'>{errors.manufacturer}</p>}
         </div>
         <div className='form-group'>
             <label>Model</label>
             <input type="text" id="model" value={model} onChange={(e) => setModel(e.target.value)} />
-            {errors.model && <p>{errors.model}</p>}
+            {errors.model && <p className='error-message'>{errors.model}</p>}
         </div>
         <div className='form-group'>
             <label>Max Takeoff Weight</label>
@@ -155,7 +155,7 @@ return (
             min="0"
             max="100000"
             />
-            {errors.max_takeoff_weight && <p>{errors.max_takeoff_weight}</p>}
+            {errors.max_takeoff_weight && <p className='error-message'>{errors.max_takeoff_weight}</p>}
             </div>
         <div className='form-group'>
             <label>Seating Capacity</label>
@@ -164,7 +164,7 @@ return (
             min="0"
             max="300"
             />
-            {errors.seating_capacity && <p>{errors.seating_capacity}</p>}
+            {errors.seating_capacity && <p className='error-message'>{errors.seating_capacity}</p>}
         </div>
         <div className='form-group'>
         <label>Operation Status</label>
@@ -174,7 +174,7 @@ return (
                 <option value="Maintenance">Maintenance</option>
                 <option value="Decommissioned">Decommissioned</option>
                 </select>
-            {errors.operation_status && <p>{errors.operation_status}</p>}
+            {errors.operation_status && <p className='error-message'>{errors.operation_status}</p>}
         </div>
         <div className='form-group'>
         <label>Fuel Type</label>
@@ -185,7 +185,7 @@ return (
                     <option value="Jet A">Jet A</option>
                     <option value="100 unleaded">100 unleaded</option>
             </select>
-            {errors.fuel_type && <p>{errors.fuel_type}</p>}
+            {errors.fuel_type && <p className='error-message'>{errors.fuel_type}</p>}
         </div>
         <div className='form-group'>
             <label>Active Owners</label>
@@ -194,12 +194,12 @@ return (
             min="1"
             max="20"
             />
-            {errors.active_owners && <p>{errors.active_owners}</p>}
+            {errors.active_owners && <p className='error-message'>{errors.active_owners}</p>}
         </div>
         <div className='form-group'>
             <label>Notes</label>
             <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)}></textarea>
-            {errors.notes && <p>{errors.notes}</p>}
+            {errors.notes && <p className='error-message'>{errors.notes}</p>}
         </div>
         <div className='form-group'>
             <label>Last Time Fueled</label>
