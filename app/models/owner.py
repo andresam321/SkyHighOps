@@ -9,28 +9,30 @@ class Owner(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
+    created_by_user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
     aircraft_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('aircrafts.id')), unique=True)
     firstname = db.Column(db.String(25), nullable=False)
     lastname = db.Column(db.String(25), nullable=False)
     username = db.Column(db.String(25),unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     address = db.Column(db.String(40), nullable=False)
-    phone_number = db.Column(db.String(10), nullable=False)
-    payment_type = db.Column(db.String(40), nullable=False, unique=True)
+    phone_number = db.Column(db.String(15), nullable=False)
+    payment_type = db.Column(db.String(40), nullable=False)
     notes = db.Column(db.String(255), nullable=False, unique=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
-    # relationships need to be added still
 
+    aircraft = db.relationship("Aircraft", back_populates = "owner")
+
+    created_by = db.relationship("User", foreign_keys=[created_by_user_id], back_populates="created_owners")
 
     def to_dict(self):
 
         return {
             'id': self.id,
-            'user_id':self.user_id,
+            'created_by_user_id':self.created_by_user_id,
             'aircraft_id':self.aircraft_id,
             'firstname': self.firstname,
             'lastname': self.lastname,

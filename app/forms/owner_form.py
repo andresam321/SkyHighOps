@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField
+from wtforms import StringField, IntegerField,SelectField
 from wtforms.validators import DataRequired, Email, ValidationError
 from app.models import Owner
 
@@ -10,14 +10,30 @@ def check_firstName(form, field):
 def check_lastName(form, field):
     if len(field.data) < 2:
         raise ValidationError("Last Name must be at least 2 characters")
+    
+def user_exists(form, field):
+    # Checking if user exists
+    email = field.data
+    owner = Owner.query.filter(Owner.email == email).first()
+    if owner:
+        raise ValidationError('Email address is already in use.')
+
+
+def username_exists(form, field):
+    # Checking if username is already in use
+    username = field.data
+    owner = Owner.query.filter(Owner.username == username).first()
+    if owner:
+        raise ValidationError('Username is already in use.')
+
 
 class OwnerForm(FlaskForm):
     firstname = StringField("First Name", validators=[DataRequired(), check_firstName])
     lastname = StringField("Last Name", validators=[DataRequired(), check_lastName])
-    username = StringField("User Name")
-    email = StringField("Email", validators=[DataRequired()])
+    username = StringField("User Name", validators=[DataRequired(),username_exists])
+    email = StringField("Email", validators=[DataRequired(),user_exists])
     address = StringField("Email", validators=[DataRequired()])
     phone_number = StringField("Phone Number", validators=[DataRequired()])
-    payment_type = StringField("Payment Type", choices=[('Debit Card', 'Debit Card'), ('Credit Card', 'Credit Card'), ('Cash', 'Cash')])
+    payment_type = SelectField("Payment Type", choices=[('Debit Card', 'Debit Card'), ('Credit Card', 'Credit Card'), ('Cash', 'Cash')])
     notes = StringField("Notes")
     

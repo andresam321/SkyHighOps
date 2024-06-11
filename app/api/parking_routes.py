@@ -1,7 +1,7 @@
 from flask import Blueprint, redirect, request
 from flask_login import login_required, current_user # type: ignore
 from app.models import db, ParkingSpot, Aircraft
-from app.forms import ParkingSpotForm, AircraftForm
+from app.forms import ParkingSpotForm, AircraftForm,UpdateParkingSpotForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename
 
 
@@ -68,7 +68,7 @@ def update_parking_spot(id):
     if not parkingSpot:
         return {"message": "Parking Spot couldnt be found"}, 404
     
-    form = ParkingSpotForm()
+    form = UpdateParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():

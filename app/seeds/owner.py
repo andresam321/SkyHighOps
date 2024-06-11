@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 def seed_owners():
     owners = [
         {
-            "user_id": 1,
+            "created_by_user_id": 1,
             "aircraft_id": 1,
             "firstname": "John",
             "lastname": "Doe",
@@ -17,7 +17,7 @@ def seed_owners():
             "notes": "VIP customer",
         },
         {
-            "user_id": 2,
+            "created_by_user_id": 2,
             "aircraft_id": 2,
             "firstname": "Jane",
             "lastname": "Smith",
@@ -29,7 +29,7 @@ def seed_owners():
             "notes": "Frequent flyer",
         },
         {
-            "user_id": 3,
+            "created_by_user_id": 3,
             "aircraft_id": 3,
             "firstname": "Alice",
             "lastname": "Johnson",
@@ -41,7 +41,7 @@ def seed_owners():
             "notes": "Prefers window seat",
         },
         {
-            "user_id": 4,
+            "created_by_user_id": 4,
             "aircraft_id": 4,
             "firstname": "Bob",
             "lastname": "Brown",
@@ -53,7 +53,7 @@ def seed_owners():
             "notes": "Loyal customer",
         },
         {
-            "user_id": 1,
+            "created_by_user_id": 1,
             "aircraft_id": 5,
             "firstname": "Charlie",
             "lastname": "Davis",
@@ -65,7 +65,7 @@ def seed_owners():
             "notes": "Travel blogger",
         },
         {
-            "user_id": 2,
+            "created_by_user_id": 2,
             "aircraft_id": 6,
             "firstname": "Diana",
             "lastname": "Evans",
@@ -77,7 +77,7 @@ def seed_owners():
             "notes": "Business traveler",
         },
         {
-            "user_id": 3,
+            "created_by_user_id": 3,
             "aircraft_id": 7,
             "firstname": "Ethan",
             "lastname": "Garcia",
@@ -89,7 +89,7 @@ def seed_owners():
             "notes": "Prefers aisle seat",
         },
         {
-            "user_id": 4,
+            "created_by_user_id": 4,
             "aircraft_id": 8,
             "firstname": "Fiona",
             "lastname": "Harris",
@@ -101,7 +101,7 @@ def seed_owners():
             "notes": "First time flyer",
         },
         {
-            "user_id": 1,
+            "created_by_user_id": 1,
             "aircraft_id": 9,
             "firstname": "Jorge",
             "lastname": "Ivy",
@@ -113,7 +113,7 @@ def seed_owners():
             "notes": "Frequent upgrades",
         },
         {
-            "user_id": 2,
+            "created_by_user_id": 2,
             "aircraft_id": 10,
             "firstname": "Hannah",
             "lastname": "Jones",

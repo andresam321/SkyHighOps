@@ -23,6 +23,12 @@ class User(db.Model, UserMixin):
 
     aircrafts = db.relationship("Aircraft", back_populates = "employee",cascade='all, delete-orphan')
 
+    completed_fuel_orders = db.relationship("FuelOrder", foreign_keys='FuelOrder.completed_by_user_id', back_populates="completed_by", cascade="all, delete-orphan")
+
+    created_fuel_orders = db.relationship("FuelOrder", foreign_keys='FuelOrder.created_by_user_id', back_populates="created_by", cascade="all, delete-orphan")
+
+    created_owners = db.relationship("Owner", foreign_keys='Owner.created_by_user_id', back_populates="created_by", cascade="all, delete-orphan")
+
     
     def __init__(self,**kwargs):
         super().__init__(**kwargs)

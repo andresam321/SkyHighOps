@@ -20,6 +20,10 @@ class ParkingSpot(db.Model):
     #one to many 
     employee = db.relationship('User', back_populates ='parking_spots')
 
+
+    #one to one
+    fuel_orders = db.relationship("FuelOrder", back_populates="parking_spot", cascade='all, delete-orphan')
+
     #one to one 
     aircraft = db.relationship('Aircraft', back_populates = 'parking_spot',cascade='all, delete-orphan', uselist=False,single_parent=True)
 

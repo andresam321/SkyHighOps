@@ -20,16 +20,22 @@ class Aircraft(db.Model):
     fuel_type = db.Column(db.String(50), nullable = False)
     active_owners = db.Column(db.String(10),nullable = False)
     notes = db.Column(db.String(255))
-    last_time_fueled = db.Column(db.String,)
+    last_time_fueled = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 
 
-    #one to many 
+    #many to one 
     employee = db.relationship('User', back_populates ='aircrafts')
 
     #one to one 
     parking_spot = db.relationship("ParkingSpot",back_populates = "aircraft",cascade='all, delete-orphan',single_parent=True,uselist=False)
+
+    #one to many
+    owner = db.relationship("Owner", back_populates = "aircraft",cascade='all, delete-orphan')
+
+    #one to many
+    fuel_order = db.relationship("FuelOrder", back_populates = "aircraft",cascade='all, delete-orphan')
 
     def to_dict(self):
 

@@ -1,8 +1,8 @@
-"""create tables
+"""creating tables
 
-Revision ID: d8b3eb4346ed
+Revision ID: beb04ff61691
 Revises: 
-Create Date: 2024-06-05 12:12:59.542353
+Create Date: 2024-06-10 18:34:27.465932
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd8b3eb4346ed'
+revision = 'beb04ff61691'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -66,42 +66,45 @@ def upgrade():
     )
     op.create_table('fuel_orders',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('aircraft_id', sa.Integer(), nullable=True),
+    sa.Column('aircraft_id', sa.Integer(), nullable=False),
+    sa.Column('completed_by_user_id', sa.Integer(), nullable=True),
+    sa.Column('created_by_user_id', sa.Integer(), nullable=True),
+    sa.Column('parking_spot_id', sa.Integer(), nullable=False),
     sa.Column('fuel_type', sa.String(length=25), nullable=False),
     sa.Column('request_by', sa.String(length=25), nullable=False),
     sa.Column('positive_prist', sa.String(length=10), nullable=False),
     sa.Column('quantity', sa.String(length=255), nullable=False),
     sa.Column('paid', sa.String(length=55), nullable=False),
-    sa.Column('order_date', sa.DateTime(), nullable=True),
+    sa.Column('is_completed', sa.String(length=25), nullable=False),
+    sa.Column('order_date', sa.String(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['aircraft_id'], ['aircrafts.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('aircraft_id')
+    sa.ForeignKeyConstraint(['completed_by_user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['created_by_user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['parking_spot_id'], ['parking_spots.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('owners',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('created_by_user_id', sa.Integer(), nullable=False),
     sa.Column('aircraft_id', sa.Integer(), nullable=True),
     sa.Column('firstname', sa.String(length=25), nullable=False),
     sa.Column('lastname', sa.String(length=25), nullable=False),
     sa.Column('username', sa.String(length=25), nullable=True),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('address', sa.String(length=40), nullable=False),
-    sa.Column('phone_number', sa.String(length=10), nullable=False),
+    sa.Column('phone_number', sa.String(length=15), nullable=False),
     sa.Column('payment_type', sa.String(length=40), nullable=False),
     sa.Column('notes', sa.String(length=255), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['aircraft_id'], ['aircrafts.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['created_by_user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('aircraft_id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('notes'),
-    sa.UniqueConstraint('payment_type'),
     sa.UniqueConstraint('username')
     )
     # ### end Alembic commands ###

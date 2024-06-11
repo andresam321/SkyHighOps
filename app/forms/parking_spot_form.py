@@ -16,3 +16,9 @@ class ParkingSpotForm(FlaskForm):
     spot_number = StringField("Spot Number", validators=[DataRequired(), check_spot])
     spot_size = SelectField("Spot Number",choices=[('Small','Small'), ('Medium','Medium'), ('Large','Large')], validators=[DataRequired()])
     is_reserved = SelectField("Is Reserved", choices=[('Yes','Yes'), ('No','No')], validators=[DataRequired()])
+
+
+class UpdateParkingSpotForm(FlaskForm):
+    spot_number = StringField("Spot Number", validators=[DataRequired()])
+    spot_size = SelectField("Spot Number",choices=[('Small','Small'), ('Medium','Medium'), ('Large','Large')], validators=[DataRequired()])
+    is_reserved = SelectField("Is Reserved", choices=[('Yes','Yes'), ('No','No')], validators=[DataRequired()])
