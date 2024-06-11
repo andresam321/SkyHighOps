@@ -44,6 +44,11 @@ function ProfileButton() {
     closeMenu();
     navigate("/")
   };
+  
+  if (location.pathname === '/') {
+    return null;
+  }
+
 
   return (
   <div className="profile-button-container">

@@ -7,6 +7,10 @@ function Navigation() {
 
 const user = useSelector((state) => state.session.user); 
 
+if (location.pathname === '/') {
+  return null;
+}
+
   return (
     <nav className="navbar">
       <ul className="nav-menu">

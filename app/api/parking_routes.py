@@ -68,8 +68,13 @@ def update_parking_spot(id):
     if not parkingSpot:
         return {"message": "Parking Spot couldnt be found"}, 404
     
-    form = ParkingSpotForm()
+    form = UpdateParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+
+    if form.validate_on_submit():
+        # Check if the new spot number already exists
+        if ParkingSpot.query.filter_by(spot_number=form.data['spot_number']).first() is not None:
+            return {"message": "Parking Spot number already exists"}
 
     if form.validate_on_submit():
         parkingSpot.spot_number = form.data['spot_number']
