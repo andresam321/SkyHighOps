@@ -1,8 +1,8 @@
 """creating tables
 
-Revision ID: beb04ff61691
+Revision ID: 479b8f50055d
 Revises: 
-Create Date: 2024-06-10 18:34:27.465932
+Create Date: 2024-06-10 19:40:20.293727
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'beb04ff61691'
+revision = '479b8f50055d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -40,8 +40,7 @@ def upgrade():
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('spot_number')
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('aircrafts',
     sa.Column('id', sa.Integer(), nullable=False),

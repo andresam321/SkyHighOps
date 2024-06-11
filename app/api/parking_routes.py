@@ -68,7 +68,7 @@ def update_parking_spot(id):
     if not parkingSpot:
         return {"message": "Parking Spot couldnt be found"}, 404
     
-    form = UpdateParkingSpotForm()
+    form = ParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():

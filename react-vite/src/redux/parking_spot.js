@@ -67,7 +67,7 @@ export const thunkGetAllParkingSpots = () => async (dispatch) => {
     if (res.ok) {
         const data = await res.json();
         if (!data.errors) {
-            await dispatch(loadParkingSpots(data));
+            await dispatch(loadParkingSpots(data.parkingSpots));
         }
     }
 };

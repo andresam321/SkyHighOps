@@ -9,7 +9,7 @@ class ParkingSpot(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
-    spot_number = db.Column(db.String(50), nullable = False, unique = True)
+    spot_number = db.Column(db.String(50), nullable = False)
     spot_size = db.Column(db.String(50),nullable = False)
     is_reserved = db.Column(db.String(10), nullable = False)
     created_at = db.Column(db.DateTime, default=datetime.now)
