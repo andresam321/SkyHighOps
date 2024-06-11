@@ -44,3 +44,11 @@
 .logout-button:hover {
     background-color: #d32f2f;
 }
+.btn-log {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
