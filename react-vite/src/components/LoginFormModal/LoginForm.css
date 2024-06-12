@@ -17,7 +17,6 @@ body, html {
     align-items: center;
     height: 100vh;
     background-image: url("https://res.cloudinary.com/djuzk5um3/image/upload/v1717726009/SkyHighOps/motino01_plane_gif_ntnlqz.gif");
-    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
     background-size: cover;
     position: relative;
     background-position: center;
@@ -41,8 +40,8 @@ body, html {
     width: 100%;
     text-align: center;
     z-index: 1;
-    height: 550px; /* Set a fixed height */
-    overflow-y: auto; /* Allow vertical scrolling */
+    height: 550px; 
+    overflow-y: auto; 
 }
 
 h1 {

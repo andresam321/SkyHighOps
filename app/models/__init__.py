@@ -5,3 +5,4 @@ from .parking_spot import ParkingSpot
 from .aircraft import Aircraft
 from .owner import Owner
 from .fuel_order import FuelOrder
+from .airport_parking import AirportParking
