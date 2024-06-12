@@ -9,6 +9,7 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.parking_routes import parking_routes
 from .api.aircraft_routes import aircraft_routes
+from .api.airport_parking_routes import airport_routes
 
 from .seeds import seed_commands
 from .config import Config
@@ -34,6 +35,7 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(parking_routes, url_prefix='/api/parking_spots')
 app.register_blueprint(aircraft_routes, url_prefix='/api/aircrafts')
+app.register_blueprint(airport_routes, url_prefix='/api/airport_parkings')
 
 
 db.init_app(app)
