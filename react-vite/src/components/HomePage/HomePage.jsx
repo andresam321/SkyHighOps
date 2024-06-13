@@ -1,25 +1,32 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { thunkGetAllParkingSpotsWithPlanes, } from '../../redux/parking_spot';
+import { thunkGetParkingSpotsByArea, } from '../../redux/parking_spot';
 import { thunkUnAssignAircraftFromParkingSpot } from '../../redux/aircraft';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import AircraftAssignment from '../Aircraft/AircraftAssignment';
 import "./HomePage.css";
 
 const HomePage = () => {
-    const dispatch = useDispatch();
-    const loadSpotWithPlanesAndWithout = useSelector((state) => state.parkingSpotReducer.planeWithSpots);
+    const {id} = useParams()
 
+    console.log("line13:", id)
+
+    const dispatch = useDispatch();
+    const loadSpotWithPlanesAndWithout = useSelector((state) => state.parkingSpotReducer[+id]);
+
+
+    console.log("line14aaaaaaa",loadSpotWithPlanesAndWithout)
 
     useEffect(() => {
-        dispatch(thunkGetAllParkingSpotsWithPlanes());
-    }, [dispatch]);
+        dispatch(thunkGetParkingSpotsByArea(id));
+    }, [dispatch, id]);
 
-    const handleRemoveAircraft =  (spotId) => {
-      dispatch(thunkUnAssignAircraftFromParkingSpot(spotId));
+    const handleRemoveAircraft = async (aircraftId) => {
+      await dispatch(thunkUnAssignAircraftFromParkingSpot(aircraftId));
+
+      dispatch(thunkGetParkingSpotsByArea(id)); 
   };
-
 // const handleRemoveAircraft =  () => {
 //     alert("Feature in progress, working on debuggin!")
 // };

@@ -9,6 +9,7 @@ import CreateParkingSpot from '../components/ParkingSpot/CreateParkingSpot';
 import CreateAircraft from '../components/Aircraft/CreateAircraft';
 import AircraftList from '../components/Aircraft/AircraftList';
 import SplashPage from '../components/HomePage/SplashPage';
+import AirportAreas from '../components/AirportPage/AirportAreas';
 
 export const router = createBrowserRouter([
   {
@@ -19,7 +20,11 @@ export const router = createBrowserRouter([
         element: <SplashPage />,  
       },
       {
-        path: "/home",
+        path: "/areas",
+        element: <AirportAreas />,  
+      },
+      {
+        path: "/area/parking_spot/:id",
         element: <HomePage />,
       },
 

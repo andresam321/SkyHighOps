@@ -128,17 +128,18 @@ def delete_parking_spot(id):
 #     parking_spots_with_planes = AircraftWithParkingSpot.query.all()
 #     return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
 
-@parking_routes.route("/with_aircrafts")
+
+
+@parking_routes.route("/with_aircraft/<int:airport_parking_id>")
 @login_required
-def get_parking_spots_with_aircraft():
-    parking_spots = ParkingSpot.query.outerjoin(Aircraft).all()
+def get_parking_spots_with_aircraft(airport_parking_id):
+    parking_spots = ParkingSpot.query.outerjoin(Aircraft).filter(ParkingSpot.airport_parking_id == airport_parking_id).all()
     return {
         "parkingSpots": [
-            {**parking_spot.to_dict(), "aircraft": parking_spot.aircraft.to_dict() if parking_spot.aircraft else None} 
+            {**parking_spot.to_dict(), "aircraft": parking_spot.aircraft.to_dict() if parking_spot.aircraft else None}
             for parking_spot in parking_spots
         ]
     }, 200
-
 
 
 # Edit a parking spot to assign an aircraft

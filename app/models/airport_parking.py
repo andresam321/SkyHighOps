@@ -15,6 +15,7 @@ class AirportParking(db.Model):
         return {
             "id": self.id,
             "parking_name": self.parking_name,
-            #this will render all parking spots related 
+            #this will render all parking spots related
             "parking_spots": [spot.to_dict() for spot in self.parking_spots]
+            
         }

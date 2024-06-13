@@ -9,11 +9,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import parkingSpotReducer from "./parking_spot";
 import aircraftReducer from "./aircraft";
+import airportAreasReducer from "./airport_area";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   parkingSpotReducer: parkingSpotReducer,
   aircraftReducer: aircraftReducer,
+  airportAreasReducer:airportAreasReducer
 });
 
 let enhancer;

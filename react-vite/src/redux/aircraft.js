@@ -1,4 +1,4 @@
-import { thunkGetAllParkingSpotsWithPlanes, } from "./parking_spot"
+import { thunkGetParkingSpotsByArea, } from "./parking_spot"
 
 const LOAD_SINGLE_AIRCRAFT_BY_ID = "loadSingleAircraftById/LOAD_SINGLE_AIRCRAFT_BY_ID"
 const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
@@ -43,10 +43,11 @@ const assignAircraftToParking = (aircraft) => ({
     payload: aircraft
 })
 
-const unAssignAircraftFrmParkingSpot = (aircraft) => ({
+const unAssignAircraftFrmParkingSpot = (aircraftId, parkingSpotId) => ({
     type: UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT,
-    payload: aircraft
+    payload: { aircraftId, parkingSpotId }
 });
+
 
 
 // const addSingleAircraft = (addAircraft) => ({
@@ -74,7 +75,7 @@ export const thunkUnAssignAircraftFromParkingSpot = (aircraftId) => async (dispa
         const data = await res.json();
         await dispatch(unAssignAircraftFrmParkingSpot(data));
         // console.log("line75 data", data)
-        await dispatch(thunkGetAllParkingSpotsWithPlanes());
+        await dispatch(thunkGetParkingSpotsByArea());
     } catch (error) {
         return {
             "errors": error.message
@@ -96,7 +97,6 @@ export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) =
         }
         const data = await res.json();
         await dispatch(assignAircraftToParking(data));
-        await dispatch(thunkGetAllParkingSpotsWithPlanes());
     } catch (error) {
         return {
             "errors": error.message
@@ -242,12 +242,12 @@ function aircraftReducer(state = {}, action) {
             return newState
         }
         case UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT: {
-            const { aircraft_id, parking_spot_id } = action.payload;
+            const { aircraftId, parkingSpotId } = action.payload;
             return {
                 ...state,
-                [aircraft_id]: {
-                    ...state[aircraft_id],
-                    parking_spot_id: parking_spot_id
+                [aircraftId]: {
+                    ...state[aircraftId],
+                    parking_spot_id: parkingSpotId
                 }
             }
         }

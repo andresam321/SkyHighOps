@@ -1,4 +1,6 @@
-const LOAD_ALL_PARKING_SPOTS_WITH_PLANES = "planesWithParkingSpots/LOAD_ALL_PARKING_SPOTS_WITH_PLANES";
+
+
+const SET_PARKING_SPOTS = 'setParkingSpots/SET_PARKING_SPOTS';
 const LOAD_EMPTY_PARKING_SPOTS = "emptyParkingSpots/LOAD_EMPTY_PARKING_SPOTS";
 const LOAD_SINGLE_PARKING_SPOT = "loadSingleParkingSpot/LOAD_SINGLE_PARKING_SPOT";
 const ADD_PARKING_SPOT = "addParkingSpot/ADD_PARKING_SPOT"
@@ -10,9 +12,10 @@ const UPDATE_PARKING_SPOT_STATUS = "updateParkingSpotStatus/UPDATE_PARKING_SPOT_
 const LOAD_ALL_PARKING_SPOTS = "loadAllParkingSpots/LOAD_ALL_PARKING_SPOTS"
 
 
-const getAllParkingSpotsWithPlanes = (planesWithParkingSpots) => ({
-    type: LOAD_ALL_PARKING_SPOTS_WITH_PLANES,
-    payload: planesWithParkingSpots,
+const setParkingSpots = (areaId, parkingSpots) => ({
+    type: SET_PARKING_SPOTS,
+    areaId,
+    parkingSpots
 });
 
 const getAllEmptyParkingSpots = (emptyParkingSpots) => ({
@@ -75,12 +78,12 @@ export const thunkGetAllParkingSpots = () => async (dispatch) => {
 
 
 
-export const thunkGetAllParkingSpotsWithPlanes = () => async (dispatch) => {
-    const res = await fetch("/api/parking_spots/with_aircrafts");
+export const thunkGetParkingSpotsByArea = (areaId) => async (dispatch) => {
+    const res = await fetch(`/api/parking_spots/with_aircraft/${areaId}`);
     if (res.ok) {
         const data = await res.json();
         if (!data.errors) {
-            await dispatch(getAllParkingSpotsWithPlanes(data.parkingSpots));
+            await dispatch(setParkingSpots(areaId, data.parkingSpots));
         }
     }
 };
@@ -186,8 +189,8 @@ export const thunkAssignAircraftToParkingSpot = (parking_spotId, aircraftId) => 
 // Reducer
 function parkingSpotReducer(state = {}, action) {
     switch (action.type) {
-        case LOAD_ALL_PARKING_SPOTS_WITH_PLANES: {
-            return { ...state, planeWithSpots: action.payload };
+        case SET_PARKING_SPOTS:{
+            return { ...state, [action.areaId]: action.parkingSpots };
         }
         case LOAD_EMPTY_PARKING_SPOTS: {
             return { ...state, emptySpots: action.payload };
