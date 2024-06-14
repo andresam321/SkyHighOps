@@ -18,7 +18,7 @@ function LoginFormPage() {
 
 useEffect(() => {
     if (sessionUser) {
-      navigate("/home");
+      navigate("/areas");
     }
   }, [sessionUser, navigate]);
   
@@ -59,7 +59,7 @@ const serverResponse = await dispatch(
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      navigate("/home");
+      navigate("/areas");
     }
   };
   
@@ -77,7 +77,7 @@ const handleSubmit = async (e) => {
     if (serverResponse) {
       setErrors(serverResponse);
     } else {
-      navigate("/home");
+      navigate("/areas");
     }
   };
 

@@ -1,4 +1,4 @@
-import { thunkGetParkingSpotsByArea, } from "./parking_spot"
+import { thunkGetParkingSpotsByArea } from "./parking_spot"
 
 const LOAD_SINGLE_AIRCRAFT_BY_ID = "loadSingleAircraftById/LOAD_SINGLE_AIRCRAFT_BY_ID"
 const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
@@ -75,7 +75,7 @@ export const thunkUnAssignAircraftFromParkingSpot = (aircraftId) => async (dispa
         const data = await res.json();
         await dispatch(unAssignAircraftFrmParkingSpot(data));
         // console.log("line75 data", data)
-        await dispatch(thunkGetParkingSpotsByArea());
+        // await dispatch(thunkGetParkingSpotsByArea());
     } catch (error) {
         return {
             "errors": error.message
@@ -97,6 +97,7 @@ export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) =
         }
         const data = await res.json();
         await dispatch(assignAircraftToParking(data));
+        await dispatch(thunkGetParkingSpotsByArea(aircraft.parking_spot_id))
     } catch (error) {
         return {
             "errors": error.message
@@ -238,8 +239,9 @@ function aircraftReducer(state = {}, action) {
         }
         case ASSIGN_AIRCRAFT_TO_PARKING_SPOT :{
             const newState = { ...state };
-            newState[action.payload.id] = action.payload
-            return newState
+            const assignedAircraft = action.payload;
+            newState[assignedAircraft.id] = assignedAircraft;
+            return newState;
         }
         case UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT: {
             const { aircraftId, parkingSpotId } = action.payload;

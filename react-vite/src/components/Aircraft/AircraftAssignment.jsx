@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { thunkGetAllAircrafts, thunkAssignAircraftToParkingSpot } from '../../redux/aircraft';
+import { thunkGetParkingSpotsByArea, } from '../../redux/parking_spot';
 import { useModal } from "../../context/Modal";
 import "./Assignment.css"
 
@@ -28,7 +29,7 @@ const AircraftAssignment = ({ spotId }) => {
                     parking_spot_id: spotId
                 };
                 const res = await dispatch(thunkAssignAircraftToParkingSpot(payload));
-                await dispatch(thunkGetAllAircrafts())
+                // await dispatch(thunkGetParkingSpotsByArea(spotId))
                 if (!res) {
                     closeModal(); 
                 } else {

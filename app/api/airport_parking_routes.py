@@ -26,8 +26,10 @@ def all_places_with_parking_spots():
 @login_required
 def get_parking_spots(parking_id):
     airport_parking = AirportParking.query.get(parking_id)
+    print(f"Fetching parking spots for parking ID: {parking_id}")
     if not airport_parking:
         return {'error': 'AirportParking not found'}, 404
     
     parking_spots = ParkingSpot.query.filter_by(airport_parking_id=parking_id).all()
+    print(f"Found parking spots: {[spot.to_dict() for spot in parking_spots]}")
     return [spot.to_dict() for spot in parking_spots], 200

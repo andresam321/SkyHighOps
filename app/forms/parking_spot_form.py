@@ -13,6 +13,7 @@ def check_spot(form, field):
     
 
 class ParkingSpotForm(FlaskForm):
+    airport_parking_id = SelectField("Airport Parking ID", choices=[('1','North'), ('2','East'),('3','West'), ('4','South')], validators=[DataRequired()])
     spot_number = StringField("Spot Number", validators=[DataRequired(), check_spot])
     spot_size = SelectField("Spot Number",choices=[('Small','Small'), ('Medium','Medium'), ('Large','Large')], validators=[DataRequired()])
     is_reserved = SelectField("Is Reserved", choices=[('Yes','Yes'), ('No','No')], validators=[DataRequired()])

@@ -48,12 +48,20 @@ def create_parking_spot():
     if form.validate_on_submit():
         new = ParkingSpot(
             user_id = current_user.id,
+            airport_parking_id=int(form.data["airport_parking_id"]),
             spot_number = form.data["spot_number"],
             spot_size = form.data["spot_size"],
             is_reserved = form.data["is_reserved"]
         )
         db.session.add(new)
         db.session.commit()
+
+        added_spot = ParkingSpot.query.filter_by(id=new.id).first()
+        if added_spot:
+            print("Parking spot added successfully:", added_spot.to_dict())
+        else:
+            print("Failed to add parking spot.")
+
 
         return new.to_dict(), 201
     else:
@@ -71,10 +79,10 @@ def update_parking_spot(id):
     form = UpdateParkingSpotForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
 
-    if form.validate_on_submit():
+    # if form.validate_on_submit():
         # Check if the new spot number already exists
-        if ParkingSpot.query.filter_by(spot_number=form.data['spot_number']).first() is not None:
-            return {"message": "Parking Spot number already exists"}
+        # if ParkingSpot.query.filter_by(spot_number=form.data['spot_number']).first() is not None:
+        #     return {"message": "Parking Spot number already exists"}
 
     if form.validate_on_submit():
         parkingSpot.spot_number = form.data['spot_number']
