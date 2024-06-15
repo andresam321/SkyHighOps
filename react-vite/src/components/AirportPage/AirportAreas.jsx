@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { thunkGetAllAreasWithParkingSpots } from '../../redux/airport_area';
 import { NavLink } from 'react-router-dom';
+import "./AirportAreas.css"
 
 const AirportAreas = () => {
     const dispatch = useDispatch();

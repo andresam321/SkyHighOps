@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { thunkCreateParkingSpot } from '../../redux/parking_spot';
 import './CreateParking.css'
 
@@ -9,10 +9,11 @@ const CreateParkingSpot = () => {
     const navigate = useNavigate();
 
     const currentUser = useSelector((state) => state.session.user);
-
+    // const {id} = useParams
     const [spot_number, setSpotNumber] = useState('');
     const [spot_size, setSpotSize] = useState('Small');
     const [is_reserved, setIsReserved] = useState('No');
+    const [airport_parking_id, setAirport_parking_id] = useState("")
     const [spotNumberExists, setSpotNumberExists] = useState(false);
     const [errors, setErrors] = useState({});
 
@@ -27,6 +28,7 @@ const CreateParkingSpot = () => {
         } else if (spot_number.length < 2 || spot_number > 5) {
             errObj.spot_number = "Parking spot must be between two and five characters";
         }
+        if (!airport_parking_id) errObj.airport_parking_id = "Please provide a valid parking area";
         if (!spot_size) errObj.spot_size = "Please provide a valid parking spot size";
         if (!is_reserved) errObj.is_reserved = "Defaults to no";
 
@@ -43,6 +45,7 @@ const CreateParkingSpot = () => {
         //     return;
         // }   
         const formData = new FormData();
+        formData.append('airport_parking_id', airport_parking_id)
         formData.append('spot_number', spot_number);
         formData.append('spot_size', spot_size);
         formData.append('is_reserved', is_reserved);
@@ -51,7 +54,7 @@ const CreateParkingSpot = () => {
             
             const res = await dispatch(thunkCreateParkingSpot(formData));
             console.log("line33",res)
-            navigate('/home');
+            navigate(`/area/parking_spot/${airport_parking_id}`);
         } catch (error) {
             console.error("Error creating parking spot:", error);
             
@@ -67,6 +70,21 @@ const CreateParkingSpot = () => {
         <div className="create-parking-spot">
             <h2>Create a New Parking Spot</h2>
             <form onSubmit={handleSubmit}>
+            <div className='form-group'>
+                    <label htmlFor="spot_size">Parking Location</label>
+                    <select
+                        id=""
+                        value={airport_parking_id}
+                        onChange={(e) => setAirport_parking_id(e.target.value)}
+                    >
+                        <option value="">Other</option>
+                        <option value="1">North Parking</option>
+                        <option value="2">East Parking</option>
+                        <option value="3">West Parking</option>
+                        <option value="4">South Parking</option>
+                    </select>
+                    {errors.airport_parking_id && <p className='error'>{errors.airport_parking_id}</p>}
+                </div>
                 <div className='form-group'>
                     <label htmlFor="spot_number">Spot Number</label>
                     <input
