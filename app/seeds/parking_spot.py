@@ -21,7 +21,7 @@ def seed_parkingSpots():
         },
         {
             "user_id": 3,
-            "airport_parking_id":2,
+            # "airport_parking_id":2,
             "spot_number": "B1",
             "spot_size": "Small",
             "is_reserved": "Yes"
@@ -49,7 +49,7 @@ def seed_parkingSpots():
         },
         {
             "user_id": 2,
-            "airport_parking_id":4,
+            # "airport_parking_id":4,
             "spot_number": "D1",
             "spot_size": "Large",
             "is_reserved": "Yes"
