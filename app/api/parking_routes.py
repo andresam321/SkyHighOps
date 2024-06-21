@@ -231,3 +231,18 @@ def assign_aircraft_to_parking_spot():
 @login_required
 def current_spots_with_planes():
     pass
+
+#get parking spots with aircraft by area 
+@parking_routes.route("/parking_spots_with_aircrafts/<int:area_id>")
+@login_required
+def get_parking_spots_with_aircraft_by_area(area_id):
+    parking_spots = ParkingSpot.query.filter_by(airport_parking_id=area_id).all()
+    parking_spots_data = []
+    for spot in parking_spots:
+        spot_data = spot.to_dict()
+        if spot.aircraft:
+            spot_data['aircraft'] = spot.aircraft.to_dict()
+        else:
+            spot_data['aircraft'] = None
+        parking_spots_data.append(spot_data)
+    return {"parking_spots": parking_spots_data}, 200

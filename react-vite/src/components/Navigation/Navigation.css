@@ -20,7 +20,7 @@
 }
 
 .nav-link {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   padding: 10px;
   transition: background-color 0.3s ease;
@@ -31,5 +31,5 @@
 }
 
 .profile-button {
-  background-color: blue;
+  background-color: rgb(211, 211, 214);
 }

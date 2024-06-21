@@ -58,3 +58,46 @@
 .assignment-container button[type="button"]:hover {
     background-color: #5a6268;
 }
+.assignment-container .react-select-container {
+    width: 100%;
+}
+
+.assignment-container .react-select__control {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.assignment-container .react-select__menu {
+    width: 100%;
+}
+
+.assignment-container .react-select__option--is-disabled {
+    color: #999;
+}
+
+.assignment-container .react-select__option--assigned::before {
+    content: "(Assigned to Parking)";
+    color: red;
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+}
+.Select {
+    width: 100%;
+}
+
+.Select-control {
+    min-height: 40px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.Select-menu {
+    z-index: 9999;
+}
+
+.Select-indicatorSeparator {
+    display: none;
+}

@@ -10,7 +10,13 @@ const REMOVE_AIRCRAFT_FROM_PARKING_SPOT = "removeAircraftFromParkingSpot/REMOVE_
 const ASSIGN_AIRCRAFT_TO_PARKING_SPOT = "assignAircraftToParkingSpot/ASSIGN_AIRCRAFT_TO_PARKING_SPOT"
 const UPDATE_PARKING_SPOT_STATUS = "updateParkingSpotStatus/UPDATE_PARKING_SPOT_STATUS";
 const LOAD_ALL_PARKING_SPOTS = "loadAllParkingSpots/LOAD_ALL_PARKING_SPOTS"
+const GET_ASSIGN_PARKING_SPOTS_WITH_SPECIFIC_AREA = "getAssignedParkingSpotsWithSpecificArea/GET_ASSIGN_PARKING_SPOTS_WITH_SPECIFIC_AREA"
 
+
+const getAssignParkingSpotWithSpecificArea = (parkingSpot) => ({
+    type: GET_ASSIGN_PARKING_SPOTS_WITH_SPECIFIC_AREA,
+    payload: parkingSpot
+})
 
 const setParkingSpots = (areaId, parkingSpots) => ({
     type: SET_PARKING_SPOTS,
@@ -65,6 +71,18 @@ const updateParkingSpotStatus = (parkingSpot) => ({
 });
 
 // Thunks
+export const thunkGetAssignParkingSpotsWithSpecificArea = (areaId) => async (dispatch) => {
+    const res = await fetch(`/api/parking_spots/parking_spots_with_aircrafts/${areaId}`);
+    if (res.ok) {
+        const data = await res.json();
+        console.log("data res line78",data)
+        if (!data.errors) {
+            await dispatch(getAssignParkingSpotWithSpecificArea(data.parking_spots));
+        }
+    }
+}
+
+
 export const thunkGetAllParkingSpots = () => async (dispatch) => {
     const res = await fetch("/api/parking_spots/all_spots");
     if (res.ok) {
@@ -76,12 +94,11 @@ export const thunkGetAllParkingSpots = () => async (dispatch) => {
 };
 
 
-
-
 export const thunkGetParkingSpotsByArea = (areaId) => async (dispatch) => {
     const res = await fetch(`/api/parking_spots/with_aircraft/${areaId}`);
     if (res.ok) {
         const data = await res.json();
+        console.log("line89 res",data.parkingSpots)
         if (!data.errors) {
             await dispatch(setParkingSpots(areaId, data.parkingSpots));
         }
@@ -175,16 +192,45 @@ export const thunkDeleteParkingSpot = (parking_spotId) => async (dispatch) => {
 // };
 
 export const thunkAssignAircraftToParkingSpot = (parking_spotId, aircraftId) => async (dispatch) => {
-    const res = await fetch(`/api/parking_spots/assign_aircraft_to_parking_spot`, {
-        method: 'POST',
-    });
-    if (res.ok) {
+    try {
+        const res = await fetch(`/api/parking_spots/assign_aircraft_to_parking_spot`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                parking_spot_id: parking_spotId,
+                aircraft_id: aircraftId
+            })
+        });
+
+        if (!res.ok) {
+            throw new Error('Failed to assign aircraft to parking spot');
+        }
+
         const data = await res.json();
         if (data.message) {
             dispatch(assignAircraftToParkingSpot(parking_spotId, aircraftId));
+            // dispatch(thunkGetParkingSpotsByArea(parking_spotId)); // Assuming you want to refresh parking spots related to this aircraft
         }
+    } catch (error) {
+        console.error('Error assigning aircraft to parking spot:', error);
+        // Handle error if needed (e.g., show a notification)
     }
 };
+
+
+// export const thunkGetAssignParkingSpot = (parkingSpot) => async (dispatch) => {
+//     const res = await fetch(`/api/parking_spots/assigned_aircrafts`, {
+//         method: 'POST',
+//     });
+//     if (res.ok) {
+//         const data = await res.json();
+//         if (data.message) {
+//             dispatch(getAssignParkingSpot(data));
+//         }
+//     }
+// }
 
 // Reducer
 function parkingSpotReducer(state = {}, action) {
@@ -235,6 +281,11 @@ function parkingSpotReducer(state = {}, action) {
         case LOAD_ALL_PARKING_SPOTS: {
             return { ...state, planeWithSpots: action.payload };
         }
+        case GET_ASSIGN_PARKING_SPOTS_WITH_SPECIFIC_AREA:
+            return {
+                ...state,
+                [action.areaId]: action.parkingSpots,
+            };
         
         default:
             return state;

@@ -205,3 +205,35 @@ def unassign_aircraft_from_parking():
     db.session.commit()
 
     return {"message": "Aircraft unassigned from parking spot successfully", "aircraft": aircraft.to_dict()}, 200
+
+
+#assigned_aircrafts
+@aircraft_routes.route("/assigned_aircrafts")
+@login_required
+def get_assigned_aircrafts():
+    assigned_aircrafts = Aircraft.query.filter(Aircraft.parking_spot_id.isnot(None)).all()
+    return {"assigned_aircrafts": [aircraft.to_dict() for aircraft in assigned_aircrafts]}, 200
+
+
+@aircraft_routes.route("/all_aircrafts_with_parking_spots")
+@login_required
+def all_aircrafts_with_parking_spots():
+    try:
+        # Fetch all aircrafts with their associated parking spots
+        aircrafts = Aircraft.query.all()
+
+        
+        aircrafts_with_spots = []
+        for aircraft in aircrafts:
+            aircraft_dict = aircraft.to_dict()
+            if aircraft.parking_spot:
+                parking_spot_dict = aircraft.parking_spot.to_dict()
+            else:
+                parking_spot_dict = None
+            aircraft_dict['parking_spot'] = parking_spot_dict
+            aircrafts_with_spots.append(aircraft_dict)
+
+        return aircrafts_with_spots, 200
+
+    except Exception as e:
+        return {"error": str(e)}, 500

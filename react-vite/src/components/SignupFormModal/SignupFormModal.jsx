@@ -42,7 +42,7 @@ function SignupFormModal() {
     console.log("Errors:", errorsObj); 
   }, [email, username, firstname, lastname, password, confirmPassword, touchedFields]);
 
-  if (sessionUser) return <Navigate to="/home" replace={true} />;
+  if (sessionUser) return <Navigate to="/areas" replace={true} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

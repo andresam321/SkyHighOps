@@ -1,5 +1,6 @@
 import { thunkGetParkingSpotsByArea } from "./parking_spot"
 
+
 const LOAD_SINGLE_AIRCRAFT_BY_ID = "loadSingleAircraftById/LOAD_SINGLE_AIRCRAFT_BY_ID"
 const LOAD_ALL_AIRCRAFT = "loadAllAicraft/LOAD_ALL_AIRCRAFT"
 const ADD_AIRCRAFT = "addAllAirCraft/ADD_ALL_AIRCRAFT"
@@ -7,11 +8,17 @@ const EDIT_AIRCRAFT = "editAircraft/EDIT_AIRCRAFT"
 const DELETE_AIRCRAFT = "deleteAircraft/DELETE_AIRCRAFT"
 const ASSIGN_AIRCRAFT_TO_PARKING_SPOT = "assignAircraftToParkingSpot/ASSIGN_AIRCRAFT_TO_PARKING_SPOT"
 const UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT = "unassignAircraftFromParkingSpot/UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT"
+const GET_ALL_ASSIGNED_AIRCRAFTS = "getAllAssignAircrafts/GET_ALL_ASSIGNED_AIRCRAFT"
+// const GET_ALL_AIRCRAFST_AND_ALL_PARKING_SPOTS
 
 
 // const ADD_SINGLE_AIRCRAFT = "loadSingleAircraft/LOAD_SINGLE_AIRCRAFT";
-// const ASSIGN_AIRCRAFT = "assignAircraft/ASSIGN_AIRCRAFT"
+const ASSIGNED_AND_UNASSIGNED_AIRCRAFT = "assignAircraft/ASSIGN_AIRCRAFT"
 
+const getAllAssignedAircrafts = (aircraft) => ({
+    type:GET_ALL_ASSIGNED_AIRCRAFTS,
+    payload: aircraft
+})
 
 const getSingleAircraftById = (singleAircraft) => ({
     type: LOAD_SINGLE_AIRCRAFT_BY_ID,
@@ -55,10 +62,10 @@ const unAssignAircraftFrmParkingSpot = (aircraftId, parkingSpotId) => ({
 //     payload: addAircraft
 // })
 
-// const getAssignAircraft = (assignAircraft) => ({
-//     type: ASSIGN_AIRCRAFT,
-//     payload: assignAircraft
-// })
+const getAssignAndUnassignAircraft = (assignAircraft) => ({
+    type: ASSIGNED_AND_UNASSIGNED_AIRCRAFT,
+    payload: assignAircraft
+})
 
 export const thunkUnAssignAircraftFromParkingSpot = (aircraftId) => async (dispatch) => {
     try {
@@ -97,7 +104,8 @@ export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) =
         }
         const data = await res.json();
         await dispatch(assignAircraftToParking(data));
-        await dispatch(thunkGetParkingSpotsByArea(aircraft.parking_spot_id))
+        //  dispatch(thunkGetParkingSpotsByArea())
+        window.location.reload()
     } catch (error) {
         return {
             "errors": error.message
@@ -124,7 +132,7 @@ export const thunkGetSingleAircraft = (aircraftId) => async (dispatch) => {
     const res = await fetch(`/api/aircrafts/${aircraftId}`)
     if (res.ok) {
         const data = await res.json();
-        // console.log("Fetched  aircrafts:", data);
+        console.log("Fetched  aircrafts ny:", data);
         if (data.errors) {
             return;
         }
@@ -179,24 +187,24 @@ export const thunkDeleteAircraft = (aircraftId) => async (dispatch) => {
 // }
 // }
 
-// export const thunkGetAssignAircraft = () => async (dispatch) => {
-//     const res = await fetch ("/api/aircrafts/assigned")
-//     if (res.ok) {
-//         const data = await res.json();
-//         console.log("Getting asigned aircraft", data);
-//         if (data.errors) {
-//             return;
+export const thunkGetAssignAndUnassignAircraft = () => async (dispatch) => {
+    const res = await fetch ("/api/aircrafts/all_aircrafts_with_parking_spots")
+    if (res.ok) {
+        const data = await res.json();
+        console.log("Getting asigned aircraft", data);
+        if (data.errors) {
+            return;
             
-//         }
-//         await dispatch(getAssignAircraft(data))
-// }
-//}
+        }
+        await dispatch(getAssignAndUnassignAircraft(data))
+}
+}
 
 export const thunkGetAllAircrafts = () => async (dispatch) => {
     const res = await fetch(`/api/aircrafts/all`)
     if (res.ok) {
         const data = await res.json();
-        // console.log("Fetched  aircrafts:", data);
+        // console.log("line 206 Fetched  aircrafts:", data);
         if (data.errors) {
             return;
         }
@@ -204,7 +212,17 @@ export const thunkGetAllAircrafts = () => async (dispatch) => {
     }
 }
 
-
+export const thunkGetAllAssignedAircrafts = () => async (dispatch) => {
+    const res = await fetch(`/api/aircrafts/assigned_aircrafts`)
+    if (res.ok) {
+        const data = await res.json();
+        // console.log("Fetched  aircrafts:", data);
+        if (data.errors) {
+            return;
+        }
+        await dispatch(getAllAssignedAircrafts(data))
+    }
+}
 
 
 function aircraftReducer(state = {}, action) {
@@ -252,6 +270,18 @@ function aircraftReducer(state = {}, action) {
                     parking_spot_id: parkingSpotId
                 }
             }
+        }
+        case GET_ALL_ASSIGNED_AIRCRAFTS: {
+            return {
+                ...state,
+                allAircrafts: action.payload,
+            };
+        }
+        case ASSIGNED_AND_UNASSIGNED_AIRCRAFT:{
+            return {
+                ...state,
+                allAircrafts: action.payload,
+            };
         }
         default:
             return state;
