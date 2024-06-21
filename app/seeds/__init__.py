@@ -29,11 +29,11 @@ def seed():
         undo_aircrafts()
         undo_users()
     seed_users()
+    seed_airport_parkings()
     seed_parkingSpots()
     seed_aircrafts()
     seed_owners()
     seed_fuelOrders()
-    seed_airport_parkings()
     # Add other seed functions here
 
 
