@@ -34,9 +34,17 @@ const HomePage = () => {
   
 
     
-  useEffect(() => {
-        dispatch(thunkGetParkingSpotsByArea(id));
-    }, [dispatch, id]);
+    useEffect(() => {
+      const fetchParkingSpots = async () => {
+          try {
+              await dispatch(thunkGetParkingSpotsByArea(id));
+          } catch (error) {
+              console.error('Failed to fetch parking spots:', error);
+          }
+      };
+
+      fetchParkingSpots();
+  }, [dispatch, id]);
 
 
 
