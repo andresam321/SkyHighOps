@@ -90,6 +90,7 @@ def update_owner(owner_id, aircraft_id):
 
         db.session.commit()
         return owner.to_dict(),200
+    print("line93",owner)
     return {"errors": form.errors}, 400
 
 #DELEte an owner

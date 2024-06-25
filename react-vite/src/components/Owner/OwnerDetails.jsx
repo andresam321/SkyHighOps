@@ -9,8 +9,8 @@ import "./OwnerCss.css"
 
 const OwnerDetails = ({owner}) => {
 
-const {aircraftId} = useParams()
-let dispatch = useDispatch()
+// const {aircraftId} = useParams()
+// let dispatch = useDispatch()
 
 // const owner =  useSelector((state) => state.ownerReducer[+aircraftId])
 // console.log("This is the list of owners for this plane",owner)

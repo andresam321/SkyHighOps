@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { thunkCreateOwner } from '../../redux/owner';
 import { useModal } from '../../context/Modal';
 import { useParams } from 'react-router-dom';
+import { thunkUpdateOwner } from '../../redux/owner';
+import { thunkGetAllOwnersThatCorrespondToAircraft } from '../../redux/owner';
 import "./OwnerCss.css"
 
 
-const UpdateOwner = () => {
+const UpdateOwner = ({owner}) => {
     const dispatch = useDispatch();
     const {closeModal} = useModal()
-    const {aircraftId} = useParams()
 
+    
+
+    let ownerById = useSelector((state) => state.ownerReducer[owner.id])
+    
+    useEffect(() => {
+        dispatch(thunkGetAllOwnersThatCorrespondToAircraft());
+    }, [dispatch]);
+    
+    
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [username, setUsername] = useState('');
@@ -20,11 +30,28 @@ const UpdateOwner = () => {
     const [payment_type, setPayment_type] = useState('');
     const [notes, setNotes] = useState('');
     const [errors, setErrors] = useState({});
+    
+    
+    // console.log("line33",owner)
+    console.log("line28",ownerById)
+
+    useEffect(() => {
+        if (ownerById) {
+            setFirstname(ownerById.firstname || "");
+            setLastname(ownerById.lastname || "");
+            setUsername(ownerById.username || "");
+            setEmail(ownerById.email || "");
+            setAddress(ownerById.address || "");
+            setPhone_number(ownerById.phone_number || "");
+            setPayment_type(ownerById.payment_type || "");
+            setNotes(ownerById.notes || "");
+        }
+    }, [ownerById]);
 
     useEffect(() => {
         const errorsObj = {};
 
-        if (!email || (!email.includes('@') || email.length < 10)) {
+        if (!email || (typeof email === 'string' && (!email.includes('@') || email.length < 10))) {
             errorsObj.email = 'Email must have an @ symbol and must be at least 10 characters long';
         }
         if (!username || username.length < 5 || username.length > 40) {
@@ -67,9 +94,9 @@ const UpdateOwner = () => {
         formData.append('notes', notes);
 
         try {
-            const res = await dispatch(thunkCreateOwner(aircraftId,formData)); 
+            const res = await dispatch(thunkUpdateOwner(ownerById.id,formData)); 
             console.log("Response:", res);
-            closeModal() 
+            // closeModal() 
         } catch (error) {
             console.error("Error creating owner:", error);
         }
@@ -90,7 +117,7 @@ return (
             {errors.lastname && <p className="error">{errors.lastname}</p>}
         </div>
         <div className="">
-            <label>Username:</label>
+            <label>Prefers to go By:</label>
             <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
             {errors.username && <p className="error">{errors.username}</p>}
         </div>
