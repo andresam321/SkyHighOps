@@ -1,18 +1,33 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { thunkGetAllAreasWithParkingSpots } from '../../redux/airport_area';
-import { NavLink } from 'react-router-dom';
+import { NavLink,useParams } from 'react-router-dom';
 import './AirportAreas.css';
 
 const AirportAreas = () => {
+    const {id} = useParams()
     const dispatch = useDispatch();
-    const loadAreasWithSpots = useSelector(state => state.airportAreasReducer?.areasWithSpots);
-
+    const areas = useSelector(state => state.airportAreasReducer?.areasWithSpots?.airport || []);
+    // const areas = loadAreasWithSpots?.airport || [];
+    
     useEffect(() => {
         dispatch(thunkGetAllAreasWithParkingSpots());
     }, [dispatch]);
 
-    const areas = loadAreasWithSpots?.airport || [];
+
+    // useEffect(() => {
+    //     const fetchParkingSpots = async () => {
+    //         try {
+    //             await dispatch(thunkGetAllAreasWithParkingSpots(id));
+    //         } catch (error) {
+    //             console.error('Failed to fetch parking areas:', error);
+    //         }
+    //     };
+    
+    //     fetchParkingSpots();
+    // }, [dispatch, id]);
+    
+
 
     console.log("line17",areas)
     const cloudinaryUrl = 'https://res.cloudinary.com/djuzk5um3/image/upload/v1718202849/SkyHighOps/area01_ljlqcv.jpg';

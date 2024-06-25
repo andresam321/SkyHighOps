@@ -3,8 +3,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { thunkGetSingleAircraft } from '../../redux/aircraft'
 import OpenModalButton from "../OpenModalButton/OpenModalButton"
+import { thunkGetAllOwnersThatCorrespondToAircraft,thunkGetOneOwnerById } from '../../redux/owner'
 import UpdateAircraft from './UpdateAircraft'
 import DeleteAircraft from './DeleteAircraft'
+import OwnerDetails from '../Owner/OwnerDetails'
+import CreateOwner from '../Owner/CreateOwner'
 import "./Aircraft.css"
 
 const AircraftDetails = () => {
@@ -15,17 +18,30 @@ const AircraftDetails = () => {
     // const currentUser = useSelector((state) => state.session.user);
 
     const aircraftbyId = useSelector((state)=> state.aircraftReducer[aircraftId])
+
+    const ownerById =  useSelector((state) => Object.values(state.ownerReducer))
     // const selectedAircraft = aircraftbyId[aircraftId]
 
+    console.log("This is the list of owners for this plane",ownerById)
     // console.log("line 15 in details",aircraftbyId)
     // console.log("line 17 in details",selectedAircraft)
 
     useEffect(() => {
-        dispatch(thunkGetSingleAircraft(aircraftId))
-    }, [dispatch,aircraftId]);
+        const fetchData = async () => {
+            try {
+                await dispatch(thunkGetSingleAircraft(aircraftId))
+                await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId));
+            } catch (error) {
+                console.error('Error in useEffect:', error);
+                // Handle error appropriately, e.g., set an error state
+            }
+        };
+        fetchData();
+    }, [dispatch, aircraftId]);
+
     
-    if (!aircraftbyId) {
-        return <div>Aircraft Has not been assign to parking spot yet</div>;
+    if (!aircraftbyId || !ownerById) {
+        return <div>Loading...</div>; // or handle appropriately
     }
 
     const getFuelTypeStyle = (fuelType) => {
@@ -46,7 +62,7 @@ const AircraftDetails = () => {
 
 
 return (
-<div className="aircraft-details">
+    <div className="aircraft-details">
     <h2>Aircraft Details</h2>
     <div>
         <img src={aircraftbyId.plane_image} alt={aircraftbyId.model} />
@@ -70,21 +86,45 @@ return (
         <div>
             <p><span>Notes:</span> {aircraftbyId.notes}</p>
         </div>
-        <div className="button-container">
-            <OpenModalButton
-                buttonText={"Update"}
-                className="update-button"
-                modalComponent={<UpdateAircraft aircraftId={aircraftId.id} />}
-            />
-            <OpenModalButton
-                buttonText={"Delete"}
-                className="delete-button"
-                modalComponent={<DeleteAircraft aircraftId={aircraftId.id} />}
-            />
-        </div>
-
+    </div>
+    <div className="owners-list">
+            <div>
+                <h4>Owners</h4>
+                <OpenModalButton
+                    buttonText={"Add Owner to aircraft"}
+                    className="view-details-button"
+                    modalComponent={<CreateOwner/>}
+                    /> 
+                </div>
+                <div className="owners-grid">
+                    {ownerById.map((owner) => (
+                        <div key={owner.id} className="owner-card">
+                            <p><strong>{owner.firstname} {owner.lastname}</strong></p>
+                            <p><span>Notes:</span> {owner.notes}</p>
+                            <OpenModalButton
+                                buttonText={"View Owner Info"}
+                                className="view-details-button"
+                                modalComponent={<OwnerDetails owner={owner} />}
+                            />
+                        </div>
+                    ))}
+                </div>
+                
+            </div>
+    <div className="button-container">
+        <OpenModalButton
+            buttonText={"Update Aircraft"}
+            className="update-button"
+            modalComponent={<UpdateAircraft aircraftId={aircraftId} />}
+        />
+        <OpenModalButton
+            buttonText={"Delete Aircraft"}
+            className="delete-button"
+            modalComponent={<DeleteAircraft aircraftId={aircraftId} />}
+        />
     </div>
 </div>
 );
 };
+
 export default AircraftDetails

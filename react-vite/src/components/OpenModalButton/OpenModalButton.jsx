@@ -1,4 +1,5 @@
 import { useModal } from '../../context/Modal';
+import "./OpenModalCss.css"
 
 function OpenModalButton({
   modalComponent, // component to render inside the modal
@@ -14,7 +15,17 @@ function OpenModalButton({
     if (typeof onButtonClick === "function") onButtonClick();
   };
 
-  return <button onClick={onClick}>{buttonText}</button>;
+  return <button
+  style={{
+    backgroundColor: '#007bff',
+    color: 'white',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease, transform 0.2s ease'
+  }}
+  onClick={onClick}>{buttonText}</button>;
 }
 
 export default OpenModalButton;

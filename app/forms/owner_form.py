@@ -32,8 +32,17 @@ class OwnerForm(FlaskForm):
     lastname = StringField("Last Name", validators=[DataRequired(), check_lastName])
     username = StringField("User Name", validators=[DataRequired(),username_exists])
     email = StringField("Email", validators=[DataRequired(),user_exists])
-    address = StringField("Email", validators=[DataRequired()])
+    address = StringField("address", validators=[DataRequired()])
     phone_number = StringField("Phone Number", validators=[DataRequired()])
-    payment_type = SelectField("Payment Type", choices=[('Debit Card', 'Debit Card'), ('Credit Card', 'Credit Card'), ('Cash', 'Cash')])
+    payment_type = SelectField("Payment Type", choices=[('DebitCard', 'DebitCard'), ('CreditCard', 'CreditCard'), ('Cash', 'Cash'), ('Other', 'Other')])
     notes = StringField("Notes")
-    
+
+class OwnerUpdateForm(FlaskForm):
+    firstname = StringField("First Name", validators=[DataRequired(), check_firstName])
+    lastname = StringField("Last Name", validators=[DataRequired(), check_lastName])
+    username = StringField("User Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    address = StringField("address", validators=[DataRequired()])
+    phone_number = StringField("Phone Number", validators=[DataRequired()])
+    payment_type = SelectField("Payment Type", choices=[('DebitCard', 'DebitCard'), ('CreditCard', 'CreditCard'), ('Cash', 'Cash'), ('Other', 'Other')])
+    notes = StringField("Notes")

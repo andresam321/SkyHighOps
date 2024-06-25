@@ -137,7 +137,7 @@ def delete_parking_spot(id):
 #     return {"parkingSpots": [spot_and_plane.to_dict() for spot_and_plane in parking_spots_with_planes]}, 200
 
 
-
+#will display all aircrafts that correspond to specific parking area
 @parking_routes.route("/with_aircraft/<int:airport_parking_id>")
 @login_required
 def get_parking_spots_with_aircraft(airport_parking_id):

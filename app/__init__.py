@@ -10,6 +10,7 @@ from .api.auth_routes import auth_routes
 from .api.parking_routes import parking_routes
 from .api.aircraft_routes import aircraft_routes
 from .api.airport_parking_routes import airport_routes
+from .api.owner_routes import owner_routes
 
 from .seeds import seed_commands
 from .config import Config
@@ -36,7 +37,7 @@ app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(parking_routes, url_prefix='/api/parking_spots')
 app.register_blueprint(aircraft_routes, url_prefix='/api/aircrafts')
 app.register_blueprint(airport_routes, url_prefix='/api/airport_parkings')
-
+app.register_blueprint(owner_routes, url_prefix='/api/owners')
 
 db.init_app(app)
 Migrate(app, db)

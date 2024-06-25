@@ -3,6 +3,6 @@ from .signup_form import SignUpForm
 from .aircraft_form import AircraftForm
 # from .aws_form import ImageForm
 from .fuel_order_form import FuelOrderForm
-from .owner_form import OwnerForm
+from .owner_form import OwnerForm,OwnerUpdateForm
 from .parking_spot_form import ParkingSpotForm,UpdateParkingSpotForm
 from .airport_parking import AirportParkingForm

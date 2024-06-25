@@ -15,30 +15,44 @@ const {id} = useParams()
 const dispatch = useDispatch();
 const navigate = useNavigate()
 
-const areaName = useSelector((state) => state.airportAreasReducer?.areasWithSpots)
+const areas = useSelector((state) => state.airportAreasReducer?.areasWithSpots?.airport || [])
 
 
-const areas = areaName?.airport || [];
+// const areas = areaName?.airport || [];
 
-console.log("line22", areaName)
+console.log("line22", areas)
 
 const [selectedParking, setSelectedParking] = useState('');
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
 
-useEffect(() => {
-    dispatch(thunkGetAllAreasWithParkingSpots(id));
-}, [dispatch,id]);
+
+
+// useEffect(() => {
+//   const fetchParkingSpots = async () => {
+//       try {
+//           await dispatch(thunkGetAllAreasWithParkingSpots(id));
+//       } catch (error) {
+//           console.error('Failed to fetch parking areas:', error);
+//       }
+//   };
+
+//   fetchParkingSpots();
+// }, [dispatch, id]);
+
+
 
 const handleSelectChange = (event) => {
-  const selectedId = event.target.value;
-  setSelectedParking(selectedId);
-  if (selectedId) {
-      navigate(`/area/parking_spot/${selectedId}`);
-  }
+const selectedId = event.target.value;
+    setSelectedParking(selectedId);
+if (selectedId) {
+    navigate(`/area/parking_spot/${selectedId}`);
+    }
 };
 
-    
 
-  return (
+
+return (
 <div>
     <select value={selectedParking} onChange={handleSelectChange}>
         <option value="">Select a Parking Area</option>

@@ -1,0 +1,123 @@
+.owner-details-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.section-heading {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.detail-section {
+    margin-bottom: 20px;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.action-button {
+    background-color: #007bff !important;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button {
+    background-color: #dc3545 !important;
+}
+
+.action-button:hover {
+    background-color: #0056b3 !important;
+}
+.create-owner-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.create-owner-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.create-owner-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-owner-form div {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.create-owner-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+.create-owner-form input,
+.create-owner-form select,
+.create-owner-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+}
+
+.create-owner-form input:focus,
+.create-owner-form select:focus,
+.create-owner-form textarea:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.create-owner-form .error {
+    color: #d9534f;
+    font-size: 14px;
+    position: absolute;
+    bottom: -30px;
+}
+
+.create-owner-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-owner-form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.create-owner-form button:not(:disabled):hover {
+    background-color: #0056b3;
+}

@@ -10,7 +10,7 @@ class Owner(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     created_by_user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable = False)
-    aircraft_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('aircrafts.id')), unique=True)
+    aircraft_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('aircrafts.id')))
     firstname = db.Column(db.String(25), nullable=False)
     lastname = db.Column(db.String(25), nullable=False)
     username = db.Column(db.String(25),unique=True)
@@ -18,7 +18,7 @@ class Owner(db.Model):
     address = db.Column(db.String(40), nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
     payment_type = db.Column(db.String(40), nullable=False)
-    notes = db.Column(db.String(255), nullable=False, unique=True)
+    notes = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now)
     updated_at = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
 

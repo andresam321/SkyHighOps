@@ -1,6 +1,7 @@
 import {useEffect,useState} from 'react'
 import { useSelector,useDispatch } from 'react-redux'
 import { thunkGetAllAircrafts  } from '../../redux/aircraft'
+// import { thunkGetAllAreasWithParkingSpots } from '../../redux/airport_area';
 import { NavLink } from 'react-router-dom'
 import "./AircraftList.css"
 
@@ -21,6 +22,11 @@ const toggleAircraft = (id) => {
 useEffect(() => {
   dispatch(thunkGetAllAircrafts())
 },[dispatch])
+
+// useEffect(() => {
+//   dispatch(thunkGetAllAreasWithParkingSpots());
+// }, [dispatch]);
+
 
 
 

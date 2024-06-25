@@ -10,12 +10,14 @@ import sessionReducer from "./session";
 import parkingSpotReducer from "./parking_spot";
 import aircraftReducer from "./aircraft";
 import airportAreasReducer from "./airport_area";
+import ownerReducer from "./owner";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   parkingSpotReducer: parkingSpotReducer,
   aircraftReducer: aircraftReducer,
-  airportAreasReducer:airportAreasReducer
+  airportAreasReducer:airportAreasReducer,
+  ownerReducer:ownerReducer
 });
 
 let enhancer;

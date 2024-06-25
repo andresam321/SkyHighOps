@@ -26,31 +26,31 @@ const AircraftAssignment = ({ spotId, areaId }) => {
     }, [dispatch, spotId]);
 
 
-    // const handleAssignAircraft = async (e) => {
-    //     e.preventDefault();
-    //     if (selectedAircraft) {
-    //         try {
-    //             const payload = {
-    //                 aircraft_id: selectedAircraft.value,
-    //                 parking_spot_id: spotId
-    //             };
-    //             const res = await dispatch(thunkAssignAircraftToParkingSpot(payload));
-    //                 // dispatch(thunkGetParkingSpotsByArea(spotId));
-    //             if (!res) {
-    //                 dispatch(thunkGetParkingSpotsByArea(spotId));
-    //                 closeModal();
-    //             } else {
-    //                 console.log(res);
-    //             }
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     }
-    // };
+    const handleAssignAircraft = async (e) => {
+        e.preventDefault();
+        if (selectedAircraft) {
+            try {
+                const payload = {
+                    aircraft_id: selectedAircraft.value,
+                    parking_spot_id: spotId
+                };
+                const res = await dispatch(thunkAssignAircraftToParkingSpot(payload));
+                    // dispatch(thunkGetParkingSpotsByArea(spotId));
+                if (!res) {
+                    dispatch(thunkGetParkingSpotsByArea(spotId));
+                    closeModal();
+                } else {
+                    console.log(res);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    };
 
-    const handleAssignAircraft = async () => {
-        alert("Feature Currently being debugged")
-    }
+    // const handleAssignAircraft = async () => {
+    //     alert("Feature Currently being debugged")
+    // }
 
     
 

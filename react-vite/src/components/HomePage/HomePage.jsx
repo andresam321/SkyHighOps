@@ -16,11 +16,11 @@ const HomePage = () => {
 
   const dispatch = useDispatch();
 
-  const parkingArea = useSelector((state) => state.parkingSpotReducer[+id]);
+  // const parkingArea = useSelector((state) => state.parkingSpotReducer[+id]);
 
-  const areaName = useSelector((state) => state.airportAreasReducer.areasWithSpots)
+  // const areaName = useSelector((state) => state.airportAreasReducer.areasWithSpots)
     
-  console.log("line22", areaName)
+  // console.log("line22", areaName)
 
   const loadSpotWithPlanesAndWithout = useSelector((state) => {
       const area = state.parkingSpotReducer[+id];
@@ -31,13 +31,12 @@ const HomePage = () => {
 
     console.log("line14aaaaaaa",loadSpotWithPlanesAndWithout)
 
-  
-
     
     useEffect(() => {
       const fetchParkingSpots = async () => {
           try {
               await dispatch(thunkGetParkingSpotsByArea(id));
+              // await dispatch(thunkGetAllAreasWithParkingSpots(id));
           } catch (error) {
               console.error('Failed to fetch parking spots:', error);
           }
@@ -95,14 +94,16 @@ return (
             <p>Spot Size: {eachVal?.spot_size}</p>
           </NavLink>
         </div>
-      <div className='assign-button'>
-        {!eachVal.aircraft && (
-          <OpenModalButton
-            buttonText="Assign Aircraft"
-            className="assign-aircraft"
-            modalComponent={<AircraftAssignment spotId={eachVal?.id} />}
-          />
-        )}
+        <div className=''>
+        <button className='assign-button'>
+          {!eachVal.aircraft && (
+            <OpenModalButton
+              buttonText="Assign Aircraft"
+              className=""
+              modalComponent={<AircraftAssignment spotId={eachVal?.id} />}
+            />
+          )}
+        </button>
       </div>
       </div>
     ))}

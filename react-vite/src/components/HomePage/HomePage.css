@@ -73,8 +73,8 @@ button.remove-button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-button {
-  background-color: #28a745;
+.button.assign-button {
+  background-color: #62eb4d; 
   color: white;
   margin-top: 10px;
   padding: 10px 20px;
@@ -93,6 +93,22 @@ button {
 a.nav-link {
   text-decoration: none;
   color: #007bff;
+}
+
+.custom-modal-button {
+  background-color: #28a745;
+  color: white;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.custom-modal-button:hover {
+  background-color: #218838; /* Darker shade of green on hover */
 }
 
 a.nav-link:hover {

@@ -6,6 +6,7 @@ import configureStore from "./redux/store";
 import { router } from "./router";
 import * as sessionActions from "./redux/session";
 import "./index.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
 

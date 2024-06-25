@@ -10,6 +10,7 @@ import CreateAircraft from '../components/Aircraft/CreateAircraft';
 import AircraftList from '../components/Aircraft/AircraftList';
 import SplashPage from '../components/HomePage/SplashPage';
 import AirportAreas from '../components/AirportPage/AirportAreas';
+import OwnerDetails from '../components/Owner/OwnerDetails';
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "/aircraft/list",
         element: <AircraftList />,
+      },
+      {
+        path: "/owner/:id",
+        element: <OwnerDetails />,
       },
       // {
       //   path: "/parking_spots/:parking_spotId/update",

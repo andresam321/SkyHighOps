@@ -13,9 +13,9 @@ const dispatch = useDispatch();
 const user = useSelector((state) => state.session.user); 
 
 
-useEffect(() => {
-  dispatch(thunkGetAllAreasWithParkingSpots())
-},[dispatch])
+// useEffect(() => {
+//   dispatch(thunkGetAllAreasWithParkingSpots())
+// },[dispatch])
 
   return (
     <nav className="navbar">
