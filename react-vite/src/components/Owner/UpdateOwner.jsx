@@ -1,26 +1,19 @@
 import { useState, useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
-import { thunkCreateOwner } from '../../redux/owner';
+import { useDispatch, useSelector } from 'react-redux';
+import { thunkUpdateOwner, thunkGetAllOwnersThatCorrespondToAircraft } from '../../redux/owner';
 import { useModal } from '../../context/Modal';
-import { useParams } from 'react-router-dom';
-import { thunkUpdateOwner } from '../../redux/owner';
-import { thunkGetAllOwnersThatCorrespondToAircraft } from '../../redux/owner';
-import "./OwnerCss.css"
+import "./OwnerCss.css";
 
-
-const UpdateOwner = ({owner}) => {
+const UpdateOwner = ({ owner }) => {
     const dispatch = useDispatch();
-    const {closeModal} = useModal()
+    const { closeModal } = useModal();
 
-    
+    let ownerById = useSelector((state) => state.ownerReducer[owner.id]);
 
-    let ownerById = useSelector((state) => state.ownerReducer[owner.id])
-    
-    useEffect(() => {
-        dispatch(thunkGetAllOwnersThatCorrespondToAircraft());
-    }, [dispatch]);
-    
-    
+    // useEffect(() => {
+    //     dispatch(thunkGetAllOwnersThatCorrespondToAircraft(owner.id));
+    // }, [dispatch, owner.id]);
+
     const [firstname, setFirstname] = useState('');
     const [lastname, setLastname] = useState('');
     const [username, setUsername] = useState('');
@@ -30,10 +23,6 @@ const UpdateOwner = ({owner}) => {
     const [payment_type, setPayment_type] = useState('');
     const [notes, setNotes] = useState('');
     const [errors, setErrors] = useState({});
-    
-    
-    // console.log("line33",owner)
-    console.log("line28",ownerById)
 
     useEffect(() => {
         if (ownerById) {
@@ -69,7 +58,7 @@ const UpdateOwner = ({owner}) => {
         if (phone_number && !/^\d{10}$/.test(phone_number)) {
             errorsObj.phone_number = 'Phone number must be exactly 10 digits';
         }
-        if (!payment_type){
+        if (!payment_type) {
             errorsObj.payment_type = 'Payment type must be either Debit Card, Credit Card, Cash, or Other';
         }
         if (notes && notes.length > 200) {
@@ -82,7 +71,6 @@ const UpdateOwner = ({owner}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-    
         const formData = new FormData();
         formData.append('firstname', firstname);
         formData.append('lastname', lastname);
@@ -94,68 +82,69 @@ const UpdateOwner = ({owner}) => {
         formData.append('notes', notes);
 
         try {
-            const res = await dispatch(thunkUpdateOwner(ownerById.id,formData)); 
+            const res = await dispatch(thunkUpdateOwner(owner.aircraft_id, owner.id, formData));
             console.log("Response:", res);
-            // closeModal() 
+            closeModal();
         } catch (error) {
-            console.error("Error creating owner:", error);
+            console.error("Error updating owner:", error);
         }
     };
 
-return (
-<div className="create-owner-container">
-    <h2>Create Owner</h2>
-    <form className="create-owner-form" onSubmit={handleSubmit}>
-        <div className="">
-            <label>First Name:</label>
-            <input type="text" id="firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
-            {errors.firstname && <p className="error">{errors.firstname}</p>}
+    return (
+        <div className="create-owner-container">
+            <h2>Update Owner</h2>
+            <form className="create-owner-form" onSubmit={handleSubmit}>
+                <div className="">
+                    <label>First Name:</label>
+                    <input type="text" id="firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                    {errors.firstname && <p className="error">{errors.firstname}</p>}
+                </div>
+                <div className="">
+                    <label>Last Name:</label>
+                    <input type="text" id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} />
+                    {errors.lastname && <p className="error">{errors.lastname}</p>}
+                </div>
+                <div className="">
+                    <label>Prefers to go By:</label>
+                    <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                    {errors.username && <p className="error">{errors.username}</p>}
+                </div>
+                <div className="">
+                    <label>Email:</label>
+                    <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    {errors.email && <p className="error">{errors.email}</p>}
+                </div>
+                <div className="">
+                    <label>Address:</label>
+                    <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+                    {errors.address && <p className="error">{errors.address}</p>}
+                </div>
+                <div className="">
+                    <label>Phone Number:</label>
+                    <input type="text" id="phone_number" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                    {errors.phone_number && <p className="error">{errors.phone_number}</p>}
+                </div>
+                <div className="">
+                    <label>Preferred Payment Type:</label>
+                    <select id="payment_type" value={payment_type} onChange={(e) => setPayment_type(e.target.value)}>
+                        <option value="">Select Payment Type</option>
+                        <option value="Debit Card">Debit Card</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    {errors.payment_type && <p className="error">{errors.payment_type}</p>}
+                </div>
+                <div className="">
+                    <label>Notes:</label>
+                    <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
+                    {errors.notes && <p className="error">{errors.notes}</p>}
+                </div>
+                <button disabled={Object.values(errors).length > 0}  type="submit">Submit</button>
+                <button onClick={() => closeModal()} className="">Close</button>
+            </form>
         </div>
-        <div className="">
-            <label>Last Name:</label>
-            <input type="text" id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} />
-            {errors.lastname && <p className="error">{errors.lastname}</p>}
-        </div>
-        <div className="">
-            <label>Prefers to go By:</label>
-            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-            {errors.username && <p className="error">{errors.username}</p>}
-        </div>
-        <div className="">
-            <label>Email:</label>
-            <input type="text" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            {errors.email && <p className="error">{errors.email}</p>}
-        </div>
-        <div className="">
-            <label>Address:</label>
-            <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
-            {errors.address && <p className="error">{errors.address}</p>}
-        </div>
-        <div className="">
-            <label>Phone Number:</label>
-            <input type="text" id="phone_number" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
-            {errors.phone_number && <p className="error">{errors.phone_number}</p>}
-        </div>
-        <div className="">
-            <label>Preferred Payment Type:</label>
-            <select id="payment_type" value={payment_type} onChange={(e) => setPayment_type(e.target.value)}>
-                <option value="">Select Payment Type</option>
-                <option value="DebitCard">Debit Card</option>
-                <option value="CreditCard">Credit Card</option>
-                <option value="Cash">Cash</option>
-                <option value="Other">Other</option>
-            </select>
-            {errors.payment_type && <p className="error">{errors.payment_type}</p>}
-        </div>
-        <div className="">
-            <label>Notes:</label>
-            <textarea id="notes" value={notes} onChange={(e) => setNotes(e.target.value)} />
-            {errors.notes && <p className="error">{errors.notes}</p>}
-        </div>
-        <button disabled={Object.values(errors).length > 0} type="submit">Submit</button>
-    </form>
-</div>
-);
+    );
 };
 
 export default UpdateOwner;

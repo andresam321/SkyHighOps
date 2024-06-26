@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-import { thunkGetAllAircrafts, thunkAssignAircraftToParkingSpot,} from '../../redux/aircraft';
-import { thunkGetAssignParkingSpotsWithSpecificArea, thunkGetParkingSpotsByArea } from '../../redux/parking_spot';
-
+import { thunkGetAllAircrafts, thunkAssignAircraftToParkingSpot } from '../../redux/aircraft';
+import { thunkGetParkingSpotsByArea } from '../../redux/parking_spot';
 import { useModal } from "../../context/Modal";
 import "./Assignment.css";
 
@@ -11,20 +10,14 @@ const AircraftAssignment = ({ spotId, areaId }) => {
     const dispatch = useDispatch();
     const { closeModal } = useModal();
 
+    // console.log("line13",areaId)
+
     const allAircraft = useSelector((state) => state.aircraftReducer?.allAircraft || []);
-    const parkingSpots = useSelector((state) => state.parkingSpotReducer[spotId] || []);
-
-    const [selectedAircraft, setSelectedAircraft] = useState('');
-
+    const [selectedAircraft, setSelectedAircraft] = useState(null);
 
     useEffect(() => {
         dispatch(thunkGetAllAircrafts());
     }, [dispatch]);
-
-    useEffect(() => {
-        dispatch(thunkGetParkingSpotsByArea(spotId));
-    }, [dispatch, spotId]);
-
 
     const handleAssignAircraft = async (e) => {
         e.preventDefault();
@@ -35,12 +28,13 @@ const AircraftAssignment = ({ spotId, areaId }) => {
                     parking_spot_id: spotId
                 };
                 const res = await dispatch(thunkAssignAircraftToParkingSpot(payload));
-                    // dispatch(thunkGetParkingSpotsByArea(spotId));
-                if (!res) {
-                    dispatch(thunkGetParkingSpotsByArea(spotId));
-                    closeModal();
+                closeModal(); // Close the modal
+                await dispatch(thunkGetParkingSpotsByArea(areaId)); // Fetch parking spots for the area
+                // console.log("THUNKGETTINGDISPATCH")
+                if (!res.errors) {
+                    console.log("line32",areaId)
                 } else {
-                    console.log(res);
+                    console.log(res.errors);
                 }
             } catch (error) {
                 console.error(error);
@@ -48,18 +42,10 @@ const AircraftAssignment = ({ spotId, areaId }) => {
         }
     };
 
-    // const handleAssignAircraft = async () => {
-    //     alert("Feature Currently being debugged")
-    // }
-
-    
-
     const aircraftOptions = allAircraft.map(aircraft => ({
         value: aircraft.id,
         label: `${aircraft.model} - ${aircraft.tail_number}`
     }));
-
-
 
     const customStyles = {
         control: (provided) => ({
@@ -78,13 +64,15 @@ const AircraftAssignment = ({ spotId, areaId }) => {
                     id="aircraft"
                     name="aircraft"
                     options={aircraftOptions}
-                    value={aircraftOptions.find(option => option.value === selectedAircraft)}
+                    value={selectedAircraft}
                     onChange={(option) => setSelectedAircraft(option)}
                     placeholder="Select or Search an aircraft..."
                     styles={customStyles}
                 />
-                <button type="submit">Assign</button>
-                <button type="button" onClick={() => closeModal()}>Cancel</button>
+                <div className="assignment-buttons">
+                    <button type="submit">Assign</button>
+                    <button type="button" onClick={closeModal}>Cancel</button>
+                </div>
             </form>
         </div>
     );

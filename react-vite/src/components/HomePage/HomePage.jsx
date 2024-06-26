@@ -29,7 +29,7 @@ const HomePage = () => {
 
 
 
-    console.log("line14aaaaaaa",loadSpotWithPlanesAndWithout)
+    // console.log("line14aaaaaaa",loadSpotWithPlanesAndWithout)
 
     
     useEffect(() => {
@@ -37,6 +37,7 @@ const HomePage = () => {
           try {
               await dispatch(thunkGetParkingSpotsByArea(id));
               // await dispatch(thunkGetAllAreasWithParkingSpots(id));
+              await dispatch(thunkGetParkingSpotsByArea(id));
           } catch (error) {
               console.error('Failed to fetch parking spots:', error);
           }
@@ -55,9 +56,15 @@ const HomePage = () => {
 
 
   const handleRemoveAircraft = async (aircraftId) => {
+    try {
+      // Unassign aircraft from parking spot
       await dispatch(thunkUnAssignAircraftFromParkingSpot(aircraftId));
-
-      dispatch(thunkGetParkingSpotsByArea(id));
+      
+      // Fetch updated parking spots after removal
+      await dispatch(thunkGetParkingSpotsByArea(id));
+    } catch (error) {
+      console.error('Failed to remove aircraft:', error);
+    }
   };
 
 
@@ -95,16 +102,14 @@ return (
           </NavLink>
         </div>
         <div className=''>
-        <button className='assign-button'>
           {!eachVal.aircraft && (
             <OpenModalButton
               buttonText="Assign Aircraft"
-              className=""
-              modalComponent={<AircraftAssignment spotId={eachVal?.id} />}
+              className="assign-button"
+              modalComponent={<AircraftAssignment spotId={eachVal?.id} areaId={id} />}
             />
           )}
-        </button>
-      </div>
+        </div>
       </div>
     ))}
   </div>

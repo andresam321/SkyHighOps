@@ -113,8 +113,8 @@ return (
             <label>Preferred Payment Type:</label>
             <select id="payment_type" value={payment_type} onChange={(e) => setPayment_type(e.target.value)}>
                 <option value="">Select Payment Type</option>
-                <option value="DebitCard">Debit Card</option>
-                <option value="CreditCard">Credit Card</option>
+                <option value="Debit Card">Debit Card</option>
+                <option value="Credit Card">Credit Card</option>
                 <option value="Cash">Cash</option>
                 <option value="Other">Other</option>
             </select>

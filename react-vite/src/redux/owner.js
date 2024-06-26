@@ -54,22 +54,19 @@ export const thunkUpdateOwner = (aircraftId, ownerId, owner) => async (dispatch)
     try {
         const res = await fetch(`/api/owners/${aircraftId}/owner/${ownerId}`, {
             method: "PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(owner)
+            body:owner
         });
-
+        
         if (!res.ok) {
             const errorData = await res.json();
             throw new Error(errorData.message || 'Failed to update owner');
-        }
-
-        const data = await res.json();
-        console.log("Updated owner data:", data);
+            }
+            
+            const data = await res.json();
+            console.log("Updated owner data:", data);
 
         if (!data.errors) {
-            dispatch(updateOwner(data));
+            await dispatch(updateOwner(data));
         }
     } catch (error) {
         console.error('Error updating owner:', error);
@@ -85,10 +82,10 @@ export const thunkCreateOwner = (aircraft_id, owner) => async (dispatch) => {
         if (!res.ok) {
             const errorData = await res.json();
             throw new Error(errorData.message || 'Failed to create owner');
-        }
-
-        const data = await res.json();
-        // console.log("line13 owner thunk, action", data);
+            }
+            
+            const data = await res.json(); 
+            
 
         if (!data.errors) {
             await dispatch(addOwnerToAircraftId(data));
@@ -158,17 +155,18 @@ function ownerReducer(state = {}, action) {
         case ADD_OWNER:{
             const newState = { ...state };
             newState[action.payload.id] = action.payload;
-            console.log("100",action.payload)
+            // console.log("100",action.payload)
             return newState;
         }
         case EDIT_OWNER : {
-            const newState = {...state};
-            newState[action.payload.id] = action.payload
-            return newState
+            return {
+                ...state,
+                [action.payload.id]: action.payload,
+            };
         }
         case DELETE_OWNER: {
             const newState = {...state};
-            delete newState[action.payload]
+            delete newState[action.payload.id]
             return newState;
         }
         default:

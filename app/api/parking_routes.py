@@ -42,29 +42,38 @@ def parking_spot_by_id(id):
 def create_parking_spot():
     print("In create form =>")
     
-
     form = ParkingSpotForm()
-    form["csrf_token"].data = request.cookies["csrf_token"]
-    if form.validate_on_submit():
-        new = ParkingSpot(
-            user_id = current_user.id,
-            airport_parking_id=int(form.data["airport_parking_id"]),
-            spot_number = form.data["spot_number"],
-            spot_size = form.data["spot_size"],
-            is_reserved = form.data["is_reserved"]
-        )
-        db.session.add(new)
-        db.session.commit()
-
-        added_spot = ParkingSpot.query.filter_by(id=new.id).first()
-        if added_spot:
-            print("Parking spot added successfully:", added_spot.to_dict())
-        else:
-            print("Failed to add parking spot.")
-
-
-        return new.to_dict(), 201
+    # Extract CSRF token from request cookies
+    if 'csrf_token' in request.cookies:
+        form["csrf_token"].data = request.cookies["csrf_token"]
     else:
+        print("CSRF token missing")
+        return {"message": "CSRF token missing"}, 400
+
+    if form.validate_on_submit():
+        try:
+            new = ParkingSpot(
+                user_id=current_user.id,
+                airport_parking_id=int(form.data["airport_parking_id"]),
+                spot_number=form.data["spot_number"],
+                spot_size=form.data["spot_size"],
+                is_reserved=form.data["is_reserved"]
+            )
+            db.session.add(new)
+            db.session.commit()
+
+            added_spot = ParkingSpot.query.filter_by(id=new.id).first()
+            if added_spot:
+                print("Parking spot added successfully:", added_spot.to_dict())
+            else:
+                print("Failed to add parking spot.")
+            return new.to_dict(), 201
+        except Exception as e:
+            db.session.rollback()
+            print("Error adding parking spot:", str(e))
+            return {"message": "An error occurred while adding the parking spot.", "error": str(e)}, 500
+    else:
+        print("Form validation errors:", form.errors)
         return form.errors, 400
 
 
@@ -77,7 +86,12 @@ def update_parking_spot(id):
         return {"message": "Parking Spot couldnt be found"}, 404
     
     form = UpdateParkingSpotForm()
-    form["csrf_token"].data = request.cookies["csrf_token"]
+    # Extract CSRF token from request cookies
+    if 'csrf_token' in request.cookies:
+        form["csrf_token"].data = request.cookies["csrf_token"]
+    else:
+        return {"message": "CSRF token missing"}, 400
+
 
     # if form.validate_on_submit():
         # Check if the new spot number already exists
@@ -246,3 +260,17 @@ def get_parking_spots_with_aircraft_by_area(area_id):
             spot_data['aircraft'] = None
         parking_spots_data.append(spot_data)
     return {"parking_spots": parking_spots_data}, 200
+
+
+#check if parking spots exist
+@parking_routes.route("/check_spot", methods = ['POST'])
+def check_spot_exist():
+    data = request.get_json()
+    spot_number = data.get('spot_number')
+    airport_parking_id = data.get("airport_parking_id")
+
+    existing_spot = ParkingSpot.query.filter_by(spot_number=spot_number, airport_parking_id=airport_parking_id).first()
+    if existing_spot:
+        return {"exists": True}, 200
+    else:
+        return {"exists": False}, 200

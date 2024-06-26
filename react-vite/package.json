@@ -19,7 +19,8 @@
     "react-router-dom": "^6.15.0",
     "react-select": "^5.8.0",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "reselect": "^5.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

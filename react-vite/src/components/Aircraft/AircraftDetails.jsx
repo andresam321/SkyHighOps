@@ -15,9 +15,11 @@ const AircraftDetails = () => {
     let dispatch = useDispatch()
     const {aircraftId} = useParams()
 
-    // const currentUser = useSelector((state) => state.session.user);
+    const currentUser = useSelector((state) => state.session.user);
 
-    const aircraftbyId = useSelector((state)=> state.aircraftReducer[aircraftId])
+    console.log("current user",currentUser)
+
+    const aircraftById = useSelector((state)=> state.aircraftReducer[aircraftId])
 
     const ownerById =  useSelector((state) => Object.values(state.ownerReducer))
     // const selectedAircraft = aircraftbyId[aircraftId]
@@ -30,7 +32,8 @@ const AircraftDetails = () => {
         const fetchData = async () => {
             try {
                 await dispatch(thunkGetSingleAircraft(aircraftId))
-                await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId));
+                await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId || []));
+                // await dispatch(thunkGetOneOwnerById(aircraftId))
             } catch (error) {
                 console.error('Error in useEffect:', error);
                 // Handle error appropriately, e.g., set an error state
@@ -40,9 +43,10 @@ const AircraftDetails = () => {
     }, [dispatch, aircraftId]);
 
     
-    if (!aircraftbyId || !ownerById) {
-        return <div>Loading...</div>; // or handle appropriately
+    if (!aircraftById) {
+        return <div>Loading...</div>; // Handle loading state
     }
+
 
     const getFuelTypeStyle = (fuelType) => {
         switch (fuelType) {
@@ -65,52 +69,55 @@ return (
     <div className="aircraft-details">
     <h2>Aircraft Details</h2>
     <div>
-        <img src={aircraftbyId.plane_image} alt={aircraftbyId.model} />
+        <img src={aircraftById.plane_image} alt={aircraftById.model} />
     </div>
     <div className="details-container">
         <div>
-            <p><span>Manufacturer:</span> {aircraftbyId.manufacturer}</p>
-            <p><span>Model:</span> {aircraftbyId.model}</p>
-            <p><span>Tail Number:</span> {aircraftbyId.tail_number}</p>
+            <p><span>Manufacturer:</span> {aircraftById.manufacturer}</p>
+            <p><span>Model:</span> {aircraftById.model}</p>
+            <p><span>Tail Number:</span> {aircraftById.tail_number}</p>
         </div>
         <div>
-            <p><span>Fuel Type:</span> <span style={getFuelTypeStyle(aircraftbyId.fuel_type)}> {aircraftbyId.fuel_type}</span></p>
-            <p><span>Operation Status:</span> {aircraftbyId.operation_status}</p>
-            <p><span>Last Time Fueled:</span> {aircraftbyId.last_time_fueled}</p>
+            <p><span>Fuel Type:</span> <span style={getFuelTypeStyle(aircraftById.fuel_type)}> {aircraftById.fuel_type}</span></p>
+            <p><span>Operation Status:</span> {aircraftById.operation_status}</p>
+            <p><span>Last Time Fueled:</span> {aircraftById.last_time_fueled}</p>
         </div>
         <div>
-            <p><span>Seating Capacity:</span> {aircraftbyId.seating_capacity}</p>
-            <p><span>Active Owners:</span> {aircraftbyId.active_owners}</p>
-            <p><span>Max Takeoff Weight:</span> {aircraftbyId.max_takeoff_weight}</p>
+            <p><span>Seating Capacity:</span> {aircraftById.seating_capacity}</p>
+            <p><span>Active Owners:</span> {aircraftById.active_owners}</p>
+            <p><span>Max Takeoff Weight:</span> {aircraftById.max_takeoff_weight}</p>
         </div>
         <div>
-            <p><span>Notes:</span> {aircraftbyId.notes}</p>
+            <p><span>Notes:</span> {aircraftById.notes}</p>
         </div>
     </div>
     <div className="owners-list">
-            <div>
-                <h4>Owners</h4>
-                <OpenModalButton
-                    buttonText={"Add Owner to aircraft"}
-                    className="view-details-button"
-                    modalComponent={<CreateOwner/>}
-                    /> 
-                </div>
-                <div className="owners-grid">
-                    {ownerById.map((owner) => (
-                        <div key={owner.id} className="owner-card">
-                            <p><strong>{owner.firstname} {owner.lastname}</strong></p>
-                            <p><span>Notes:</span> {owner.notes}</p>
-                            <OpenModalButton
-                                buttonText={"View Owner Info"}
-                                className="view-details-button"
-                                modalComponent={<OwnerDetails owner={owner} />}
-                            />
-                        </div>
-                    ))}
-                </div>
-                
-            </div>
+        <div>
+            <h4>Owners</h4>
+            <OpenModalButton
+                buttonText={"Add Owner to Aircraft"}
+                className="view-details-button"
+                modalComponent={<CreateOwner />}
+            />
+        </div>
+        <div className="owners-grid">
+            {ownerById.length > 0 ? (
+                ownerById.map((owner) => (
+                    <div key={owner.id} className="owner-card">
+                        <p><strong>{owner.firstname} {owner.lastname}</strong></p>
+                        <p><span>Notes:</span> {owner.notes}</p>
+                        <OpenModalButton
+                            buttonText={"View Owner Info"}
+                            className="view-details-button"
+                            modalComponent={<OwnerDetails owner={owner} />}
+                        />
+                    </div>
+                ))
+            ) : (
+                <p>No owners added atm.</p>
+            )}
+        </div>
+    </div>
     <div className="button-container">
         <OpenModalButton
             buttonText={"Update Aircraft"}
