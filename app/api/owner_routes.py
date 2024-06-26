@@ -39,10 +39,11 @@ def create_owner(aircraft_id):
     form = OwnerForm()
 
     # Extract CSRF token from request cookies
-    if 'csrf_token' in request.cookies:
-        form["csrf_token"].data = request.cookies["csrf_token"]
-    else:
-        return {"message": "CSRF token missing"}, 400
+    csrf_token = request.cookies.get("csrf_token")
+    if not csrf_token:
+        return jsonify({"message": "CSRF token missing"}), 400
+
+    form.csrf_token.data = csrf_token
 
     if form.validate_on_submit():
         new_owner = Owner(
@@ -60,10 +61,10 @@ def create_owner(aircraft_id):
         db.session.add(new_owner)
         db.session.commit()
         print(new_owner)
-        return new_owner.to_dict(), 201  # 201 Created
+        return new_owner.to_dict(), 201  
     else:
         print("Form errors:", form.errors)
-        return {"errors": form.errors}, 400  # 400 Bad Request
+        return {"errors": form.errors}, 400  
     
 
 #update an owner

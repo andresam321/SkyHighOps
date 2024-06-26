@@ -5,7 +5,7 @@
   padding: 30px;
   background-color: #f0f0f0;
   border-radius: 5px;
-  justify-content: center; 
+  justify-content: center;
   align-items: flex-start;
   max-height: 100%;
   overflow-y: auto;
@@ -17,13 +17,13 @@
   border-radius: 5px;
   padding: 10px;
   width: 250px;
-  min-width: 250px; 
-  height: 480px; 
+  min-width: 250px;
+  height: 480px;
   text-align: center;
   transition: box-shadow 0.3s ease;
   box-sizing: border-box;
   margin-bottom: 20px;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .flex-item:hover {
@@ -53,16 +53,11 @@
 }
 
 .empty {
-  border-left: 5px solid #28a745; 
-}
-
-.h2-spot {
-  text-align: center;
-  margin: 20px 0;
+  border-left: 5px solid #28a745;
 }
 
 button.remove-button {
-  background-color: #dc3545; 
+  background-color: #dc3545;
   color: white;
   margin-top: 10px;
   padding: 10px 20px;
@@ -73,8 +68,8 @@ button.remove-button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.button.assign-button {
-  background-color: #62eb4d; 
+.assign-button {
+  background-color: #62eb4d;
   color: white;
   margin-top: 10px;
   padding: 10px 20px;
@@ -83,16 +78,6 @@ button.remove-button {
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.spot-info {
-  text-decoration: none;
-  color: #007bff;
-}
-
-a.nav-link {
-  text-decoration: none;
-  color: #007bff;
 }
 
 .custom-modal-button {
@@ -108,14 +93,17 @@ a.nav-link {
 }
 
 .custom-modal-button:hover {
-  background-color: #218838; /* Darker shade of green on hover */
+  background-color: #218838; 
+}
+
+a.nav-link,
+.spot-info,
+.aircraft-info {
+  text-decoration: none;
+  color: #007bff;
+  cursor: pointer;
 }
 
 a.nav-link:hover {
   text-decoration: none;
-}
-a.nav-link, .spot-info, .aircraft-info {
-  text-decoration: none;
-  color: #007bff;
-  cursor: pointer; 
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { thunkAddAircraft } from '../../redux/aircraft';
+import { thunkGetAllOwnersThatCorrespondToAircraft, thunkGetOneOwnerById } from '../../redux/owner'
 import "./AircraftForm.css"
 
 
@@ -59,9 +60,9 @@ const CreateAircraft = () => {
 
         try {
             const response = await dispatch(thunkAddAircraft(formData));
-        
             if (response && response.id) {
                 navigate(`/aircraft/${response.id}`);
+            await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(response.id))
             } else if (response.errors) {
                 setErrors(response.errors);
             } else {

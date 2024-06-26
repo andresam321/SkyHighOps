@@ -8,6 +8,7 @@ import UpdateAircraft from './UpdateAircraft'
 import DeleteAircraft from './DeleteAircraft'
 import OwnerDetails from '../Owner/OwnerDetails'
 import CreateOwner from '../Owner/CreateOwner'
+import { clearOwners } from '../../redux/owner'
 import "./Aircraft.css"
 
 const AircraftDetails = () => {
@@ -31,12 +32,12 @@ const AircraftDetails = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                await dispatch(thunkGetSingleAircraft(aircraftId))
-                await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId || []));
-                // await dispatch(thunkGetOneOwnerById(aircraftId))
+                await dispatch(thunkGetSingleAircraft(aircraftId));
+                // Clear the Redux state for owners related to previous aircraft
+                dispatch(clearOwners());
+                await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId));
             } catch (error) {
                 console.error('Error in useEffect:', error);
-                // Handle error appropriately, e.g., set an error state
             }
         };
         fetchData();
