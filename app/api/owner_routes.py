@@ -38,11 +38,11 @@ def get_one_owner_by_id(id):
 def create_owner(aircraft_id):
     form = OwnerForm()
 
-
+    # Extract CSRF token from request cookies
     if 'csrf_token' in request.cookies:
         form["csrf_token"].data = request.cookies["csrf_token"]
     else:
-        return {"error": "CSRF token missing in cookies"}, 400
+        return {"message": "CSRF token missing"}, 400
 
     if form.validate_on_submit():
         new_owner = Owner(
@@ -60,37 +60,45 @@ def create_owner(aircraft_id):
         db.session.add(new_owner)
         db.session.commit()
         print(new_owner)
-        return new_owner.to_dict(), 201  
-
-    return {"errors": form.errors}, 400  
+        return new_owner.to_dict(), 201  # 201 Created
+    else:
+        print("Form errors:", form.errors)
+        return {"errors": form.errors}, 400  # 400 Bad Request
+    
 
 #update an owner
 @owner_routes.route("/<int:aircraft_id>/owner/<int:owner_id>", methods=['PUT'])
 @login_required
 def update_owner(owner_id, aircraft_id):
 
-    form = OwnerUpdateForm()
-
     owner = Owner.query.get(owner_id)
+
+
+    form = OwnerUpdateForm()
+    if 'csrf_token' in request.cookies:
+        form["csrf_token"].data = request.cookies["csrf_token"]
+    else:
+        return {"message": "CSRF token missing"}, 400
 
     if not owner:
         return {"message": "Owner couldn't be found"}, 404
-    
-    form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
-        owner.firstname=form.data["firstname"]
-        owner.lastname=form.data['lastname']
-        owner.username=form.data['username']
-        owner.email=form.data["email"]
-        owner.address=form.data["address"]
-        owner.phone_number=form.data['phone_number']
-        owner.payment_type=form.data['payment_type']
-        owner.notes=form.data['notes']
+        owner.firstname = form.data["firstname"]
+        owner.lastname = form.data['lastname']
+        owner.username = form.data['username']
+        owner.email = form.data["email"]
+        owner.address = form.data["address"]
+        owner.phone_number = form.data['phone_number']
+        owner.payment_type = form.data['payment_type']
+        owner.notes = form.data['notes']
 
         db.session.commit()
-        return owner.to_dict(),200
+        return jsonify(owner.to_dict()), 200
+
+    print("Form errors:", form.errors)
     return {"errors": form.errors}, 400
+
 
 #DELEte an owner
 @owner_routes.route("/<int:id>/owner/<int:owner_id>", methods = ["DELETE"])

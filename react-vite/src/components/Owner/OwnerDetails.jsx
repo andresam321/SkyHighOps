@@ -10,15 +10,19 @@ import "./OwnerCss.css"
 const OwnerDetails = ({owner}) => {
 
 const {aircraftId} = useParams()
-let dispatch = useDispatch()
+const dispatch = useDispatch()
 
-// const owner =  useSelector((state) => state.ownerReducer[+aircraftId])
-// console.log("This is the list of owners for this plane",owner)
+
+const currentUser = useSelector((state) => state.session.user);
+
+// console.log("current user",currentUser)
+// const ownerState =  useSelector((state) => state.ownerReducer[+aircraftId])
+// console.log("This is the list of owners for this plane",ownerState)
 
 // useEffect(() => {
 //     const fetchData = async () => {
 //         try {
-//             await dispatch(thunkGetOneOwnerById(aircraftId));
+//             await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId));
 //         } catch (error) {
 //             console.error('Error in useEffect:', error);
 //             // Handle error appropriately, e.g., set an error state
@@ -27,9 +31,9 @@ let dispatch = useDispatch()
 //     fetchData();
 // }, [dispatch, aircraftId]);
 
-if (!owner) {
-    return <div>Loading owner details...</div>;
-}
+// if (!owner) {
+//     return <div>Loading owner details...</div>;
+// }
 
 
 return (

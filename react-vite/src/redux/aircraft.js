@@ -93,10 +93,10 @@ export const thunkUnAssignAircraftFromParkingSpot = (aircraftId) => async (dispa
 export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) => {
     try {
         const res = await fetch(`/api/aircrafts/assign_aircraft_to_parking_spot`, {
-            method: "POST", 
-            body: JSON.stringify(aircraft), 
+            method: "POST",
+            body: JSON.stringify(aircraft),
             headers: {
-                "Content-Type": "application/json" 
+                "Content-Type": "application/json"
             }
         });
         if (!res.ok) {
@@ -104,12 +104,10 @@ export const thunkAssignAircraftToParkingSpot = (aircraft) => async (dispatch) =
         }
         const data = await res.json();
         await dispatch(assignAircraftToParking(data));
-        //  dispatch(thunkGetParkingSpotsByArea())
-        window.location.reload()
+        await dispatch(thunkGetParkingSpotsByArea(data.aircraft.parking_spot_id)); 
+        console.log("line108fromAssigningThunk",data.aircraft.parking_spot_id)
     } catch (error) {
-        return {
-            "errors": error.message
-        };
+        return { errors: error.message };
     }
 };
 
@@ -257,8 +255,7 @@ function aircraftReducer(state = {}, action) {
         }
         case ASSIGN_AIRCRAFT_TO_PARKING_SPOT :{
             const newState = { ...state };
-            const assignedAircraft = action.payload;
-            newState[assignedAircraft.id] = assignedAircraft;
+            newState[action.payload.id] = action.payload;
             return newState;
         }
         case UNASSIGN_AIRCRAFT_FROM_PARKING_SPOT: {
@@ -272,10 +269,9 @@ function aircraftReducer(state = {}, action) {
             }
         }
         case GET_ALL_ASSIGNED_AIRCRAFTS: {
-            return {
-                ...state,
-                allAircrafts: action.payload,
-            };
+            const newState = { ...state };
+            newState[action.payload.id] = action.payload;
+            return newState;
         }
         case ASSIGNED_AND_UNASSIGNED_AIRCRAFT:{
             return {

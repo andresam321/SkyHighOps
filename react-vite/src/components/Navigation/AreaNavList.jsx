@@ -9,6 +9,7 @@ import { useParams } from 'react-router-dom';
 
 
 
+
 const AreaNavList = () => {
 
 const {id} = useParams()
@@ -20,7 +21,7 @@ const areas = useSelector((state) => state.airportAreasReducer?.areasWithSpots?.
 
 // const areas = areaName?.airport || [];
 
-console.log("line22", areas)
+// console.log("line22", areas)
 
 const [selectedParking, setSelectedParking] = useState('');
 const [loading, setLoading] = useState(true);

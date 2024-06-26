@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { thunkCreateParkingSpot } from '../../redux/parking_spot';
+import { thunkCheckSpotExists } from '../../redux/parking_spot';
 import './CreateParking.css'
 
 const CreateParkingSpot = () => {
@@ -21,19 +22,46 @@ const CreateParkingSpot = () => {
     //     return existingParkingSpots.some(spot => spot.spot_number === spotNumber);
     // };
 
-    useEffect(() => {
-        const errObj = {};
-        if (!/^[a-zA-Z]\d*$/.test(spot_number)) {
-            errObj.spot_number = "Parking spot must start with a letter followed by digits (parking spot number unique, no duplicates)";
-        } else if (spot_number.length < 2 || spot_number > 5) {
-            errObj.spot_number = "Parking spot must be between two and five characters";
-        }
-        if (!airport_parking_id) errObj.airport_parking_id = "Please provide a valid parking area";
-        if (!spot_size) errObj.spot_size = "Please provide a valid parking spot size";
-        if (!is_reserved) errObj.is_reserved = "Defaults to no";
+    
+    const getPrefix = (parking_area_id) => {
+        const prefixes = {
+            '1': 'N',  // North
+            '2': 'E',  // East
+            '3': 'W',  // West
+            '4': 'S'   // South
+        };
+        return prefixes[parking_area_id] || '';
+    };
 
-        setErrors(errObj);
-    }, [spot_number, spot_size, is_reserved]);
+    useEffect(() => {
+        const validateSpot = async () => {
+            const prefix = getPrefix(airport_parking_id);
+
+            const errObj = {};
+            if (!spot_number.startsWith(prefix)) {
+                errObj.spot_number = `Parking spot number must start with '${prefix}' for the selected parking area`;
+            } else if (!/^[a-zA-Z]\d*$/.test(spot_number)) {
+                errObj.spot_number = "Parking spot must start with a letter followed by digits (parking spot number unique, no duplicates)";
+            } else if (spot_number.length < 2 || spot_number.length > 5) {
+                errObj.spot_number = "Parking spot must be between two and five characters";
+            }
+
+            if (!airport_parking_id) errObj.airport_parking_id = "Please provide a valid parking area";
+            if (!spot_size) errObj.spot_size = "Please provide a valid parking spot size";
+            if (!is_reserved) errObj.is_reserved = "Defaults to no";
+
+            if (Object.keys(errObj).length === 0) {
+                const exists = await dispatch(thunkCheckSpotExists(spot_number, airport_parking_id));
+                if (exists) {
+                    errObj.spot_number = "Parking spot number already exists";
+                }
+            }
+
+            setErrors(errObj);
+        };
+
+        validateSpot();
+    }, [spot_number, airport_parking_id, spot_size, is_reserved, dispatch]);
 
     
     const handleSubmit = async (e) => {

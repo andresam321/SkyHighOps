@@ -1,5 +1,3 @@
-
-
 const SET_PARKING_SPOTS = 'setParkingSpots/SET_PARKING_SPOTS';
 const LOAD_EMPTY_PARKING_SPOTS = "emptyParkingSpots/LOAD_EMPTY_PARKING_SPOTS";
 const LOAD_SINGLE_PARKING_SPOT = "loadSingleParkingSpot/LOAD_SINGLE_PARKING_SPOT";
@@ -11,6 +9,7 @@ const ASSIGN_AIRCRAFT_TO_PARKING_SPOT = "assignAircraftToParkingSpot/ASSIGN_AIRC
 const UPDATE_PARKING_SPOT_STATUS = "updateParkingSpotStatus/UPDATE_PARKING_SPOT_STATUS";
 const LOAD_ALL_PARKING_SPOTS = "loadAllParkingSpots/LOAD_ALL_PARKING_SPOTS"
 const GET_ASSIGN_PARKING_SPOTS_WITH_SPECIFIC_AREA = "getAssignedParkingSpotsWithSpecificArea/GET_ASSIGN_PARKING_SPOTS_WITH_SPECIFIC_AREA"
+const CHECK_PARKING_SPOTS = "checkParkingSpots/CHECK_PARKING_SPOTS"
 
 
 const getAssignParkingSpotWithSpecificArea = (parkingSpot) => ({
@@ -70,12 +69,18 @@ const updateParkingSpotStatus = (parkingSpot) => ({
     payload: parkingSpot
 });
 
+const checkParkingSpot = (exists) => ({
+    type:CHECK_PARKING_SPOTS,
+    payload:exists
+
+})
+
 // Thunks
 export const thunkGetAssignParkingSpotsWithSpecificArea = (areaId) => async (dispatch) => {
     const res = await fetch(`/api/parking_spots/parking_spots_with_aircrafts/${areaId}`);
     if (res.ok) {
         const data = await res.json();
-        console.log("data res line78",data)
+        // console.log("data res line78",data)
         if (!data.errors) {
             await dispatch(getAssignParkingSpotWithSpecificArea(data.parking_spots));
         }
@@ -98,7 +103,7 @@ export const thunkGetParkingSpotsByArea = (areaId) => async (dispatch) => {
     const res = await fetch(`/api/parking_spots/with_aircraft/${areaId}`);
     if (res.ok) {
         const data = await res.json();
-        console.log("line89 res",data.parkingSpots)
+        // console.log("line89 res",data.parkingSpots)
         if (!data.errors) {
             await dispatch(setParkingSpots(areaId, data.parkingSpots));
         }
@@ -232,6 +237,26 @@ export const thunkAssignAircraftToParkingSpot = (parking_spotId, aircraftId) => 
 //     }
 // }
 
+export const thunkCheckSpotExists = (spot_number, airport_parking_id) => async (dispatch) => {
+    try {
+        const res = await fetch('/api/parking_spots/check_spot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ spot_number, airport_parking_id }),
+        });
+
+        const data = await res.json();
+        dispatch(checkParkingSpot(data.exists));
+        return data.exists;
+    } catch (err) {
+        console.error('Failed to check spot existence:', err);
+        return false;
+    }
+};
+
+
 // Reducer
 function parkingSpotReducer(state = {}, action) {
     switch (action.type) {
@@ -286,7 +311,12 @@ function parkingSpotReducer(state = {}, action) {
                 ...state,
                 [action.areaId]: action.parkingSpots,
             };
-        
+        case CHECK_PARKING_SPOTS: {
+            return {
+            ...state,
+            spotExists: action.payload,
+            };
+        }
         default:
             return state;
     }
