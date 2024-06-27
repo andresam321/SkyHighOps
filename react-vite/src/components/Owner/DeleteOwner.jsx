@@ -9,25 +9,25 @@ const DeleteOwner = ({ owner }) => {
     const dispatch = useDispatch();
 
     const handleDelete = async (e) => {
-      e.preventDefault();
-  
-      try {
-          // Dispatch thunkDeleteOwner action
-          await dispatch(thunkDeleteOwner(owner.aircraft_id, owner.id));
-  
-          // Close modal
-          closeModal();
-  
-          // Optionally, fetch updated data
-          dispatch(thunkGetAllOwnersThatCorrespondToAircraft(owner.aircraft_id, owner.id));
-          
-      } catch (error) {
-          console.error("Error deleting owner:", error);
-          alert("An error occurred. Please try again.");
-      }
-  };
+        e.preventDefault();
 
-  return (
+    try {
+          // Dispatch thunkDeleteOwner action
+        await dispatch(thunkDeleteOwner(owner.aircraft_id, owner.id));
+
+          // Close modal
+        closeModal();
+
+          // Optionally, fetch updated data
+        dispatch(thunkGetAllOwnersThatCorrespondToAircraft(owner.aircraft_id, owner.id));
+        
+    } catch (error) {
+        console.error("Error deleting owner:", error);
+        alert("An error occurred. Please try again.");
+    }
+};
+
+return (
         <div className="delete-container">
             <form onSubmit={handleDelete} className="delete-form">
                 <div className="delete-header">

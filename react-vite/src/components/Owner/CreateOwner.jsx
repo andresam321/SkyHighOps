@@ -27,8 +27,8 @@ const CreateOwner = () => {
         if (!email || (!email.includes('@') || email.length < 10)) {
             errorsObj.email = 'Email must have an @ symbol and must be at least 10 characters long';
         }
-        if (!username || username.length < 5 || username.length > 40) {
-            errorsObj.username = 'Username must be between 5 and 40 characters';
+        if (!username || username.length < 3 || username.length > 40) {
+            errorsObj.username = 'Nickname must be between 3 and 40 characters';
         }
         if (!firstname || firstname.length < 3 || firstname.length > 25) {
             errorsObj.firstname = 'Firstname must be between 3 and 25 characters';
@@ -68,7 +68,7 @@ const CreateOwner = () => {
 
         try {
             const res = await dispatch(thunkCreateOwner(aircraftId,formData)); 
-            console.log("Response:", res);
+            // console.log("Response:", res);
             closeModal() 
         } catch (error) {
             console.error("Error creating owner:", error);
@@ -90,7 +90,7 @@ return (
             {errors.lastname && <p className="error">{errors.lastname}</p>}
         </div>
         <div className="">
-            <label>Username:</label>
+            <label>Goes By:</label>
             <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
             {errors.username && <p className="error">{errors.username}</p>}
         </div>

@@ -3,6 +3,7 @@ const LOAD_ONE_OWNER_BY_ID = "loadOneOwnerById/LOAD_ONE_OWNER_BY_ID"
 const ADD_OWNER = "addOwner/ADD_OWNER"
 const EDIT_OWNER= "editOwner/EDIT_OWNER"
 const DELETE_OWNER = "deleteOwner/DELETE_OWNER"
+const CLEAR_OWNERS = 'clearOwners/CLEAR_OWNERS'; 
 
 
 const getAllOwnersFromAircraft = (owners) => ({
@@ -28,6 +29,10 @@ const deleteOwner = (owner) => ({
     type: DELETE_OWNER,
     payload:owner
 })
+
+export const clearOwners = () => ({
+    type: CLEAR_OWNERS,
+});
 
 export const thunkDeleteOwner = (aircraft_Id,ownerId) => async (dispatch) => {
     try {
@@ -75,19 +80,12 @@ export const thunkUpdateOwner = (aircraftId, ownerId, owner) => async (dispatch)
 
 export const thunkCreateOwner = (aircraft_id, owner) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/owners/${aircraft_id}/new_owner`, {
+        const res = await fetch(`/api/owners/${aircraft_id}/new/owner/to_aircraft`, {
             method: "POST",
             body: owner
         })
-        if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.message || 'Failed to create owner');
-            }
-            
-            const data = await res.json(); 
-            
-
-        if (!data.errors) {
+        if (res.ok) {
+            const data = await res.json();
             await dispatch(addOwnerToAircraftId(data));
         }
     } catch (error) {
@@ -138,7 +136,7 @@ export const thunkGetAllOwnersThatCorrespondToAircraft = (aircraft_id) => async 
 function ownerReducer(state = {}, action) {
     switch (action.type){
         case LOAD_ALL_OWNERS_THAT_CORRESPOND_TO_AIRCRAFT: {
-            const newState = {};
+            const newState = { ...state };
             // console.log("ownerReducer", action.payload);
             action.payload.owners.forEach((owner) => {
                 newState[owner.id] = owner;
@@ -169,6 +167,8 @@ function ownerReducer(state = {}, action) {
             delete newState[action.payload.id]
             return newState;
         }
+        case CLEAR_OWNERS:
+            return {}
         default:
         return state;
 

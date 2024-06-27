@@ -43,8 +43,8 @@ const UpdateOwner = ({ owner }) => {
         if (!email || (typeof email === 'string' && (!email.includes('@') || email.length < 10))) {
             errorsObj.email = 'Email must have an @ symbol and must be at least 10 characters long';
         }
-        if (!username || username.length < 5 || username.length > 40) {
-            errorsObj.username = 'Username must be between 5 and 40 characters';
+        if (!username || username.length < 3 || username.length > 40) {
+            errorsObj.username = 'Nickname must be between 3 and 40 characters';
         }
         if (!firstname || firstname.length < 3 || firstname.length > 25) {
             errorsObj.firstname = 'Firstname must be between 3 and 25 characters';
@@ -105,7 +105,7 @@ const UpdateOwner = ({ owner }) => {
                     {errors.lastname && <p className="error">{errors.lastname}</p>}
                 </div>
                 <div className="">
-                    <label>Prefers to go By:</label>
+                    <label>Goes By:</label>
                     <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     {errors.username && <p className="error">{errors.username}</p>}
                 </div>
