@@ -34,6 +34,7 @@ def login():
     return form.errors, 401
 
 
+
 @auth_routes.route('/logout')
 def logout():
     """
@@ -52,11 +53,11 @@ def sign_up():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User(
-            username=form.data['username'],
             email=form.data['email'],
-            password=form.data['password'],
+            username=form.data['username'],
             firstname=form.data['firstname'],
-            lastname=form.data['lastname']
+            lastname=form.data['lastname'],
+            password=form.data['password']
         )
         db.session.add(user)
         db.session.commit()

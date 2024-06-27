@@ -30,8 +30,8 @@ def username_exists(form, field):
 class OwnerForm(FlaskForm):
     firstname = StringField("First Name", validators=[DataRequired(), check_firstName])
     lastname = StringField("Last Name", validators=[DataRequired(), check_lastName])
-    username = StringField("User Name", validators=[DataRequired(),username_exists])
-    email = StringField("Email", validators=[DataRequired(),user_exists])
+    username = StringField("User Name", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
     address = StringField("address", validators=[DataRequired()])
     phone_number = StringField("Phone Number", validators=[DataRequired()])
     payment_type = SelectField("Payment Type", choices=[('Debit Card', 'Debit Card'), ('Credit Card', 'Credit Card'), ('Cash', 'Cash'), ('Other', 'Other')])

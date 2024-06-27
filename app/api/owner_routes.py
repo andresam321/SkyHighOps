@@ -33,17 +33,20 @@ def get_one_owner_by_id(id):
 
 
 #add an owner to the aircraft
-@owner_routes.route("/<int:aircraft_id>/new_owner", methods=['POST'])
+@owner_routes.route("/<int:aircraft_id>/new/owner/to_aircraft", methods=['POST'])
 @login_required
 def create_owner(aircraft_id):
     form = OwnerForm()
+    print("Request Cookies:", request.cookies)  
 
     # Extract CSRF token from request cookies
-    csrf_token = request.cookies.get("csrf_token")
-    if not csrf_token:
-        return jsonify({"message": "CSRF token missing"}), 400
+    try:
+        form['csrf_token'].data = request.cookies['csrf_token']
+    except KeyError:
+        return {"errors": ["Missing CSRF token"]}, 400
 
-    form.csrf_token.data = csrf_token
+    print("Form CSRF Token:", form['csrf_token'].data)  
+    print("Cookie CSRF Token:", request.cookies['csrf_token'])  
 
     if form.validate_on_submit():
         new_owner = Owner(
@@ -64,7 +67,7 @@ def create_owner(aircraft_id):
         return new_owner.to_dict(), 201  
     else:
         print("Form errors:", form.errors)
-        return {"errors": form.errors}, 400  
+        return {"errors": form.errors}, 400   
     
 
 #update an owner
@@ -72,14 +75,17 @@ def create_owner(aircraft_id):
 @login_required
 def update_owner(owner_id, aircraft_id):
 
+    form = OwnerForm()
+
     owner = Owner.query.get(owner_id)
 
+    try:
+        form['csrf_token'].data = request.cookies['csrf_token']
+    except KeyError:
+        return {"errors": ["Missing CSRF token"]}, 400
 
-    form = OwnerUpdateForm()
-    if 'csrf_token' in request.cookies:
-        form["csrf_token"].data = request.cookies["csrf_token"]
-    else:
-        return {"message": "CSRF token missing"}, 400
+    print("Form CSRF Token:", form['csrf_token'].data)  
+    print("Cookie CSRF Token:", request.cookies['csrf_token'])  
 
     if not owner:
         return {"message": "Owner couldn't be found"}, 404
@@ -95,7 +101,7 @@ def update_owner(owner_id, aircraft_id):
         owner.notes = form.data['notes']
 
         db.session.commit()
-        return jsonify(owner.to_dict()), 200
+        return owner.to_dict(), 200
 
     print("Form errors:", form.errors)
     return {"errors": form.errors}, 400

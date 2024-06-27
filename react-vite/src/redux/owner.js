@@ -80,19 +80,12 @@ export const thunkUpdateOwner = (aircraftId, ownerId, owner) => async (dispatch)
 
 export const thunkCreateOwner = (aircraft_id, owner) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/owners/${aircraft_id}/new_owner`, {
+        const res = await fetch(`/api/owners/${aircraft_id}/new/owner/to_aircraft`, {
             method: "POST",
             body: owner
         })
-        if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(errorData.message || 'Failed to create owner');
-            }
-            
-            const data = await res.json(); 
-            
-
-        if (!data.errors) {
+        if (res.ok) {
+            const data = await res.json();
             await dispatch(addOwnerToAircraftId(data));
         }
     } catch (error) {
