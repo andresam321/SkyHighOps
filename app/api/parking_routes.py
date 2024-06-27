@@ -43,12 +43,7 @@ def create_parking_spot():
     print("In create form =>")
     
     form = ParkingSpotForm()
-    # Extract CSRF token from request cookies
-    if 'csrf_token' in request.cookies:
-        form["csrf_token"].data = request.cookies["csrf_token"]
-    else:
-        print("CSRF token missing")
-        return {"message": "CSRF token missing"}, 400
+    form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
         try:
@@ -86,17 +81,8 @@ def update_parking_spot(id):
         return {"message": "Parking Spot couldnt be found"}, 404
     
     form = UpdateParkingSpotForm()
-    # Extract CSRF token from request cookies
-    if 'csrf_token' in request.cookies:
-        form["csrf_token"].data = request.cookies["csrf_token"]
-    else:
-        return {"message": "CSRF token missing"}, 400
 
-
-    # if form.validate_on_submit():
-        # Check if the new spot number already exists
-        # if ParkingSpot.query.filter_by(spot_number=form.data['spot_number']).first() is not None:
-        #     return {"message": "Parking Spot number already exists"}
+    form["csrf_token"].data = request.cookies["csrf_token"]
 
     if form.validate_on_submit():
         parkingSpot.spot_number = form.data['spot_number']
@@ -107,6 +93,7 @@ def update_parking_spot(id):
     
         return parkingSpot.to_dict(), 200
     else:
+        print("form errors",form.errors)
         return form.errors, 400
 
 

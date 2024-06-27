@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect,jsonify
+from flask import Flask, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -11,15 +11,12 @@ from .api.parking_routes import parking_routes
 from .api.aircraft_routes import aircraft_routes
 from .api.airport_parking_routes import airport_routes
 from .api.owner_routes import owner_routes
-from flask_wtf.csrf import CSRFProtect
 
 from .seeds import seed_commands
 from .config import Config
 
 
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
-# csrf = CSRFProtect(app)
-# csrf.init_app(app)
 
 # Setup login manager
 login = LoginManager(app)
@@ -64,11 +61,6 @@ def https_redirect():
             code = 301
             return redirect(url, code=code)
 
-@app.before_request
-def before_request():
-    print(f"CSRF Token in Cookie: {request.cookies.get('csrf_token')}")
-    if request.method == "POST":
-        print(f"CSRF Token in Form: {request.form.get('csrf_token')}")
 
 @app.after_request
 def inject_csrf_token(response):
@@ -78,7 +70,7 @@ def inject_csrf_token(response):
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
-        httponly=True, path="/")
+        httponly=True)
     return response
 
 
@@ -110,21 +102,3 @@ def react_root(path):
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
-
-@app.errorhandler(400)
-def bad_request(error):
-    response = jsonify({'message': 'Bad Request', 'error': str(error)})
-    response.status_code = 400
-    return response
-
-@app.errorhandler(401)
-def unauthorized(error):
-    response = jsonify({'message': 'Unauthorized', 'error': str(error)})
-    response.status_code = 401
-    return response
-
-@app.errorhandler(404)
-def not_found(error):
-    response = jsonify({'message': 'Not Found', 'error': str(error)})
-    response.status_code = 404
-    return response

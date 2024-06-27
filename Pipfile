@@ -23,12 +23,16 @@ jinja2 = "==3.1.2"
 mako = "==1.2.4"
 markupsafe = "==2.1.2"
 sqlalchemy = "==1.4.46"
-werkzeug = "==2.3.2"
+werkzeug = "==2.2.2"
 wtforms = "==3.0.1"
 importlib-metadata = "==6.9.0"
 zipp = "==3.17.0"
-boto3 = "*"
+boto3 = "==1.34.115"
 faker = "*"
+botocore = "==1.34.115"
+jmespath = "==1.0.1"
+s3transfer = "==0.10.1"
+urllib3 = "==1.26.18"
 
 [dev-packages]
 

@@ -71,32 +71,32 @@ const HomePage = () => {
 
 return (
 <div className="parking-spot-container">
-  {loadSpotWithPlanesAndWithout?.map((eachVal, index) => (
-    <div key={index} className={`flex-item ${eachVal?.aircraft ? 'occupied' : 'empty'}`}>
-      {eachVal?.aircraft && (
+  {loadSpotWithPlanesAndWithout.map((eachVal, index) => (
+    <div key={index} className={`flex-item ${eachVal.aircraft ? 'occupied' : 'empty'}`}>
+      {eachVal.aircraft && (
         <>
           <div className='info-div'>
             <h3>Aircraft Info</h3>
             <div className="aircraft-link">
-              <NavLink to={`/aircraft/${eachVal?.aircraft?.id}`} className="aircraft-info">
+              <NavLink to={`/aircraft/${eachVal.aircraft.id}`} className="aircraft-info">
                 <div className='plane-image-div'>
-                  <img src={eachVal?.aircraft?.plane_image} alt="Plane" />
+                  <img src={eachVal.aircraft.plane_image} alt="Plane" />
                 </div>
-                <p>Model: {eachVal?.aircraft?.model}</p>
-                <p>Tail Number: {eachVal?.aircraft?.tail_number}</p>
-                <p>Fuel Type: {eachVal?.aircraft?.fuel_type}</p>
+                <p>Model: {eachVal.aircraft.model}</p>
+                <p>Tail Number: {eachVal.aircraft.tail_number}</p>
+                <p>Fuel Type: {eachVal.aircraft.fuel_type}</p>
               </NavLink>
             </div>
           </div>
-          <button className="remove-button" onClick={() => handleRemoveAircraft(eachVal?.aircraft?.id)}>Remove from Parking</button>
+          <button className="remove-button" onClick={() => handleRemoveAircraft(eachVal.aircraft.id)}>Remove from Parking</button>
         </>
       )}
       <div className='info-div'>
         <h3>Parking Spot Info</h3>
-        <NavLink to={`/parking_spot/${eachVal?.id}`} className="">
-          <p>Spot Number: {eachVal?.spot_number}</p>
-          <p>Is Reserved: {eachVal?.is_reserved}</p>
-          <p>Spot Size: {eachVal?.spot_size}</p>
+        <NavLink to={`/parking_spot/${eachVal.id}`} className="">
+          <p>Spot Number: {eachVal.spot_number}</p>
+          <p>Is Reserved: {eachVal.is_reserved}</p>
+          <p>Spot Size: {eachVal.spot_size}</p>
         </NavLink>
       </div>
       <div>
@@ -104,7 +104,7 @@ return (
           <OpenModalButton
             buttonText="Assign Aircraft"
             className="assign-button"
-            modalComponent={<AircraftAssignment spotId={eachVal?.id} areaId={id} />}
+            modalComponent={<AircraftAssignment spotId={eachVal.id} areaId={id} />}
           />
         )}
       </div>
@@ -112,7 +112,7 @@ return (
   ))}
 </div>
 );
-};
+}
 
 
 export default HomePage;

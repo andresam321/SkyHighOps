@@ -25,16 +25,16 @@ const AircraftDetails = () => {
     const ownerById =  useSelector((state) => Object.values(state.ownerReducer))
     // const selectedAircraft = aircraftbyId[aircraftId]
 
-    console.log("This is the list of owners for this plane",ownerById)
+    // console.log("This is the list of owners for this plane",ownerById)
     // console.log("line 15 in details",aircraftbyId)
     // console.log("line 17 in details",selectedAircraft)
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                console.log('Clearing owners for aircraft:', aircraftId);
+                await dispatch(clearOwners());
                 await dispatch(thunkGetSingleAircraft(aircraftId));
-                // Clear the Redux state for owners related to previous aircraft
-                dispatch(clearOwners());
                 await dispatch(thunkGetAllOwnersThatCorrespondToAircraft(aircraftId));
             } catch (error) {
                 console.error('Error in useEffect:', error);

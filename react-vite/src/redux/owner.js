@@ -34,26 +34,23 @@ export const clearOwners = () => ({
     type: CLEAR_OWNERS,
 });
 
-export const thunkDeleteOwner = (aircraft_Id,ownerId) => async (dispatch) => {
+export const thunkDeleteOwner = (aircraftId, ownerId) => async (dispatch) => {
     try {
-        const res = await fetch(`/api/owners/${aircraft_Id}/owner/${ownerId}`, {
+        const res = await fetch(`/api/owners/${aircraftId}/owner/${ownerId}`, {
             method: "DELETE",
-        })
+        });
         if (!res.ok) {
             const errorData = await res.json();
-            throw new Error(errorData.message || 'Failed to Delete owner');
+            throw new Error(errorData.message || 'Failed to delete owner');
         }
 
-        const data = await res.json();
-        // console.log("line13 owner delete, action", data);
-
-        if (!data.errors) {
-            await dispatch(deleteOwner(data));  
-        }
+        // Assuming the backend returns a success message without errors
+        await dispatch(deleteOwner(ownerId));
+        console.log("Owner deleted:", ownerId);
     } catch (error) {
-        console.error('Error deleting owner:', error);   
+        console.error('Error deleting owner:', error);
     }
-}
+};
 
 export const thunkUpdateOwner = (aircraftId, ownerId, owner) => async (dispatch) => {
     try {
@@ -163,8 +160,9 @@ function ownerReducer(state = {}, action) {
             };
         }
         case DELETE_OWNER: {
-            const newState = {...state};
-            delete newState[action.payload.id]
+            const newState = { ...state };
+            delete newState[action.payload];
+            console.log("Owner deleted from state:", newState);
             return newState;
         }
         case CLEAR_OWNERS:

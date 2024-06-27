@@ -82,8 +82,7 @@ const UpdateOwner = ({ owner }) => {
         formData.append('notes', notes);
 
         try {
-            const res = await dispatch(thunkUpdateOwner(owner.aircraft_id, owner.id, formData));
-            console.log("Response:", res);
+            await dispatch(thunkUpdateOwner(owner.aircraft_id, owner.id, formData));
             closeModal();
         } catch (error) {
             console.error("Error updating owner:", error);
@@ -105,7 +104,7 @@ const UpdateOwner = ({ owner }) => {
                     {errors.lastname && <p className="error">{errors.lastname}</p>}
                 </div>
                 <div className="">
-                    <label>Goes By:</label>
+                    <label>Goes:</label>
                     <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
                     {errors.username && <p className="error">{errors.username}</p>}
                 </div>

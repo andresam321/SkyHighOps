@@ -36,17 +36,9 @@ def get_one_owner_by_id(id):
 @owner_routes.route("/<int:aircraft_id>/new/owner/to_aircraft", methods=['POST'])
 @login_required
 def create_owner(aircraft_id):
+    
     form = OwnerForm()
-    print("Request Cookies:", request.cookies)  
-
-    # Extract CSRF token from request cookies
-    try:
-        form['csrf_token'].data = request.cookies['csrf_token']
-    except KeyError:
-        return {"errors": ["Missing CSRF token"]}, 400
-
-    print("Form CSRF Token:", form['csrf_token'].data)  
-    print("Cookie CSRF Token:", request.cookies['csrf_token'])  
+    form["csrf_token"].data = request.cookies["csrf_token"] 
 
     if form.validate_on_submit():
         new_owner = Owner(
@@ -75,17 +67,13 @@ def create_owner(aircraft_id):
 @login_required
 def update_owner(owner_id, aircraft_id):
 
-    form = OwnerForm()
-
     owner = Owner.query.get(owner_id)
 
-    try:
-        form['csrf_token'].data = request.cookies['csrf_token']
-    except KeyError:
-        return {"errors": ["Missing CSRF token"]}, 400
+    
+    form = OwnerForm()
 
-    print("Form CSRF Token:", form['csrf_token'].data)  
-    print("Cookie CSRF Token:", request.cookies['csrf_token'])  
+
+    form["csrf_token"].data = request.cookies["csrf_token"]
 
     if not owner:
         return {"message": "Owner couldn't be found"}, 404
@@ -105,6 +93,7 @@ def update_owner(owner_id, aircraft_id):
 
     print("Form errors:", form.errors)
     return {"errors": form.errors}, 400
+
 
 
 #DELEte an owner

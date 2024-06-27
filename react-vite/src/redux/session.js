@@ -10,50 +10,22 @@ const removeUser = () => ({
   type: REMOVE_USER
 });
 
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return null;
-}
-
-// Check if CSRF token is retrieved correctly
-const csrfToken = getCookie('csrf_token');
-console.log("Retrieved CSRF Token:", csrfToken);
-
-
 export const thunkAuthenticate = () => async (dispatch) => {
-  const csrfToken = getCookie('csrf_token');
-  console.log("CSRF Token:", csrfToken);  // Debugging line
+	const response = await fetch("/api/auth/");
+	if (response.ok) {
+		const data = await response.json();
+		if (data.errors) {
+			return;
+		}
 
-  const response = await fetch("/api/auth/", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrfToken
-    }
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    if (data.errors) {
-      return;
-    }
-    dispatch(setUser(data));
-  }
+		dispatch(setUser(data));
+	}
 };
 
 export const thunkLogin = (credentials) => async dispatch => {
-  const csrfToken = getCookie('csrf_token');
-  console.log("CSRF Token:", csrfToken);  // Debugging line
-
   const response = await fetch("/api/auth/login", {
     method: "POST",
-    headers: { 
-      "Content-Type": "application/json",
-      "X-CSRF-Token": csrfToken
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(credentials)
   });
 
@@ -62,13 +34,11 @@ export const thunkLogin = (credentials) => async dispatch => {
     dispatch(setUser(data));
   } else if (response.status < 500) {
     const errorMessages = await response.json();
-    console.log("Error messages:", errorMessages);  // Debugging line
-    return errorMessages;
+    return errorMessages
   } else {
-    return { server: "Something went wrong. Please try again" };
+    return { server: "Something went wrong. Please try again" }
   }
 };
-
 
 export const thunkSignup = (user) => async (dispatch) => {
   const response = await fetch("/api/auth/signup", {

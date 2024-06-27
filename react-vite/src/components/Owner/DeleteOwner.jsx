@@ -8,7 +8,8 @@ const DeleteOwner = ({ owner }) => {
     const { closeModal } = useModal();
     const dispatch = useDispatch();
 
-    const handleDelete = async (e) => {
+
+const handleDelete = async (e) => {
         e.preventDefault();
 
     try {
@@ -16,10 +17,10 @@ const DeleteOwner = ({ owner }) => {
         await dispatch(thunkDeleteOwner(owner.aircraft_id, owner.id));
 
           // Close modal
+        dispatch(thunkGetAllOwnersThatCorrespondToAircraft(owner.aircraft_id));
         closeModal();
 
           // Optionally, fetch updated data
-        dispatch(thunkGetAllOwnersThatCorrespondToAircraft(owner.aircraft_id, owner.id));
         
     } catch (error) {
         console.error("Error deleting owner:", error);
