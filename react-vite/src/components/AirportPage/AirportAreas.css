@@ -1,0 +1,96 @@
+.airport-areas {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.airport-areas-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.area {
+    width: 100%; /* Full width of container */
+    height: 300px; /* Fixed height for consistency */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    overflow: hidden; /* Ensure content doesn't overflow */
+}
+
+.area-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for text */
+    transition: background-color 0.3s ease;
+}
+
+.area-link:hover {
+    background-color: rgba(0, 0, 0, 0.8); /* Darker background on hover */
+}
+
+.area-link h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-align: center;
+    color: white;
+}
+
+.fuel-prices {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fuel-prices h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+.fuel-prices p {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+}
+
+.fuel-prices ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.fuel-prices li {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.fuel-type.jet-a {
+    color: #000000; 
+}
+
+.fuel-type.unleaded-94 {
+    color: #fffa76; 
+}
+
+.fuel-type.ll100 {
+    color: #2e00fc; 
+}
+
+.fuel-type.unleaded-100 {
+    color: #0295cf; 
+}

@@ -1,0 +1,56 @@
+.delete-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.delete-header {
+    margin-bottom: 15px;
+}
+
+.delete-message {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.delete-disclaimer {
+    margin-bottom: 25px;
+}
+
+.delete-disclaimer h5 {
+    margin-bottom: 10px;
+}
+
+.delete-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-button,
+.cancel-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.cancel-button {
+    background-color: #6c757d;
+    color: white;
+}
+
+.delete-button:hover,
+.cancel-button:hover {
+    background-color: #c82333;
+}
