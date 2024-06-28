@@ -1,5 +1,5 @@
 from flask import Blueprint, redirect, request
-from flask_login import login_required, current_user # type: ignore
+from flask_login import login_required, current_user 
 from app.models import db, ParkingSpot, Aircraft
 from app.forms import ParkingSpotForm, AircraftForm,UpdateParkingSpotForm
 from .aws_helpers import upload_file_to_s3, get_unique_filename

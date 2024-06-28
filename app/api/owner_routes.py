@@ -8,7 +8,7 @@ from app.forms import OwnerForm,OwnerUpdateForm
 owner_routes = Blueprint('owners', __name__)
 
 
-#display all the owners that correspond to that ID
+#display all the owners that correspond to that aircraft ID
 @owner_routes.route("/aircrafts/<int:aircraft_id>")
 @login_required
 def get_owners_by_aircraft(aircraft_id):
