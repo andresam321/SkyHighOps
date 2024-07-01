@@ -55,10 +55,10 @@ def create_owner(aircraft_id):
         )
         db.session.add(new_owner)
         db.session.commit()
-        print(new_owner)
+        # print(new_owner)
         return new_owner.to_dict(), 201  
     else:
-        print("Form errors:", form.errors)
+        # print("Form errors:", form.errors)
         return {"errors": form.errors}, 400   
     
 
@@ -91,7 +91,7 @@ def update_owner(owner_id, aircraft_id):
         db.session.commit()
         return owner.to_dict(), 200
 
-    print("Form errors:", form.errors)
+    # print("Form errors:", form.errors)
     return {"errors": form.errors}, 400
 
 

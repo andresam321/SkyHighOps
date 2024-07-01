@@ -40,7 +40,7 @@ function SignupFormPage() {
     }
 
     setErrors(errorsObj);
-    console.log("Errors:", errorsObj); 
+    // console.log("Errors:", errorsObj); 
   }, [email, username, firstname, lastname, password, confirmPassword, touchedFields]);
 
   if (sessionUser) return <Navigate to="/" replace={true} />;
@@ -78,7 +78,7 @@ function SignupFormPage() {
 
   const handleBlur = (field) => {
     setTouchedFields((prev) => ({ ...prev, [field]: true }));
-    console.log("Touched fields:", touchedFields);  // Log touched fields for debugging
+    // console.log("Touched fields:", touchedFields);  
   };
 
   const handleChange = (setter) => (e) => {

@@ -39,7 +39,7 @@ function SignupFormModal() {
     }
 
     setErrors(errorsObj);
-    console.log("Errors:", errorsObj); 
+    // console.log("Errors:", errorsObj); 
   }, [email, username, firstname, lastname, password, confirmPassword, touchedFields]);
 
   if (sessionUser) return <Navigate to="/areas" replace={true} />;

@@ -40,8 +40,8 @@
 }
 
 .owners-list {
-  width: 100%; /* Ensure the owners list takes full width */
-  margin-top: 20px; /* Add margin to separate it from the buttons */
+  width: 100%; 
+  margin-top: 20px; 
 }
 
 .owners-grid {
@@ -51,7 +51,7 @@
 }
 
 .owner-card {
-  flex: 1 1 calc(50% - 20px); /* Adjust the basis to ensure two cards per row with gap */
+  flex: 1 1 calc(50% - 20px); 
   background: #f9f9f9;
   padding: 10px;
   border-radius: 8px;
@@ -70,8 +70,8 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 400px; /* Set a max-width for the button container */
-  margin-top: 20px; /* Add some top margin to separate the buttons from the owner list */
+  max-width: 400px; 
+  margin-top: 20px; 
 }
 
 .update-button, .delete-button {
@@ -82,12 +82,12 @@
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  max-width: 150px; /* Set a max-width for the buttons */
-  height: 40px; /* Set a fixed height for the buttons */
+  max-width: 150px; 
+  height: 40px; 
   display: flex;
-  align-items: center; /* Center text vertically */
-  justify-content: center; /* Center text horizontally */
-  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  align-items: center; 
+  justify-content: center; 
+  box-sizing: border-box; 
 }
 
 .update-button:hover {

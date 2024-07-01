@@ -18,7 +18,7 @@ const AircraftDetails = () => {
 
     const currentUser = useSelector((state) => state.session.user);
 
-    console.log("current user",currentUser)
+    // console.log("current user",currentUser)
 
     const aircraftById = useSelector((state)=> state.aircraftReducer[aircraftId])
 

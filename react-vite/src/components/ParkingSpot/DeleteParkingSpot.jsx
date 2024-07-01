@@ -35,7 +35,7 @@ const DeleteParkingSpot = () => {
         }
     };
 
-    return (
+return (
 <div className="delete-container">
     <form onSubmit={handleDelete} className="delete-form">
         <div className="delete-header">

@@ -71,7 +71,7 @@ def create_aircraft():
 
         return new_aircraft.to_dict(), 201
     else:
-        print(form.errors)
+        # print(form.errors)
         return form.errors, 400
 
 #update aircraft by id
@@ -187,7 +187,7 @@ def assign_aircraft_to_parking():
     aircraft.parking_spot_id = spot_id  
     db.session.commit()
 
-    print(f"Aircraft {aircraft.id} assigned to Parking Spot {aircraft.parking_spot_id}")
+    # print(f"Aircraft {aircraft.id} assigned to Parking Spot {aircraft.parking_spot_id}")
     return {"message": "Aircraft assigned to parking spot successfully", "aircraft": aircraft.to_dict()}, 200
 
 

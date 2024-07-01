@@ -32,7 +32,7 @@ const AircraftAssignment = ({ spotId, areaId }) => {
                 await dispatch(thunkGetParkingSpotsByArea(areaId)); // Fetch parking spots for the area
                 // console.log("THUNKGETTINGDISPATCH")
                 if (!res.errors) {
-                    console.log("line32",areaId)
+                    // console.log("line32",areaId)
                 } else {
                     console.log(res.errors);
                 }

@@ -16,7 +16,7 @@ const UpdateParkingSpot = () => {
     const currentUser = useSelector((state) => state.session.user);
     // const allSpots = useSelector((state) => state.parkingSpotReducer.allSpots)
     const parkingSpotById = useSelector((state) => state.parkingSpotReducer[+parking_spotId])
-    console.log(parkingSpotById)
+    // console.log(parkingSpotById)
 
     const [spot_number, setSpotNumber] = useState(parkingSpotById || '');
     const [spot_size, setSpotSize] = useState(parkingSpotById || 'Small');

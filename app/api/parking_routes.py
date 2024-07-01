@@ -65,10 +65,10 @@ def create_parking_spot():
             return new.to_dict(), 201
         except Exception as e:
             db.session.rollback()
-            print("Error adding parking spot:", str(e))
+            # print("Error adding parking spot:", str(e))
             return {"message": "An error occurred while adding the parking spot.", "error": str(e)}, 500
     else:
-        print("Form validation errors:", form.errors)
+        # print("Form validation errors:", form.errors)
         return form.errors, 400
 
 
@@ -93,7 +93,7 @@ def update_parking_spot(id):
     
         return parkingSpot.to_dict(), 200
     else:
-        print("form errors",form.errors)
+        # print("form errors",form.errors)
         return form.errors, 400
 
 

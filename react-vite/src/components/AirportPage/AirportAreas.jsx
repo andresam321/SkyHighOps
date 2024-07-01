@@ -29,7 +29,7 @@ const AirportAreas = () => {
     
 
 
-    console.log("line17",areas)
+    // console.log("line17",areas)
     const cloudinaryUrl = 'https://res.cloudinary.com/djuzk5um3/image/upload/v1718202849/SkyHighOps/area01_ljlqcv.jpg';
 
     return (

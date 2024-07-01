@@ -65,7 +65,7 @@ export const thunkUpdateOwner = (aircraftId, ownerId, owner) => async (dispatch)
             }
             
             const data = await res.json();
-            console.log("Updated owner data:", data);
+            // console.log("Updated owner data:", data);
 
         if (!data.errors) {
             await dispatch(updateOwner(data));
@@ -162,7 +162,7 @@ function ownerReducer(state = {}, action) {
         case DELETE_OWNER: {
             const newState = { ...state };
             delete newState[action.payload];
-            console.log("Owner deleted from state:", newState);
+            // console.log("Owner deleted from state:", newState);
             return newState;
         }
         case CLEAR_OWNERS:
